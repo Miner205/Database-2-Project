@@ -1,0 +1,293 @@
+@startuml
+
+class Artist {
+    - name : String
+    - bio : String
+    - birthYear : Integer
+    - disciplines : List<Discipline>
+    - contactEmail : String
+    - phone : String
+    - city : String
+    - website : String
+    - socialMedia : String
+    - isActive : boolean
+    - artworks : List<Artwork>
+    + Artist()
+    + Artist(name : String, bio : String, birthYear : Integer, contactEmail : String, city : String)
+    + String getName()
+    + void setName(name : String)
+    + String getBio()
+    + void setBio(bio : String)
+    + Integer getBirthYear()
+    + void setBirthYear(birthYear : Integer)
+    + List<Discipline> getDisciplines()
+    + void setDisciplines(disciplines : List<Discipline>)
+    + String getContactEmail()
+    + void setContactEmail(contactEmail : String)
+    + String getPhone()
+    + void setPhone(phone : String)
+    + String getCity()
+    + void setCity(city : String)
+    + String getWebsite()
+    + void setWebsite(website : String)
+    + String getSocialMedia()
+    + void setSocialMedia(socialMedia : String)
+    + boolean isActive()
+    + void setActive(active : boolean)
+    + List<Artwork> getArtworks()
+    + void setArtworks(artworks : List<Artwork>)
+    + void addArtwork(artwork : Artwork)
+    + String toString()
+}
+
+enum Status {
+    FOR_SALE
+    SOLD
+    EXHIBITED
+}
+
+class Artwork {
+    - title : String
+    - creationYear : Integer
+    - type : String
+    - medium : String
+    - dimensions : String
+    - description : String
+    - price : double
+    - status : Status
+    - artist : Artist
+    - tags : List<ArtworkTag>
+    + Artwork()
+    + Artwork(title : String, creationYear : Integer, type : String, price : double, artist : Artist)
+    + String getTitle()
+    + void setTitle(title : String)
+    + Integer getCreationYear()
+    + void setCreationYear(creationYear : Integer)
+    + String getType()
+    + void setType(type : String)
+    + String getMedium()
+    + void setMedium(medium : String)
+    + String getDimensions()
+    + void setDimensions(dimensions : String)
+    + String getDescription()
+    + void setDescription(description : String)
+    + double getPrice()
+    + void setPrice(price : double)
+    + Status getStatus()
+    + void setStatus(status : Status)
+    + Artist getArtist()
+    + void setArtist(artist : Artist)
+    + List<ArtworkTag> getTags()
+    + void setTags(tags : List<ArtworkTag>)
+    + String toString()
+}
+
+class ArtworkTag {
+    - name : String
+    + ArtworkTag()
+    + ArtworkTag(name : String)
+    + String getName()
+    + void setName(name : String)
+    + String toString()
+}
+
+class Booking {
+    - workshop : Workshop
+    - member : CommunityMember
+    - bookingDate : LocalDateTime
+    - paymentStatus : String
+    + Booking()
+    + Booking(workshop : Workshop, member : CommunityMember)
+    + Workshop getWorkshop()
+    + void setWorkshop(workshop : Workshop)
+    + CommunityMember getMember()
+    + void setMember(member : CommunityMember)
+    + LocalDateTime getBookingDate()
+    + void setBookingDate(bookingDate : LocalDateTime)
+    + String getPaymentStatus()
+    + void setPaymentStatus(paymentStatus : String)
+}
+
+class CommunityMember {
+    - name : String
+    - email : String
+    - birthYear : Integer
+    - phone : String
+    - city : String
+    - favoriteDisciplines : List<Discipline>
+    - membershipType : String
+    - bookings : List<Booking>
+    - reviews : List<Review>
+    + CommunityMember()
+    + CommunityMember(name : String, email : String)
+    + String getName()
+    + void setName(name : String)
+    + String getEmail()
+    + void setEmail(email : String)
+    + Integer getBirthYear()
+    + void setBirthYear(birthYear : Integer)
+    + String getPhone()
+    + void setPhone(phone : String)
+    + String getCity()
+    + void setCity(city : String)
+    + List<Discipline> getFavoriteDisciplines()
+    + void setFavoriteDisciplines(favoriteDisciplines : List<Discipline>)
+    + String getMembershipType()
+    + void setMembershipType(membershipType : String)
+    + List<Booking> getBookings()
+    + void setBookings(bookings : List<Booking>)
+    + List<Review> getReviews()
+    + void setReviews(reviews : List<Review>)
+    + void addBooking(booking : Booking)
+    + String toString()
+}
+
+class Discipline {
+    - name : String
+    + Discipline()
+    + Discipline(name : String)
+    + String getName()
+    + void setName(name : String)
+    + String toString()
+}
+
+class Exhibition {
+    - title : String
+    - startDate : LocalDate
+    - endDate : LocalDate
+    - description : String
+    - gallery : Gallery
+    - curatorName : String
+    - theme : String
+    - artworks : List<Artwork>
+    + Exhibition()
+    + Exhibition(title : String, startDate : LocalDate, endDate : LocalDate, gallery : Gallery)
+    + String getTitle()
+    + void setTitle(title : String)
+    + LocalDate getStartDate()
+    + void setStartDate(startDate : LocalDate)
+    + LocalDate getEndDate()
+    + void setEndDate(endDate : LocalDate)
+    + String getDescription()
+    + void setDescription(description : String)
+    + Gallery getGallery()
+    + void setGallery(gallery : Gallery)
+    + String getCuratorName()
+    + void setCuratorName(curatorName : String)
+    + String getTheme()
+    + void setTheme(theme : String)
+    + List<Artwork> getArtworks()
+    + void setArtworks(artworks : List<Artwork>)
+    + String toString()
+}
+
+class Gallery {
+    - name : String
+    - address : String
+    - ownerName : String
+    - openingHours : String
+    - contactPhone : String
+    - rating : double
+    - website : String
+    - exhibitions : List<Exhibition>
+    + Gallery()
+    + Gallery(name : String, address : String, double rating)
+    + String getName()
+    + void setName(name : String)
+    + String getAddress()
+    + void setAddress(address : String)
+    + String getOwnerName()
+    + void setOwnerName(ownerName : String)
+    + String getOpeningHours()
+    + void setOpeningHours(openingHours : String)
+    + String getContactPhone()
+    + void setContactPhone(contactPhone : String)
+    + double getRating()
+    + void setRating(rating : double)
+    + String getWebsite()
+    + void setWebsite(website : String)
+    + List<Exhibition> getExhibitions()
+    + void setExhibitions(exhibitions : List<Exhibition>)
+    + void addExhibition(exhibition : Exhibition)
+    + String toString()
+}
+
+class Review {
+    - reviewer : CommunityMember
+    - artwork : Artwork
+    - rating : int
+    - comment : String
+    - reviewDate : LocalDate
+    + Review()
+    + Review(reviewer : CommunityMember, artwork : Artwork, rating : int, comment : String)
+    + CommunityMember getReviewer()
+    + void setReviewer(reviewer : CommunityMember)
+    + Artwork getArtwork()
+    + void setArtwork(artwork : Artwork)
+    + int getRating()
+    + void setRating(rating : int)
+    + String getComment()
+    + void setComment(comment : String)
+    + LocalDate getReviewDate()
+    + void setReviewDate(reviewDate : LocalDate)
+}
+
+class Workshop {
+    - title : String
+    - date : LocalDateTime
+    - durationMinutes : int
+    - maxParticipants : int
+    - price : double
+    - instructor : Artist
+    - location : String
+    - description : String
+    - level : String
+    + Workshop()
+    + Workshop(title : String, date : LocalDateTime, instructor : Artist, price : double)
+    + String getTitle()
+    + void setTitle(title : String)
+    + LocalDateTime getDate()
+    + void setDate(date : LocalDateTime)
+    + int getDurationMinutes()
+    + void setDurationMinutes(durationMinutes : int)
+    + int getMaxParticipants()
+    + void setMaxParticipants(maxParticipants : int)
+    + double getPrice()
+    + void setPrice(price : double)
+    + Artist getInstructor()
+    + void setInstructor(instructor : Artist)
+    + String getLocation()
+    + void setLocation(location : String)
+    + String getDescription()
+    + void setDescription(description : String)
+    + String getLevel()
+    + void setLevel(level : String)
+    + String toString()
+}
+
+Artist --> Discipline
+Artist --> Artwork
+
+Status --* Artwork
+
+Artwork --> Artist
+Artwork --> ArtworkTag
+
+Booking --> Workshop
+Booking --> CommunityMember
+
+CommunityMember --> Discipline
+CommunityMember --> Booking
+CommunityMember --> Review
+
+Exhibition --> Gallery
+Exhibition --> Artwork
+
+Gallery --> Exhibition
+
+Review --> CommunityMember
+Review --> Artwork
+
+Workshop --> Artist
+
+@enduml
