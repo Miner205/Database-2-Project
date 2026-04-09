@@ -10,7 +10,7 @@ public class CommunityMember {
     private String phone;
     private String city;
     private List<Discipline> favoriteDisciplines = new ArrayList<>();
-    private String membershipType; // free, premium
+    private String membershipType = "free"; // free, premium
     private List<Booking> bookings = new ArrayList<>();
     private List<Review> reviews = new ArrayList<>();
 

@@ -15,7 +15,7 @@ public class Artist {
     private String phone;
     private String city;
     private String website;
-    private String socialMedia;
+    private String socialMedia;  // -> to transform it : create a separate class ??
     private boolean isActive;
     private List<Artwork> artworks = new ArrayList<>();
 

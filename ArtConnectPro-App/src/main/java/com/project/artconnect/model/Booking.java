@@ -8,7 +8,7 @@ public class Booking {
     private LocalDateTime bookingDate;
     private String paymentStatus; // PENDING, PAID, CANCELLED
 
-    public Booking() {
+    public Booking() {  // -> to not use ?
     }
 
     public Booking(Workshop workshop, CommunityMember member) {

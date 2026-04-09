@@ -7,7 +7,7 @@ public class Gallery {
     private String name;
     private String address;
     private String ownerName;
-    private String openingHours;
+    private String openingHours;  // to change ?? : to put in exhibition and/or in separate class ??
     private String contactPhone;
     private double rating;
     private String website;
