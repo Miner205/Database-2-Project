@@ -32,13 +32,13 @@ CREATE TABLE Disciplines(
 
 CREATE TABLE Artworks(
    artwork_id INT,
-   title VARCHAR(50),
+   title VARCHAR(100),
    creation_year INT,
-   type VARCHAR(50),
-   medium VARCHAR(50),
+   type VARCHAR(25),
+   medium VARCHAR(25),
    description VARCHAR(250),
    price DECIMAL(15,2),
-   status VARCHAR(50) NOT NULL,
+   status VARCHAR(25) NOT NULL,
    artist_id INT NOT NULL,
    PRIMARY KEY(artwork_id),
    FOREIGN KEY(artist_id) REFERENCES Artists(artist_id)
@@ -55,20 +55,20 @@ CREATE TABLE Dimensions(
 
 CREATE TABLE Artwork_tags(
    artwork_tag_id INT,
-   name VARCHAR(50) NOT NULL,
+   name VARCHAR(100) NOT NULL,
    PRIMARY KEY(artwork_tag_id)
 );
 
 CREATE TABLE Workshops(
    workshop_id INT,
-   title VARCHAR(50) NOT NULL,
+   title VARCHAR(100) NOT NULL,
    workshop_date DATE,
    duration_minutes INT,
    max_participant INT,
    price DECIMAL(15,2),
    location VARCHAR(100),
    description VARCHAR(250),
-   level VARCHAR(50),
+   level VARCHAR(25),
    instructor INT NOT NULL,
    PRIMARY KEY(workshop_id),
    FOREIGN KEY(instructor) REFERENCES Artists(artist_id)
@@ -81,24 +81,24 @@ CREATE TABLE Community_members(
    birth_year INT,
    phone VARCHAR(50),
    city VARCHAR(50),
-   membership_type VARCHAR(50) NOT NULL,
+   membership_type VARCHAR(25) NOT NULL,
    PRIMARY KEY(community_member_id)
 );
 
 CREATE TABLE Galleries(
    gallery_id INT,
-   name VARCHAR(50) NOT NULL,
+   name VARCHAR(100) NOT NULL,
    address VARCHAR(100),
    owner_name VARCHAR(50),
    contact_phone VARCHAR(50),
    rating DECIMAL(5,2),
-   website VARCHAR(50),
+   website VARCHAR(100),
    PRIMARY KEY(gallery_id)
 );
 
 CREATE TABLE Exhibitions(
    exhibition_id INT,
-   title VARCHAR(50),
+   title VARCHAR(100),
    start_date DATE,
    end_date DATE,
    description VARCHAR(250),
@@ -129,7 +129,7 @@ CREATE TABLE Booking(
    workshop_id INT,
    community_member_id INT,
    booking_date DATE NOT NULL,
-   payement_status VARCHAR(50) NOT NULL,
+   payement_status VARCHAR(25) NOT NULL,
    PRIMARY KEY(workshop_id, community_member_id),
    FOREIGN KEY(workshop_id) REFERENCES Workshops(workshop_id),
    FOREIGN KEY(community_member_id) REFERENCES Community_members(community_member_id)
