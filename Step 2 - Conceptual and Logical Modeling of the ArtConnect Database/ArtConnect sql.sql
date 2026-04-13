@@ -6,17 +6,17 @@ USE ArtConnect;
 CREATE TABLE Artists(
    artist_id INT,
    name VARCHAR(50) NOT NULL,
-   bio VARCHAR(250),
+   bio TEXT,
    birth_year INT,
    contact_email VARCHAR(50),
    phone VARCHAR(50),
    city VARCHAR(50),
-   website VARCHAR(50),
+   website VARCHAR(100),
    is_active BOOLEAN,
    PRIMARY KEY(artist_id)
 );
 
-CREATE TABLE Social_media(
+CREATE TABLE Social_medias(
 	artist_id INT,
     platform VARCHAR(50),
     accountHandle VARCHAR(50),
@@ -36,7 +36,7 @@ CREATE TABLE Artworks(
    creation_year INT,
    type VARCHAR(25),
    medium VARCHAR(25),
-   description VARCHAR(250),
+   description TEXT,
    price DECIMAL(15,2),
    status VARCHAR(25) NOT NULL,
    artist_id INT NOT NULL,
@@ -67,7 +67,7 @@ CREATE TABLE Workshops(
    max_participant INT,
    price DECIMAL(15,2),
    location VARCHAR(100),
-   description VARCHAR(250),
+   description TEXT,
    level VARCHAR(25),
    instructor INT NOT NULL,
    PRIMARY KEY(workshop_id),
@@ -101,15 +101,15 @@ CREATE TABLE Exhibitions(
    title VARCHAR(100),
    start_date DATE,
    end_date DATE,
-   description VARCHAR(250),
+   description TEXT,
    curator_name VARCHAR(50),
-   theme VARCHAR(50),
+   theme VARCHAR(100),
    gallery_id INT NOT NULL,
    PRIMARY KEY(exhibition_id),
    FOREIGN KEY(gallery_id) REFERENCES Galleries(gallery_id)
 );
 
-CREATE TABLE Practice(  -- ArtistDisciplines
+CREATE TABLE Practices(  -- ArtistDisciplines
    artist_id INT,
    disciplines_id INT,
    PRIMARY KEY(artist_id, disciplines_id),
@@ -125,7 +125,7 @@ CREATE TABLE Tagged(
    FOREIGN KEY(artwork_tag_id) REFERENCES Artwork_tags(artwork_tag_id)
 );
 
-CREATE TABLE Booking(
+CREATE TABLE Bookings(
    workshop_id INT,
    community_member_id INT,
    booking_date DATE NOT NULL,
@@ -147,7 +147,7 @@ CREATE TABLE Reviews(
    artwork_id INT,
    community_member_id INT,
    rating DECIMAL(5,2) NOT NULL,
-   comment VARCHAR(250),
+   comment TEXT,
    review_date DATE NOT NULL,
    PRIMARY KEY(artwork_id, community_member_id),
    FOREIGN KEY(artwork_id) REFERENCES Artworks(artwork_id),
