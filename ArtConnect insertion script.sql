@@ -205,7 +205,7 @@ INSERT INTO Artists (artist_id, name, bio, birth_year, contact_email, phone, cit
 -- =========================
 -- SOCIAL MEDIA
 -- =========================
-INSERT INTO Social_medias (artist_id, platform, accountHandle) VALUES
+INSERT INTO Social_medias (artist_id, platform, account_handle) VALUES
 (1, 'Instagram', '@aliceart'),
 (1, 'Twitter', '@alice_paints'),
 (2, 'Instagram', '@lucas3d'),
@@ -215,7 +215,7 @@ INSERT INTO Social_medias (artist_id, platform, accountHandle) VALUES
 -- =========================
 -- DISCIPLINES
 -- =========================
-INSERT INTO Disciplines (disciplines_id, name) VALUES
+INSERT INTO Disciplines (discipline_id, name) VALUES
 (1, 'Painting'),
 (2, 'Sculpture'),
 (3, 'Photography'),
@@ -224,7 +224,7 @@ INSERT INTO Disciplines (disciplines_id, name) VALUES
 -- =========================
 -- PRACTICES (many-to-many)
 -- =========================
-INSERT INTO Practices (artist_id, disciplines_id) VALUES
+INSERT INTO Practices (artist_id, discipline_id) VALUES
 (1,1),
 (2,2),
 (2,4), -- Lucas does multiple disciplines
@@ -286,7 +286,7 @@ INSERT INTO Community_members (community_member_id, name, email, birth_year, pho
 -- =========================
 -- FAVORITE DISCIPLINES
 -- =========================
-INSERT INTO Favorite_disciplines (disciplines_id, community_member_id) VALUES
+INSERT INTO Favorite_disciplines (discipline_id, community_member_id) VALUES
 (1,1),
 (3,1),
 (4,2),
