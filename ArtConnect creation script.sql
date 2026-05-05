@@ -112,7 +112,7 @@ CREATE TABLE Exhibitions(
 CREATE TABLE Practices(  -- ArtistDisciplines
    artist_id INT,
    discipline_id INT,
-   PRIMARY KEY(artist_id, disciplines_id),
+   PRIMARY KEY(artist_id, discipline_id),
    FOREIGN KEY(artist_id) REFERENCES Artists(artist_id),
    FOREIGN KEY(discipline_id) REFERENCES Disciplines(discipline_id)
 );
