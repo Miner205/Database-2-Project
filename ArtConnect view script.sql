@@ -1,4 +1,11 @@
+-- 3 Views
+
 USE ArtConnect;
+
+DROP VIEW IF EXISTS artworks_view;
+DROP VIEW IF EXISTS artists_view;
+DROP VIEW IF EXISTS exhibition_per_day_view;
+
 
 -- View to see the artworks
 CREATE VIEW artworks_view AS
@@ -57,4 +64,9 @@ CREATE VIEW exhibition_per_day_view AS
         g.website AS gallery_website
         FROM Opening_hours oh
         JOIN Exhibitions e ON oh.exhibition_id = e.exhibition_id
-		JOIN Galleries g ON e.gallery_id = g.gallery_id
+		JOIN Galleries g ON e.gallery_id = g.gallery_id;
+
+
+SELECT * FROM artworks_view;
+SELECT * FROM artists_view;
+SELECT * FROM exhibition_per_day_view;

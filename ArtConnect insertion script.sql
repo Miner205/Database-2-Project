@@ -281,7 +281,8 @@ INSERT INTO Tagged (artwork_id, artwork_tag_id) VALUES
 INSERT INTO Community_members (community_member_id, name, email, birth_year, phone, city, membership_type) VALUES
 (1, 'Emma Dubois', 'emma@mail.com', 1995, '111222333', 'Paris', 'premium'),
 (2, 'Noah Martin', 'noah@mail.com', 1992, '444555666', 'Lyon', 'free'),
-(3, 'Léa Petit', 'lea@mail.com', 2000, '777888999', 'Nice', 'free');
+(3, 'Léa Petit', 'lea@mail.com', 2000, '777888999', 'Nice', 'free'),
+(4, 'Arthur TransactionScenarioTest', 'truc@mail.com', 2010, '777111111', 'Paris', 'free');
 
 -- =========================
 -- FAVORITE DISCIPLINES

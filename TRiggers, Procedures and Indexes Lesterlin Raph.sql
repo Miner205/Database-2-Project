@@ -1,4 +1,7 @@
--- 2 Triggers 2 stored programs 
+-- 3 Triggers, 2 Stored programs, 4 Indexes
+-- see some other Stored programs in the transactional scenario
+
+USE ArtConnect;
 
 -- Indexes
 CREATE INDEX Slack_Art ON Artworks(title, creation_year); -- To help researching among a massive list of artworks, we need to look at the title and creation year
