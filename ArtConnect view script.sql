@@ -8,6 +8,7 @@ DROP VIEW IF EXISTS exhibition_per_day_view;
 
 
 -- View to see the artworks
+-- For query simplification
 CREATE VIEW artworks_view AS
 	SELECT art.artwork_id,
 		art.title,
@@ -27,6 +28,7 @@ CREATE VIEW artworks_view AS
         JOIN Artwork_tags artt ON t.artwork_tag_id = artt.artwork_tag_id;
 
 -- View to see the artists
+-- For query simplification
 CREATE VIEW artists_view AS
 	SELECT a.artist_id,
 		a.name AS artist_name,
@@ -46,6 +48,7 @@ CREATE VIEW artists_view AS
         JOIN Social_medias sm ON a.artist_id = sm.artist_id;
 
 -- View to see the exhibitions per day
+-- For query simplification (especially usefully for visitor)
 CREATE VIEW exhibition_per_day_view AS
 	SELECT oh.day,
 		oh.opening_time,
