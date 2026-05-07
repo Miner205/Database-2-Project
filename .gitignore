@@ -1,2 +1,2 @@
 .idea/
-**/DatabaseConfig.java
+src/main/java/com/project/artconnect/config/DatabaseConfig.java
