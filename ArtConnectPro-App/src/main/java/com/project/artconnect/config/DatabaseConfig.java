@@ -11,7 +11,7 @@ import java.sql.SQLException;
 public class DatabaseConfig {
     public static final String URL = "jdbc:mysql://localhost:3306/artconnect";
     public static final String USER = "root";
-    public static final String PASSWORD = "password"; //to change
+    public static final String PASSWORD = ""; // my mysql db password
 
     /** Private constructor: utility class, no instantiation. */
     private DatabaseConfig() {}
