@@ -18,7 +18,7 @@ public abstract class JdbcExhibitionDao implements ExhibitionDao {
     public List<Exhibition> findAll(Connection connection) throws SQLException {
         // DONE: query the Exhibitions table and return all Exhibitions
         try {
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM Exhibitions;");
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM Exhibitions");
             ResultSet exhibitionsData = statement.executeQuery();
             List<Exhibition> exhibitions = new ArrayList<>();
             while (exhibitionsData.next()) {

@@ -18,9 +18,9 @@ public class JdbcArtistDao implements ArtistDao {
 
     @Override
     public List<Artist> findAll(Connection connection) {
-        // SELECT * FROM artist
+        // SELECT * FROM Artists
         try {
-            ResultSet resultData = connection.prepareStatement("SELECT * FROM Artists;").executeQuery();
+            ResultSet resultData = connection.prepareStatement("SELECT * FROM Artists").executeQuery();
             List<Artist> results = new ArrayList<>();
             while (resultData.next()) {
                 int id = resultData.getInt("id");
@@ -46,42 +46,74 @@ public class JdbcArtistDao implements ArtistDao {
 
     @Override
     public void save(Artist artist, Connection connection) {
-        // TODO: Implement INSERT INTO artist(...) VALUES(...)
+        // DONE: Implement INSERT INTO Artists(...) VALUES(...)
         try {
-            PreparedStatement statement = connection.prepareStatement("INSERT INTO RESULTS VALUES (" + artist.getId() + ", " + artist.getName() + ", " + artist.getBio() + ", " + artist.getBirthYear() + "," + artist.getContactEmail() + "," + artist.getPhone()  + "," + artist.getCity() + ", " + artist.getWebsite() + ", " + artist.isActive() + ");");
-            int resultData = statement.executeUpdate();
+            PreparedStatement statement = connection.prepareStatement(
+                    "INSERT INTO Artists (artist_id, name, bio, birth_year, contact_email, phone, city, website, is_active) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"
+            );
+
+            statement.setInt(1, artist.getId());
+            statement.setString(2, artist.getName());
+            statement.setString(3, artist.getBio());
+            statement.setInt(4, artist.getBirthYear());
+            statement.setString(5, artist.getContactEmail());
+            statement.setString(6, artist.getPhone());
+            statement.setString(7, artist.getCity());
+            statement.setString(8, artist.getWebsite());
+            statement.setBoolean(9, artist.isActive());
+
+            statement.executeUpdate();
         } catch (SQLException sqlException) {
-            System.out.println("Failed to insert artist : " +  sqlException.getMessage());
+            System.out.println("Failed to insert artist : " + sqlException.getMessage());
         }
     }
 
     @Override
     public void update(Artist artist, Connection connection) {
-        // TODO: Implement UPDATE artist SET ... WHERE name = ?
+        // DONE: Implement UPDATE Artists SET ... WHERE artist_id = ?
         try {
-            PreparedStatement statement = connection.prepareStatement("UPDATE Artists SET name =" + artist.getName() + ", bio =" + artist.getBio() + ", birth_year =" + artist.getBirthYear() + ", contact_email =" + artist.getContactEmail() + ", phone =" + artist.getPhone() + ", city =" + artist.getCity() + ", website =" + artist.getWebsite() + " WHERE id =" + artist.getId() + ";");
-            int resultData = statement.executeUpdate();
+            PreparedStatement statement = connection.prepareStatement(
+                    "UPDATE Artists SET name=?, bio=?, birth_year=?, contact_email=?, phone=?, city=?, website=?, is_active=? WHERE artist_id=?"
+            );
+
+            statement.setString(1, artist.getName());
+            statement.setString(2, artist.getBio());
+            statement.setInt(3, artist.getBirthYear());
+            statement.setString(4, artist.getContactEmail());
+            statement.setString(5, artist.getPhone());
+            statement.setString(6, artist.getCity());
+            statement.setString(7, artist.getWebsite());
+            statement.setBoolean(8, artist.isActive());
+            statement.setInt(9, artist.getId());
+
+            statement.executeUpdate();
         } catch (SQLException sqlException) {
-            System.out.println("Failed to update artist : " +  sqlException.getMessage());
+            System.out.println("Failed to update artist : " + sqlException.getMessage());
         }
     }
 
     @Override
     public void delete(String artistName, Connection connection) {
-        // TODO: Implement DELETE FROM artist WHERE name = ?
+        // DONE: Implement DELETE FROM Artists WHERE name = ?
         try {
-            int resultData = connection.prepareStatement("DELETE FROM Artists WHERE NAME =" + artistName + ";").executeUpdate();
+            PreparedStatement statement = connection.prepareStatement(
+                    "DELETE FROM Artists WHERE name = ?"
+            );
+            statement.setString(1, artistName);
+
+            statement.executeUpdate();
         } catch (SQLException sqlException) {
-            System.out.println("Failed to delete artist : " +  sqlException.getMessage());
+            System.out.println("Failed to delete artist : " + sqlException.getMessage());
         }
-        throw new UnsupportedOperationException("JDBC Implementation not yet provided.");
     }
 
     @Override
     public List<Artist> findByCity(String city, Connection connection) {
-        // TODO: Implement SELECT * FROM artist WHERE city = ?
+        // DONE: Implement SELECT * FROM Artists WHERE city = ?
         try {
-            ResultSet resultData = connection.prepareStatement("SELECT * FROM Artists WHERE city = " + city + ";").executeQuery();
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM Artists WHERE city = ?");
+            statement.setString(1, city);
+            ResultSet resultData = statement.executeQuery();
             List<Artist> results = new ArrayList<>();
             while (resultData.next()) {
                 int id = resultData.getInt("id");
