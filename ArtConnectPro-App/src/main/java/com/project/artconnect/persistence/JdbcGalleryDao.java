@@ -1,7 +1,6 @@
 package com.project.artconnect.persistence;
 
 import com.project.artconnect.dao.impl.GalleryDao;
-import com.project.artconnect.model.Artist;
 import com.project.artconnect.model.Gallery;
 
 import java.sql.Connection;
@@ -26,12 +25,12 @@ public class JdbcGalleryDao implements GalleryDao {
             String ownerName = galleryData.getString("owner_name");
             String contactPhone = galleryData.getString("contact_phone");
             String website = galleryData.getString("website");
-            Gallery new_record = new Gallery(name, address, rating);
-            new_record.setGalleryId(id);
-            new_record.setOwnerName(ownerName);
-            new_record.setContactPhone(contactPhone);
-            new_record.setWebsite(website);
-            return Optional.of(new_record);
+            Gallery newGallery = new Gallery(name, address, rating);
+            newGallery.setGalleryId(id);
+            newGallery.setOwnerName(ownerName);
+            newGallery.setContactPhone(contactPhone);
+            newGallery.setWebsite(website);
+            return Optional.of(newGallery);
         } catch (SQLException sqlException) {
             return Optional.empty();
         }
@@ -51,12 +50,12 @@ public class JdbcGalleryDao implements GalleryDao {
                 String contactPhone = galleryData.getString("contact_phone");
                 double rating = galleryData.getDouble("rating");
                 String website = galleryData.getString("website");
-                Gallery new_record = new Gallery(name, address, rating);
-                new_record.setGalleryId(galleryId);
-                new_record.setOwnerName(ownerName);
-                new_record.setContactPhone(contactPhone);
-                new_record.setWebsite(website);
-                galleries.add(new_record);
+                Gallery newGallery = new Gallery(name, address, rating);
+                newGallery.setGalleryId(galleryId);
+                newGallery.setOwnerName(ownerName);
+                newGallery.setContactPhone(contactPhone);
+                newGallery.setWebsite(website);
+                galleries.add(newGallery);
             }
             return galleries;
         } catch (SQLException sqlException) {

@@ -13,7 +13,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class JdbcExhibitionDao implements ExhibitionDao {
+public class JdbcExhibitionDao implements ExhibitionDao {
     private final GalleryDao galleryDAO = new JdbcGalleryDao();
 
     @Override

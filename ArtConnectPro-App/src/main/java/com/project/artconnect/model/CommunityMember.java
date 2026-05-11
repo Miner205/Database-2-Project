@@ -4,14 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CommunityMember {
+    private int communityMemberId;
     private String name;
     private String email;
     private Integer birthYear;
     private String phone;
     private String city;
+    //TODO: discipline ???
     private List<Discipline> favoriteDisciplines = new ArrayList<>();
     private String membershipType = "free"; // free, premium
+    //TODO: bookings ???
     private List<Booking> bookings = new ArrayList<>();
+    //TODO: reviews ???
     private List<Review> reviews = new ArrayList<>();
 
     public CommunityMember() {
@@ -20,6 +24,14 @@ public class CommunityMember {
     public CommunityMember(String name, String email) {
         this.name = name;
         this.email = email;
+    }
+
+    public int getCommunityMemberId() {
+        return communityMemberId;
+    }
+
+    public void setCommunityMemberId(int communityMemberId) {
+        this.communityMemberId = communityMemberId;
     }
 
     public String getName() {

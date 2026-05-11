@@ -1,13 +1,17 @@
 package com.project.artconnect.dao.impl;
 
 import com.project.artconnect.model.Artist;
+
 import java.util.List;
 import java.sql.*;
+import java.util.Optional;
 
 /**
  * Data Access Object for Artist entity.
  */
 public interface ArtistDao {
+    Optional<Artist> findById(Connection connection, int id);
+
     List<Artist> findAll(Connection connection);
 
     void save(Artist artist, Connection connection);
