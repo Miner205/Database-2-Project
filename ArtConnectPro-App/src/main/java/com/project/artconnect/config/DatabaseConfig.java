@@ -1,12 +1,8 @@
 package com.project.artconnect.config;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-
 /**
  * Database configuration constants.
- * TODO: Students should update these with their own MySQL credentials.
+ * DONE: Students should update these with their own MySQL credentials.
  */
 public class DatabaseConfig {
     public static final String URL = "jdbc:mysql://localhost:3306/artconnect";

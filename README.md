@@ -12,5 +12,11 @@ https://github.com/Miner205/Database-2-Project
 # Project specification :
 
 # ToDo :
+- Step 5: Finalization and Presentation
 
-# Functionalities done :
+# Steps done :
+- Step 1 : Understanding ArtConnect and Defining the Functional Scope
+- Step 2 : Conceptual and Logical Modeling of the ArtConnect Database
+- Step 3 : Database Implementation and Advanced Features
+- Step 4 : Integrating the Database into the ArtConnect Java Application
+- 

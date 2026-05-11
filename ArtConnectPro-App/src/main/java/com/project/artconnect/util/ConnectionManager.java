@@ -7,7 +7,7 @@ import java.sql.SQLException;
 
 /**
  * Utility class to manage JDBC connections.
- * TODO: Students must implementation the getConnection logic.
+ * DONE: Students must implementation the getConnection logic.
  */
 public class ConnectionManager {
 
