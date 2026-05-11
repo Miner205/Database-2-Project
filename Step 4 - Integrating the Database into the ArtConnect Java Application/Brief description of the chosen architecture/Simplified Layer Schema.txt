@@ -1,0 +1,43 @@
++--------------------------------------------------+
+|                    JavaFX UI                     |
+|  MainApp, FXML Views, Controllers                |
+|  (ArtistController, GalleryController, etc.)     |
++--------------------------------------------------+
+                         |
+                         v
++--------------------------------------------------+
+|                  Service Layer                   |
+| ArtistServiceImpl                                |
+| ArtworkServiceImpl                               |
+| GalleryServiceImpl                               |
+| WorkshopServiceImpl                              |
+| CommunityServiceImpl                             |
++--------------------------------------------------+
+                         |
+                         v
++--------------------------------------------------+
+|                    DAO Layer                     |
+| ArtistDao                                        |
+| ArtworkDao                                       |
+| GalleryDao                                       |
+| WorkshopDao                                      |
+| ExhibitionDao                                    |
+| CommunityMemberDao                               |
++--------------------------------------------------+
+                         |
+                         v
++--------------------------------------------------+
+|               JDBC Persistence Layer             |
+| JdbcArtistDao                                    |
+| JdbcArtworkDao                                   |
+| JdbcGalleryDao                                   |
+| JdbcWorkshopDao                                  |
+| JdbcExhibitionDao                                |
+| JdbcCommunityMemberDao                           |
++--------------------------------------------------+
+                         |
+                         v
++--------------------------------------------------+
+|                 MySQL Database                   |
+|               ArtConnect Database                |
++--------------------------------------------------+

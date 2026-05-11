@@ -1,0 +1,69 @@
+package com.project.artconnect.persistence;
+
+import com.project.artconnect.dao.impl.GalleryDao;
+import com.project.artconnect.model.Gallery;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+
+public class JdbcGalleryDao implements GalleryDao {
+    @Override
+    public Optional<Gallery> findById(Connection connection, int id) {
+        try {
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM Galleries WHERE gallery_id = ?");
+            statement.setInt(1, id);
+            ResultSet galleryData = statement.executeQuery();
+            if (galleryData.next()) {
+                String name = galleryData.getString("name");
+                String address = galleryData.getString("address");
+                double rating = galleryData.getDouble("rating");
+                String ownerName = galleryData.getString("owner_name");
+                String contactPhone = galleryData.getString("contact_phone");
+                String website = galleryData.getString("website");
+                Gallery newGallery = new Gallery(name, address, rating);
+                newGallery.setGalleryId(id);
+                newGallery.setOwnerName(ownerName);
+                newGallery.setContactPhone(contactPhone);
+                newGallery.setWebsite(website);
+                return Optional.of(newGallery);
+            }
+            return Optional.empty();
+        } catch (SQLException sqlException) {
+            return Optional.empty();
+        }
+    }
+
+    @Override
+    public List<Gallery> findAll(Connection connection) {
+        try {
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM Galleries");
+            ResultSet galleryData = statement.executeQuery();
+            List<Gallery> galleries = new ArrayList<>();
+            while (galleryData.next()) {
+                int galleryId = galleryData.getInt("gallery_id");
+                String name = galleryData.getString("name");
+                String address = galleryData.getString("address");
+                String ownerName = galleryData.getString("owner_name");
+                String contactPhone = galleryData.getString("contact_phone");
+                double rating = galleryData.getDouble("rating");
+                String website = galleryData.getString("website");
+                Gallery newGallery = new Gallery(name, address, rating);
+                newGallery.setGalleryId(galleryId);
+                newGallery.setOwnerName(ownerName);
+                newGallery.setContactPhone(contactPhone);
+                newGallery.setWebsite(website);
+                galleries.add(newGallery);
+            }
+            return galleries;
+        } catch (SQLException sqlException) {
+            return new ArrayList<>();
+        }
+    }
+
+}

@@ -1,0 +1,30 @@
+        +------------------+
+        |  JavaFX UI       |
+        | (Controllers)    |
+        +------------------+
+                  |
+                  v
+        +------------------+
+        | Services         |
+        | ArtistService    |
+        | ArtworkService   |
+        +------------------+
+                  |
+                  v
+        +------------------+
+        | DAO Interfaces   |
+        | ArtistDao        |
+        | ArtworkDao       |
+        +------------------+
+                  |
+                  v
+        +------------------+
+        | JDBC DAO Impl    |
+        | JdbcArtistDao    |
+        | JdbcArtworkDao   |
+        +------------------+
+                  |
+                  v
+        +------------------+
+        | MySQL Database   |
+        +------------------+

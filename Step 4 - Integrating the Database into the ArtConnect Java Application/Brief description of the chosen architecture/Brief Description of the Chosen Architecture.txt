@@ -1,0 +1,13 @@
+Brief Description of the Chosen Architecture
+
+The ArtConnect application follows a layered architecture based on the MVC (Model–View–Controller) pattern combined with the DAO (Data Access Object) pattern.
+
+The application is divided into several layers to ensure a clear separation of concerns:
+
+Presentation Layer (UI): Built with JavaFX and FXML. Controllers (e.g., ArtistController) handle user interactions and communicate with the service layer.
+Service Layer: Contains the business logic of the application (ArtistServiceImpl, ArtworkServiceImpl, etc.). Services coordinate operations between the UI and the persistence layer.
+DAO Layer: Defines DAO interfaces (ArtistDao, ArtworkDao, etc.) responsible for database operations abstraction.
+Persistence Layer: JDBC implementations (JdbcArtistDao, JdbcArtworkDao, etc.) execute SQL queries and map database data to Java objects.
+Database Layer: A MySQL database stores persistent application data such as artists, artworks, galleries, workshops, and exhibitions.
+
+The architecture improves maintainability, modularity, and scalability by separating responsibilities between layers.
