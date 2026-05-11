@@ -1,6 +1,7 @@
 package com.project.artconnect.persistence;
 
-import com.project.artconnect.dao.ExhibitionDao;
+import com.project.artconnect.dao.impl.ExhibitionDao;
+import com.project.artconnect.dao.impl.GalleryDao;
 import com.project.artconnect.model.Exhibition;
 import com.project.artconnect.model.Gallery;
 
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class JdbcExhibitionDao implements ExhibitionDao {
+    private final GalleryDao galleryDAO = new JdbcGalleryDao();
 
     @Override
     public List<Exhibition> findAll(Connection connection) throws SQLException {
@@ -27,7 +29,7 @@ public abstract class JdbcExhibitionDao implements ExhibitionDao {
                 LocalDate startDate = exhibitionsData.getDate("start_date").toLocalDate();
                 LocalDate endDate = exhibitionsData.getDate("end_date").toLocalDate();
                 String description = exhibitionsData.getString("description");
-                Gallery gallery = .findById(exhibitionsData.getInt("gallery_id"));
+                Gallery gallery = galleryDAO.findById(connection, exhibitionsData.getInt("gallery_id")).orElse(null);
                 String curatorName = exhibitionsData.getString("curator_name");
                 String theme = exhibitionsData.getString("theme");
 

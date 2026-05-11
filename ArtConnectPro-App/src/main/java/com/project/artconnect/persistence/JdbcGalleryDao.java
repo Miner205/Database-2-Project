@@ -1,6 +1,7 @@
-package com.project.artconnect.dao.impl;
+package com.project.artconnect.persistence;
 
-import com.project.artconnect.dao.GalleryDao;
+import com.project.artconnect.dao.impl.GalleryDao;
+import com.project.artconnect.model.Artist;
 import com.project.artconnect.model.Gallery;
 
 import java.sql.Connection;
@@ -12,16 +13,25 @@ import java.util.List;
 import java.util.Optional;
 
 
-public class GalleryDaoImpl implements GalleryDao {
+public class JdbcGalleryDao implements GalleryDao {
     @Override
     public Optional<Gallery> findById(Connection connection, int id) {
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM Galleries WHERE gallery_id = " + id + ";");
-            ResultSet galleryData = preparedStatement.executeQuery();
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM Galleries WHERE gallery_id = ?");
+            statement.setInt(1, id);
+            ResultSet galleryData = statement.executeQuery();
             String name = galleryData.getString("name");
             String address = galleryData.getString("address");
             double rating = galleryData.getDouble("rating");
-            return Optional.of(new Gallery(id, name, address, rating));
+            String ownerName = galleryData.getString("owner_name");
+            String contactPhone = galleryData.getString("contact_phone");
+            String website = galleryData.getString("website");
+            Gallery new_record = new Gallery(name, address, rating);
+            new_record.setGalleryId(id);
+            new_record.setOwnerName(ownerName);
+            new_record.setContactPhone(contactPhone);
+            new_record.setWebsite(website);
+            return Optional.of(new_record);
         } catch (SQLException sqlException) {
             return Optional.empty();
         }
@@ -30,8 +40,8 @@ public class GalleryDaoImpl implements GalleryDao {
     @Override
     public List<Gallery> findAll(Connection connection) {
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM Galleries;");
-            ResultSet galleryData = preparedStatement.executeQuery();
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM Galleries");
+            ResultSet galleryData = statement.executeQuery();
             List<Gallery> galleries = new ArrayList<>();
             while (galleryData.next()) {
                 int galleryId = galleryData.getInt("gallery_id");
@@ -41,7 +51,12 @@ public class GalleryDaoImpl implements GalleryDao {
                 String contactPhone = galleryData.getString("contact_phone");
                 double rating = galleryData.getDouble("rating");
                 String website = galleryData.getString("website");
-                galleries.add(new Gallery(galleryId, name, address, ownerName, contactPhone, rating, website));
+                Gallery new_record = new Gallery(name, address, rating);
+                new_record.setGalleryId(galleryId);
+                new_record.setOwnerName(ownerName);
+                new_record.setContactPhone(contactPhone);
+                new_record.setWebsite(website);
+                galleries.add(new_record);
             }
             return galleries;
         } catch (SQLException sqlException) {

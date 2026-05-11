@@ -1,6 +1,6 @@
 package com.project.artconnect.persistence;
 
-import com.project.artconnect.dao.ArtworkDao;
+import com.project.artconnect.dao.impl.ArtworkDao;
 import com.project.artconnect.model.Artwork;
 import java.util.List;
 

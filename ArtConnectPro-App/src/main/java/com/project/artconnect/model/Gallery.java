@@ -19,21 +19,10 @@ public class Gallery {
     public Gallery() {
     }
 
-    public Gallery(int galleryId, String name, String address, double rating) {
-        this.galleryId = galleryId;
+    public Gallery(String name, String address, double rating) {
         this.name = name;
         this.address = address;
         this.rating = rating;
-    }
-
-    public Gallery(int galleryId, String name, String address, String ownerName, String contactPhone, double rating, String website) {
-        this.galleryId = galleryId;
-        this.name = name;
-        this.address = address;
-        this.ownerName = ownerName;
-        this.contactPhone = contactPhone;
-        this.rating = rating;
-        this.website = website;
     }
 
     public int getGalleryId() {

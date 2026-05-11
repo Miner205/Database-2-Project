@@ -1,6 +1,6 @@
 package com.project.artconnect.persistence;
 
-import com.project.artconnect.dao.ArtistDao;
+import com.project.artconnect.dao.impl.ArtistDao;
 import com.project.artconnect.model.Artist;
 
 import java.sql.SQLException;
@@ -23,14 +23,14 @@ public class JdbcArtistDao implements ArtistDao {
             ResultSet resultData = connection.prepareStatement("SELECT * FROM Artists").executeQuery();
             List<Artist> results = new ArrayList<>();
             while (resultData.next()) {
-                int id = resultData.getInt("id");
-                String name = resultData.getString("NAME");
-                String bio = resultData.getString("BIO");
-                int birthYear = resultData.getInt("BIRTH_YEAR");
-                String contactEmail = resultData.getString("CONTACT_EMAIL");
-                String contactPhone = resultData.getString("CONTACT_PHONE");
-                String city = resultData.getString("CITY");
-                boolean isActive  = resultData.getBoolean("IS_ACTIVE");
+                int id = resultData.getInt("artist_id");
+                String name = resultData.getString("name");
+                String bio = resultData.getString("bio");
+                int birthYear = resultData.getInt("birth_year");
+                String contactEmail = resultData.getString("contact_email");
+                String contactPhone = resultData.getString("phone");
+                String city = resultData.getString("city");
+                boolean isActive = resultData.getBoolean("is_active");
                 Artist new_record = new Artist(name, bio, birthYear, contactEmail, city);
                 new_record.setPhone(contactPhone);
                 new_record.setActive(isActive);
@@ -116,14 +116,13 @@ public class JdbcArtistDao implements ArtistDao {
             ResultSet resultData = statement.executeQuery();
             List<Artist> results = new ArrayList<>();
             while (resultData.next()) {
-                int id = resultData.getInt("id");
-                String name = resultData.getString("NAME");
-                String bio = resultData.getString("BIO");
-                int birthYear = resultData.getInt("BIRTH_YEAR");
-                String contactEmail = resultData.getString("CONTACT_EMAIL");
-                String contactPhone = resultData.getString("CONTACT_PHONE");
-                city = resultData.getString("CITY");
-                boolean isActive  = resultData.getBoolean("IS_ACTIVE");
+                int id = resultData.getInt("artist_id");
+                String name = resultData.getString("name");
+                String bio = resultData.getString("bio");
+                int birthYear = resultData.getInt("birth_year");
+                String contactEmail = resultData.getString("contact_email");
+                String contactPhone = resultData.getString("phone");
+                boolean isActive = resultData.getBoolean("is_active");
                 Artist new_record = new Artist(name, bio, birthYear, contactEmail, city);
                 new_record.setPhone(contactPhone);
                 new_record.setActive(isActive);

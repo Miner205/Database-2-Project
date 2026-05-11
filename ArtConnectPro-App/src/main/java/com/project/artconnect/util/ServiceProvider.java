@@ -1,6 +1,7 @@
 package com.project.artconnect.util;
 
 import com.project.artconnect.service.*;
+import com.project.artconnect.service.impl.InMemory.*;
 import com.project.artconnect.service.impl.*;
 
 /**
@@ -8,7 +9,7 @@ import com.project.artconnect.service.impl.*;
  * initialization.
  */
 public class ServiceProvider {
-    private static final InMemoryArtistService artistService = new InMemoryArtistService();
+    private static final ArtistServiceImpl artistService = new ArtistServiceImpl();
     private static final InMemoryArtworkService artworkService = new InMemoryArtworkService();
     private static final InMemoryGalleryService galleryService = new InMemoryGalleryService();
     private static final InMemoryWorkshopService workshopService = new InMemoryWorkshopService();

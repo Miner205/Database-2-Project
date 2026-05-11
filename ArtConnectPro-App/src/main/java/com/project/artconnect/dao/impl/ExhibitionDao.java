@@ -1,4 +1,4 @@
-package com.project.artconnect.dao;
+package com.project.artconnect.dao.impl;
 
 import com.project.artconnect.model.Exhibition;
 
