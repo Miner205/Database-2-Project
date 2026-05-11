@@ -12,7 +12,7 @@ public class Artwork {
     private Integer creationYear;
     private String type; // painting, sculpture, etc.
     private String medium; // oil, watercolor, etc.
-    private String dimensions;
+    private Dimension dimensions;
     private String description;
     private double price;
     private Status status; // FOR_SALE, SOLD, EXHIBITED
@@ -76,11 +76,11 @@ public class Artwork {
         this.medium = medium;
     }
 
-    public String getDimensions() {
+    public Dimension getDimensions() {
         return dimensions;
     }
 
-    public void setDimensions(String dimensions) {
+    public void setDimensions(Dimension dimensions) {
         this.dimensions = dimensions;
     }
 
