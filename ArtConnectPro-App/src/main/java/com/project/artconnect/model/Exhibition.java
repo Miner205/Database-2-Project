@@ -13,6 +13,7 @@ public class Exhibition {
     private Gallery gallery;
     private String curatorName;
     private String theme;
+    private List<OpeningHours> openingHours = new ArrayList<>();
     private List<Artwork> artworks = new ArrayList<>();
 
     public Exhibition() {
@@ -87,6 +88,14 @@ public class Exhibition {
 
     public void setTheme(String theme) {
         this.theme = theme;
+    }
+
+    public List<OpeningHours> getOpeningHours() {
+        return openingHours;
+    }
+
+    public void setOpeningHours(List<OpeningHours> openingHours) {
+        this.openingHours = openingHours;
     }
 
     public List<Artwork> getArtworks() {

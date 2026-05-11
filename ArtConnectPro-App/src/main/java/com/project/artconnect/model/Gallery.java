@@ -8,8 +8,6 @@ public class Gallery {
     private String name;
     private String address;
     private String ownerName;
-    //TODO: to remove
-    private String openingHours;  // to change ?? : to put in exhibition and/or in separate class ??
     private String contactPhone;
     private double rating;
     private String website;
@@ -55,14 +53,6 @@ public class Gallery {
 
     public void setOwnerName(String ownerName) {
         this.ownerName = ownerName;
-    }
-
-    public String getOpeningHours() {
-        return openingHours;
-    }
-
-    public void setOpeningHours(String openingHours) {
-        this.openingHours = openingHours;
     }
 
     public String getContactPhone() {
