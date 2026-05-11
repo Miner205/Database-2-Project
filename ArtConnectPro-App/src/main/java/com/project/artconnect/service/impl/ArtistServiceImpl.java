@@ -15,7 +15,6 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class ArtistServiceImpl implements ArtistService {
-
     private final ArtistDao artistDao;
 
     public ArtistServiceImpl() {
@@ -26,8 +25,8 @@ public class ArtistServiceImpl implements ArtistService {
     public List<Artist> getAllArtists() {
         try (Connection connection = DatabaseConfig.getConnection()) {
             return artistDao.findAll(connection);
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (SQLException sqlException) {
+            System.out.println("Failed to get artists : " + sqlException.getMessage());
             return new ArrayList<>();
         }
     }
@@ -43,8 +42,8 @@ public class ArtistServiceImpl implements ArtistService {
     public void createArtist(Artist artist) {
         try (Connection connection = DatabaseConfig.getConnection()) {
             artistDao.save(artist, connection);
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (SQLException sqlException) {
+            System.out.println("Failed to create artist : " + sqlException.getMessage());
         }
     }
 
@@ -52,8 +51,8 @@ public class ArtistServiceImpl implements ArtistService {
     public void updateArtist(Artist artist) {
         try (Connection connection = DatabaseConfig.getConnection()) {
             artistDao.update(artist, connection);
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (SQLException sqlException) {
+            System.out.println("Failed to update artist : " + sqlException.getMessage());
         }
     }
 
@@ -61,8 +60,8 @@ public class ArtistServiceImpl implements ArtistService {
     public void deleteArtist(String name) {
         try (Connection connection = DatabaseConfig.getConnection()) {
             artistDao.delete(name, connection);
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (SQLException sqlException) {
+            System.out.println("Failed to delete artist : " + sqlException.getMessage());
         }
     }
 
@@ -77,18 +76,12 @@ public class ArtistServiceImpl implements ArtistService {
 
     @Override
     public List<Artist> searchArtists(String query, String disciplineName, String city) {
-
         List<Artist> artists = getAllArtists();
-
         return artists.stream()
-                .filter(a -> query == null
-                        || a.getName().toLowerCase().contains(query.toLowerCase()))
-                .filter(a -> city == null
-                        || city.isEmpty()
-                        || a.getCity().equalsIgnoreCase(city))
+                .filter(a -> query == null || a.getName().toLowerCase().contains(query.toLowerCase()))
+                .filter(a -> city == null || city.isEmpty() || a.getCity().equalsIgnoreCase(city))
                 .filter(a -> disciplineName == null
-                        || a.getDisciplines().stream()
-                        .anyMatch(d -> d.getName().equalsIgnoreCase(disciplineName)))
+                        || a.getDisciplines().stream().anyMatch(d -> d.getName().equals(disciplineName)))
                 .collect(Collectors.toList());
     }
 }

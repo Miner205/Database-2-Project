@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +28,11 @@ public class JdbcExhibitionDao implements ExhibitionDao {
                 int exhibitionId = exhibitionsData.getInt("exhibition_id");
                 String title = exhibitionsData.getString("title");
                 LocalDate startDate = exhibitionsData.getDate("start_date").toLocalDate();
-                LocalDate endDate = exhibitionsData.getDate("end_date").toLocalDate();
+                Date sqlEndDate = exhibitionsData.getDate("end_date");
+                LocalDate endDate = null;
+                if (sqlEndDate != null) {
+                    endDate = sqlEndDate.toLocalDate();
+                }
                 String description = exhibitionsData.getString("description");
                 Gallery gallery = galleryDAO.findById(connection, exhibitionsData.getInt("gallery_id")).orElse(null);
                 String curatorName = exhibitionsData.getString("curator_name");
