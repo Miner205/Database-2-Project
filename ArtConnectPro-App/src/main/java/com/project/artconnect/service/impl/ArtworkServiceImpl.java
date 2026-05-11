@@ -1,6 +1,6 @@
 package com.project.artconnect.service.impl;
 
-import com.project.artconnect.config.DatabaseConfig;
+import com.project.artconnect.util.ConnectionManager;
 import com.project.artconnect.dao.impl.ArtworkDao;
 import com.project.artconnect.model.Artist;
 import com.project.artconnect.model.Artwork;
@@ -22,7 +22,7 @@ public class ArtworkServiceImpl implements ArtworkService {
 
     @Override
     public List<Artwork> getAllArtworks() {
-        try (Connection connection = DatabaseConfig.getConnection()) {
+        try (Connection connection = ConnectionManager.getConnection()) {
             return artworkDao.findAll(connection);
         } catch (SQLException sqlException) {
             System.out.println("Failed to get artworks : " + sqlException.getMessage());
@@ -33,7 +33,7 @@ public class ArtworkServiceImpl implements ArtworkService {
     @Override
     public Optional<Artwork> getArtworkByTitle(String title) {
         if (title == null) return Optional.empty();
-        try (Connection connection = DatabaseConfig.getConnection()) {
+        try (Connection connection = ConnectionManager.getConnection()) {
             return artworkDao.findAll(connection)
                     .stream()
                     .filter(a -> title.equalsIgnoreCase(a.getTitle()))
@@ -47,7 +47,7 @@ public class ArtworkServiceImpl implements ArtworkService {
     @Override
     public List<Artwork> getArtworksByArtist(Artist artist) {
         if (artist == null) return new ArrayList<>();
-        try (Connection connection = DatabaseConfig.getConnection()) {
+        try (Connection connection = ConnectionManager.getConnection()) {
             return artworkDao.findByArtistName(connection, artist.getName());
         } catch (SQLException sqlException) {
             System.out.println("Failed to get artworks by artist : " + sqlException.getMessage());
@@ -58,7 +58,7 @@ public class ArtworkServiceImpl implements ArtworkService {
     @Override
     public void createArtwork(Artwork artwork) {
         if (artwork == null) return;
-        try (Connection connection = DatabaseConfig.getConnection()) {
+        try (Connection connection = ConnectionManager.getConnection()) {
             artworkDao.save(connection, artwork);
         } catch (SQLException sqlException) {
             System.out.println("Failed to create artwork : " + sqlException.getMessage());
@@ -68,7 +68,7 @@ public class ArtworkServiceImpl implements ArtworkService {
     @Override
     public void updateArtwork(Artwork artwork) {
         if (artwork == null) return;
-        try (Connection connection = DatabaseConfig.getConnection()) {
+        try (Connection connection = ConnectionManager.getConnection()) {
             artworkDao.update(connection, artwork);
         } catch (SQLException sqlException) {
             System.out.println("Failed to update artwork : " + sqlException.getMessage());
@@ -78,7 +78,7 @@ public class ArtworkServiceImpl implements ArtworkService {
     @Override
     public void deleteArtwork(String title) {
         if (title == null) return;
-        try (Connection connection = DatabaseConfig.getConnection()) {
+        try (Connection connection = ConnectionManager.getConnection()) {
             artworkDao.delete(connection, title);
         } catch (SQLException sqlException) {
             System.out.println("Failed to delete artwork : " + sqlException.getMessage());

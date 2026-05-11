@@ -1,6 +1,6 @@
 package com.project.artconnect.service.impl;
 
-import com.project.artconnect.config.DatabaseConfig;
+import com.project.artconnect.util.ConnectionManager;
 import com.project.artconnect.dao.impl.ExhibitionDao;
 import com.project.artconnect.dao.impl.GalleryDao;
 import com.project.artconnect.model.Exhibition;
@@ -28,7 +28,7 @@ public class GalleryServiceImpl implements GalleryService {
 
     @Override
     public List<Gallery> getAllGalleries() {
-        try (Connection connection = DatabaseConfig.getConnection()) {
+        try (Connection connection = ConnectionManager.getConnection()) {
             List<Gallery> galleries = galleryDao.findAll(connection);
             List<Exhibition> exhibitions = exhibitionDao.findAll(connection);
             for (Gallery gallery : galleries) {
@@ -59,7 +59,7 @@ public class GalleryServiceImpl implements GalleryService {
         if (gallery == null) {
             return new ArrayList<>();
         }
-        try (Connection connection = DatabaseConfig.getConnection()) {
+        try (Connection connection = ConnectionManager.getConnection()) {
             return exhibitionDao.findAll(connection).stream()
                     .filter(e ->
                             e.getGallery() != null &&

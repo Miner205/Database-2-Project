@@ -1,6 +1,6 @@
 package com.project.artconnect.service.impl;
 
-import com.project.artconnect.config.DatabaseConfig;
+import com.project.artconnect.util.ConnectionManager;
 import com.project.artconnect.dao.impl.CommunityMemberDao;
 import com.project.artconnect.model.CommunityMember;
 import com.project.artconnect.model.Review;
@@ -22,7 +22,7 @@ public class CommunityServiceImpl implements CommunityService {
 
     @Override
     public List<CommunityMember> getAllMembers() {
-        try (Connection connection = DatabaseConfig.getConnection()) {
+        try (Connection connection = ConnectionManager.getConnection()) {
             return communityMemberDao.findAll(connection);
         } catch (SQLException sqlException) {
             System.out.println(

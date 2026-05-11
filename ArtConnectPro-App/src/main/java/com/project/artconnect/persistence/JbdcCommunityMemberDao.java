@@ -18,18 +18,21 @@ public class JbdcCommunityMemberDao implements CommunityMemberDao {
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM Community_members WHERE community_member_id = ?");
             statement.setInt(1, id);
             ResultSet communityMemberData = statement.executeQuery();
-            String name = communityMemberData.getString("name");
-            String email = communityMemberData.getString("email");
-            int birthYear = communityMemberData.getInt("birth_year");
-            String phone = communityMemberData.getString("phone");
-            String city = communityMemberData.getString("city");
-            String membershipType = communityMemberData.getString("membership_type");
-            CommunityMember newCommunityMember = new CommunityMember(name, email);
-            newCommunityMember.setBirthYear(birthYear);
-            newCommunityMember.setPhone(phone);
-            newCommunityMember.setCity(city);
-            newCommunityMember.setMembershipType(membershipType);
-            return Optional.of(newCommunityMember);
+            if (communityMemberData.next()) {
+                String name = communityMemberData.getString("name");
+                String email = communityMemberData.getString("email");
+                int birthYear = communityMemberData.getInt("birth_year");
+                String phone = communityMemberData.getString("phone");
+                String city = communityMemberData.getString("city");
+                String membershipType = communityMemberData.getString("membership_type");
+                CommunityMember newCommunityMember = new CommunityMember(name, email);
+                newCommunityMember.setBirthYear(birthYear);
+                newCommunityMember.setPhone(phone);
+                newCommunityMember.setCity(city);
+                newCommunityMember.setMembershipType(membershipType);
+                return Optional.of(newCommunityMember);
+            }
+            return Optional.empty();
         } catch (SQLException sqlException) {
             return Optional.empty();
         }

@@ -20,23 +20,26 @@ public class JdbcWorkshopDao implements WorkshopDao {
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM Workshops WHERE workshop_id = ?");
             statement.setInt(1, id);
             ResultSet workshopData = statement.executeQuery();
-            String title = workshopData.getString("title");
-            LocalDateTime workshopDate = workshopData.getTimestamp("workshop_date").toLocalDateTime();
-            int durationMinutes = workshopData.getInt("duration_minutes");
-            int maxParticipant = workshopData.getInt("max_participant");
-            double price = workshopData.getDouble("price");
-            String location = workshopData.getString("location");
-            String description = workshopData.getString("description");
-            String level = workshopData.getString("level");
-            Artist instructor = new JdbcArtistDao().findById(connection, workshopData.getInt("instructor")).orElse(null);
-            Workshop newWorkshop = new Workshop(title, workshopDate, instructor, price);
-            newWorkshop.setWorkshopId(id);
-            newWorkshop.setDurationMinutes(durationMinutes);
-            newWorkshop.setMaxParticipants(maxParticipant);
-            newWorkshop.setLocation(location);
-            newWorkshop.setDescription(description);
-            newWorkshop.setLevel(level);
-            return Optional.of(newWorkshop);
+            if (workshopData.next()) {
+                String title = workshopData.getString("title");
+                LocalDateTime workshopDate = workshopData.getTimestamp("workshop_date").toLocalDateTime();
+                int durationMinutes = workshopData.getInt("duration_minutes");
+                int maxParticipant = workshopData.getInt("max_participant");
+                double price = workshopData.getDouble("price");
+                String location = workshopData.getString("location");
+                String description = workshopData.getString("description");
+                String level = workshopData.getString("level");
+                Artist instructor = new JdbcArtistDao().findById(connection, workshopData.getInt("instructor")).orElse(null);
+                Workshop newWorkshop = new Workshop(title, workshopDate, instructor, price);
+                newWorkshop.setWorkshopId(id);
+                newWorkshop.setDurationMinutes(durationMinutes);
+                newWorkshop.setMaxParticipants(maxParticipant);
+                newWorkshop.setLocation(location);
+                newWorkshop.setDescription(description);
+                newWorkshop.setLevel(level);
+                return Optional.of(newWorkshop);
+            }
+            return Optional.empty();
         } catch (SQLException sqlException) {
             return Optional.empty();
         }

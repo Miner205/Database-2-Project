@@ -2,6 +2,7 @@ package com.project.artconnect.service.impl.InMemory;
 
 import com.project.artconnect.model.Artist;
 import com.project.artconnect.model.Artwork;
+import com.project.artconnect.model.Dimension;
 import com.project.artconnect.service.ArtistService;
 import com.project.artconnect.service.ArtworkService;
 import java.util.*;
@@ -33,7 +34,7 @@ public class InMemoryArtworkService implements ArtworkService {
             return;
         Artwork a = new Artwork(title, year, type, price, artist);
         a.setMedium("Traditional " + type);
-        a.setDimensions("Varies");
+        a.setDimensions(new Dimension());
         a.setDescription("A legendary masterpiece by " + artist.getName());
         artworks.put(title, a);
         artist.addArtwork(a);

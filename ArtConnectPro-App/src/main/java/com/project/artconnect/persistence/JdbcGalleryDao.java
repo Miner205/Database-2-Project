@@ -19,18 +19,21 @@ public class JdbcGalleryDao implements GalleryDao {
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM Galleries WHERE gallery_id = ?");
             statement.setInt(1, id);
             ResultSet galleryData = statement.executeQuery();
-            String name = galleryData.getString("name");
-            String address = galleryData.getString("address");
-            double rating = galleryData.getDouble("rating");
-            String ownerName = galleryData.getString("owner_name");
-            String contactPhone = galleryData.getString("contact_phone");
-            String website = galleryData.getString("website");
-            Gallery newGallery = new Gallery(name, address, rating);
-            newGallery.setGalleryId(id);
-            newGallery.setOwnerName(ownerName);
-            newGallery.setContactPhone(contactPhone);
-            newGallery.setWebsite(website);
-            return Optional.of(newGallery);
+            if (galleryData.next()) {
+                String name = galleryData.getString("name");
+                String address = galleryData.getString("address");
+                double rating = galleryData.getDouble("rating");
+                String ownerName = galleryData.getString("owner_name");
+                String contactPhone = galleryData.getString("contact_phone");
+                String website = galleryData.getString("website");
+                Gallery newGallery = new Gallery(name, address, rating);
+                newGallery.setGalleryId(id);
+                newGallery.setOwnerName(ownerName);
+                newGallery.setContactPhone(contactPhone);
+                newGallery.setWebsite(website);
+                return Optional.of(newGallery);
+            }
+            return Optional.empty();
         } catch (SQLException sqlException) {
             return Optional.empty();
         }

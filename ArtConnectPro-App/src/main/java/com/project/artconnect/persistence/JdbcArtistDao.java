@@ -22,19 +22,22 @@ public class JdbcArtistDao implements ArtistDao {
         try {
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM Artists WHERE artist_id = ?");
             statement.setInt(1, id);
-            ResultSet resultData = statement.executeQuery();
-            String name = resultData.getString("name");
-            String bio = resultData.getString("bio");
-            int birthYear = resultData.getInt("birth_year");
-            String contactEmail = resultData.getString("contact_email");
-            String contactPhone = resultData.getString("phone");
-            String city = resultData.getString("city");
-            boolean isActive = resultData.getBoolean("is_active");
-            Artist new_record = new Artist(name, bio, birthYear, contactEmail, city);
-            new_record.setPhone(contactPhone);
-            new_record.setActive(isActive);
-            new_record.setId(id);
-            return Optional.of(new_record);
+            ResultSet artistData = statement.executeQuery();
+            if (artistData.next()) {
+                String name = artistData.getString("name");
+                String bio = artistData.getString("bio");
+                int birthYear = artistData.getInt("birth_year");
+                String contactEmail = artistData.getString("contact_email");
+                String contactPhone = artistData.getString("phone");
+                String city = artistData.getString("city");
+                boolean isActive = artistData.getBoolean("is_active");
+                Artist new_record = new Artist(name, bio, birthYear, contactEmail, city);
+                new_record.setPhone(contactPhone);
+                new_record.setActive(isActive);
+                new_record.setId(id);
+                return Optional.of(new_record);
+            }
+            return Optional.empty();
         } catch (SQLException sqlException) {
             return Optional.empty();
         }
@@ -44,17 +47,17 @@ public class JdbcArtistDao implements ArtistDao {
     public List<Artist> findAll(Connection connection) {
         // SELECT * FROM Artists
         try {
-            ResultSet resultData = connection.prepareStatement("SELECT * FROM Artists").executeQuery();
+            ResultSet artistData = connection.prepareStatement("SELECT * FROM Artists").executeQuery();
             List<Artist> results = new ArrayList<>();
-            while (resultData.next()) {
-                int id = resultData.getInt("artist_id");
-                String name = resultData.getString("name");
-                String bio = resultData.getString("bio");
-                int birthYear = resultData.getInt("birth_year");
-                String contactEmail = resultData.getString("contact_email");
-                String contactPhone = resultData.getString("phone");
-                String city = resultData.getString("city");
-                boolean isActive = resultData.getBoolean("is_active");
+            while (artistData.next()) {
+                int id = artistData.getInt("artist_id");
+                String name = artistData.getString("name");
+                String bio = artistData.getString("bio");
+                int birthYear = artistData.getInt("birth_year");
+                String contactEmail = artistData.getString("contact_email");
+                String contactPhone = artistData.getString("phone");
+                String city = artistData.getString("city");
+                boolean isActive = artistData.getBoolean("is_active");
                 Artist new_record = new Artist(name, bio, birthYear, contactEmail, city);
                 new_record.setPhone(contactPhone);
                 new_record.setActive(isActive);
@@ -137,16 +140,16 @@ public class JdbcArtistDao implements ArtistDao {
         try {
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM Artists WHERE city = ?");
             statement.setString(1, city);
-            ResultSet resultData = statement.executeQuery();
+            ResultSet artistData = statement.executeQuery();
             List<Artist> results = new ArrayList<>();
-            while (resultData.next()) {
-                int id = resultData.getInt("artist_id");
-                String name = resultData.getString("name");
-                String bio = resultData.getString("bio");
-                int birthYear = resultData.getInt("birth_year");
-                String contactEmail = resultData.getString("contact_email");
-                String contactPhone = resultData.getString("phone");
-                boolean isActive = resultData.getBoolean("is_active");
+            while (artistData.next()) {
+                int id = artistData.getInt("artist_id");
+                String name = artistData.getString("name");
+                String bio = artistData.getString("bio");
+                int birthYear = artistData.getInt("birth_year");
+                String contactEmail = artistData.getString("contact_email");
+                String contactPhone = artistData.getString("phone");
+                boolean isActive = artistData.getBoolean("is_active");
                 Artist new_record = new Artist(name, bio, birthYear, contactEmail, city);
                 new_record.setPhone(contactPhone);
                 new_record.setActive(isActive);

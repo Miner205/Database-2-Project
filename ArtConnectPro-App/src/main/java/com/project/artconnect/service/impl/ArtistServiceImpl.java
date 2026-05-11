@@ -1,6 +1,6 @@
 package com.project.artconnect.service.impl;
 
-import com.project.artconnect.config.DatabaseConfig;
+import com.project.artconnect.util.ConnectionManager;
 import com.project.artconnect.dao.impl.ArtistDao;
 import com.project.artconnect.model.Artist;
 import com.project.artconnect.model.Discipline;
@@ -23,7 +23,7 @@ public class ArtistServiceImpl implements ArtistService {
 
     @Override
     public List<Artist> getAllArtists() {
-        try (Connection connection = DatabaseConfig.getConnection()) {
+        try (Connection connection = ConnectionManager.getConnection()) {
             return artistDao.findAll(connection);
         } catch (SQLException sqlException) {
             System.out.println("Failed to get artists : " + sqlException.getMessage());
@@ -40,7 +40,7 @@ public class ArtistServiceImpl implements ArtistService {
 
     @Override
     public void createArtist(Artist artist) {
-        try (Connection connection = DatabaseConfig.getConnection()) {
+        try (Connection connection = ConnectionManager.getConnection()) {
             artistDao.save(artist, connection);
         } catch (SQLException sqlException) {
             System.out.println("Failed to create artist : " + sqlException.getMessage());
@@ -49,7 +49,7 @@ public class ArtistServiceImpl implements ArtistService {
 
     @Override
     public void updateArtist(Artist artist) {
-        try (Connection connection = DatabaseConfig.getConnection()) {
+        try (Connection connection = ConnectionManager.getConnection()) {
             artistDao.update(artist, connection);
         } catch (SQLException sqlException) {
             System.out.println("Failed to update artist : " + sqlException.getMessage());
@@ -58,7 +58,7 @@ public class ArtistServiceImpl implements ArtistService {
 
     @Override
     public void deleteArtist(String name) {
-        try (Connection connection = DatabaseConfig.getConnection()) {
+        try (Connection connection = ConnectionManager.getConnection()) {
             artistDao.delete(name, connection);
         } catch (SQLException sqlException) {
             System.out.println("Failed to delete artist : " + sqlException.getMessage());
