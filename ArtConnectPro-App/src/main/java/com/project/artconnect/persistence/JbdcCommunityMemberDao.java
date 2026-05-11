@@ -61,6 +61,4 @@ public class JbdcCommunityMemberDao implements CommunityMemberDao {
         }
     }
 
-
-
 }

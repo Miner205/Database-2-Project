@@ -108,4 +108,5 @@ public class Workshop {
     public String toString() {
         return title;
     }
+
 }

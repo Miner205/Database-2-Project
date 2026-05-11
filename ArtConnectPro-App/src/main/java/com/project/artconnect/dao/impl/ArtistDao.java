@@ -21,4 +21,5 @@ public interface ArtistDao {
     void delete(String artistName, Connection connection);
 
     List<Artist> findByCity(String city, Connection connection);
+
 }

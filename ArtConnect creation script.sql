@@ -62,7 +62,7 @@ CREATE TABLE Artwork_tags(
 CREATE TABLE Workshops(
    workshop_id INT,
    title VARCHAR(100) NOT NULL,
-   workshop_date DATE,
+   workshop_date DATETIME,
    duration_minutes INT,
    max_participant INT,
    price DECIMAL(15,2),

@@ -10,4 +10,5 @@ public interface WorkshopDao {
     Optional<Workshop> findById(Connection connection, int id);
 
     List<Workshop> findAll(Connection connection);
+
 }

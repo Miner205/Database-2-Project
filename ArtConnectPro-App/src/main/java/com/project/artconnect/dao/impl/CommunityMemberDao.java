@@ -10,4 +10,5 @@ public interface CommunityMemberDao {
     Optional<CommunityMember> findById(Connection connection, int id);
 
     List<CommunityMember> findAll(Connection connection);
+
 }
