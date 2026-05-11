@@ -89,11 +89,11 @@ public class JdbcArtworkDao implements ArtworkDao {
                     "UPDATE Artworks SET title=?, creation_year=?, type=?, description=?, price=?, status=?, artist_id=? WHERE artwork_id=?"
             );
 
-            statement.setString(2, artwork.getTitle());
-            statement.setInt(3, artwork.getCreationYear());
-            statement.setString(4, artwork.getType());
-            statement.setString(5, artwork.getDescription());
-            statement.setDouble(6, artwork.getPrice());
+            statement.setString(1, artwork.getTitle());
+            statement.setInt(2, artwork.getCreationYear());
+            statement.setString(3, artwork.getType());
+            statement.setString(4, artwork.getDescription());
+            statement.setDouble(5, artwork.getPrice());
             Artwork.Status status = artwork.getStatus();
             String statusStr = null;
             switch (status) {
@@ -101,9 +101,9 @@ public class JdbcArtworkDao implements ArtworkDao {
                 case SOLD -> statusStr = "SOLD";
                 case EXHIBITED -> statusStr = "EXHIBITED";
             }
-            statement.setString(7, statusStr);
-            statement.setInt(8, artwork.getArtist().getId());
-            statement.setInt(1, artwork.getArtworkId());
+            statement.setString(6, statusStr);
+            statement.setInt(7, artwork.getArtist().getId());
+            statement.setInt(8, artwork.getArtworkId());
 
             statement.executeUpdate();
         } catch (SQLException sqlException) {
