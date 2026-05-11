@@ -9,19 +9,19 @@ import com.project.artconnect.service.impl.*;
  * initialization.
  */
 public class ServiceProvider {
-    private static final InMemoryArtistService artistService = new InMemoryArtistService();
-    private static final InMemoryArtworkService artworkService = new InMemoryArtworkService();
-    private static final InMemoryGalleryService galleryService = new InMemoryGalleryService();
-    private static final InMemoryWorkshopService workshopService = new InMemoryWorkshopService();
-    private static final InMemoryCommunityService communityService = new InMemoryCommunityService();
+    private static final ArtistServiceImpl artistService = new ArtistServiceImpl();
+    private static final ArtworkServiceImpl artworkService = new ArtworkServiceImpl();
+    private static final GalleryServiceImpl galleryService = new GalleryServiceImpl();
+    private static final WorkshopServiceImpl workshopService = new WorkshopServiceImpl();
+    private static final CommunityServiceImpl communityService = new CommunityServiceImpl();
 
-    static {
+    /*static {
         // Initialize services with their dependencies
         artworkService.initData(artistService);
         galleryService.initData(artworkService);
         workshopService.initData(artistService);
         communityService.initData(artworkService);
-    }
+    }*/
 
     public static ArtistService getArtistService() {
         return artistService;
