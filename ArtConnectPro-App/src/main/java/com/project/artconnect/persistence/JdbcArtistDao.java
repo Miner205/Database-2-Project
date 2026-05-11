@@ -20,7 +20,7 @@ public class JdbcArtistDao implements ArtistDao {
     @Override
     public Optional<Artist> findById(Connection connection, int id) {
         try {
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM Artist WHERE artist_id = ?");
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM Artists WHERE artist_id = ?");
             statement.setInt(1, id);
             ResultSet resultData = statement.executeQuery();
             String name = resultData.getString("name");

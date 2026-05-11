@@ -17,7 +17,7 @@ public class JdbcWorkshopDao implements WorkshopDao {
     @Override
     public Optional<Workshop> findById(Connection connection, int id) {
         try {
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM Workshop WHERE workshop_id = ?");
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM Workshops WHERE workshop_id = ?");
             statement.setInt(1, id);
             ResultSet workshopData = statement.executeQuery();
             String title = workshopData.getString("title");
@@ -45,7 +45,7 @@ public class JdbcWorkshopDao implements WorkshopDao {
     @Override
     public List<Workshop> findAll(Connection connection) {
         try {
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM Workshop");
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM Workshops");
             ResultSet workshopData = statement.executeQuery();
             List<Workshop> workshops = new ArrayList<>();
             while (workshopData.next()) {
