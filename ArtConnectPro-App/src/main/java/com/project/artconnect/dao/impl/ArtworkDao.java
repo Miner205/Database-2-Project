@@ -15,4 +15,5 @@ public interface ArtworkDao {
     void delete(Connection connection, String title);
 
     List<Artwork> findByArtistName(Connection connection, String artistName);
+
 }
