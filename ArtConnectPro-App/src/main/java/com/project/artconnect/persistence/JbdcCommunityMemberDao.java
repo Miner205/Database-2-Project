@@ -38,7 +38,7 @@ public class JbdcCommunityMemberDao implements CommunityMemberDao {
     @Override
     public List<CommunityMember> findAll(Connection connection) {
         try {
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM Galleries");
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM Community_members");
             ResultSet communityMemberData = statement.executeQuery();
             List<CommunityMember> communityMembers = new ArrayList<>();
             while (communityMemberData.next()) {

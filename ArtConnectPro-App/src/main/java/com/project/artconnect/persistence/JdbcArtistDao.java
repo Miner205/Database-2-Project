@@ -2,7 +2,6 @@ package com.project.artconnect.persistence;
 
 import com.project.artconnect.dao.impl.ArtistDao;
 import com.project.artconnect.model.Artist;
-import com.project.artconnect.model.Gallery;
 
 import java.sql.SQLException;
 import java.sql.*;
@@ -24,7 +23,6 @@ public class JdbcArtistDao implements ArtistDao {
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM Artist WHERE artist_id = ?");
             statement.setInt(1, id);
             ResultSet resultData = statement.executeQuery();
-            int id = resultData.getInt("artist_id");
             String name = resultData.getString("name");
             String bio = resultData.getString("bio");
             int birthYear = resultData.getInt("birth_year");
