@@ -2,6 +2,7 @@ package com.project.artconnect.persistence;
 
 import com.project.artconnect.dao.impl.ArtistDao;
 import com.project.artconnect.model.Artist;
+import com.project.artconnect.model.Discipline;
 
 import java.sql.SQLException;
 import java.sql.*;
@@ -27,15 +28,17 @@ public class JdbcArtistDao implements ArtistDao {
                 String name = artistData.getString("name");
                 String bio = artistData.getString("bio");
                 int birthYear = artistData.getInt("birth_year");
+                List<Discipline> disciplines = findDisciplines(connection, id);
                 String contactEmail = artistData.getString("contact_email");
                 String contactPhone = artistData.getString("phone");
                 String city = artistData.getString("city");
                 boolean isActive = artistData.getBoolean("is_active");
-                Artist new_record = new Artist(name, bio, birthYear, contactEmail, city);
-                new_record.setPhone(contactPhone);
-                new_record.setActive(isActive);
-                new_record.setId(id);
-                return Optional.of(new_record);
+                Artist newArtist = new Artist(name, bio, birthYear, contactEmail, city);
+                newArtist.setDisciplines(disciplines);
+                newArtist.setPhone(contactPhone);
+                newArtist.setActive(isActive);
+                newArtist.setId(id);
+                return Optional.of(newArtist);
             }
             return Optional.empty();
         } catch (SQLException sqlException) {
@@ -54,15 +57,17 @@ public class JdbcArtistDao implements ArtistDao {
                 String name = artistData.getString("name");
                 String bio = artistData.getString("bio");
                 int birthYear = artistData.getInt("birth_year");
+                List<Discipline> disciplines = findDisciplines(connection, id);
                 String contactEmail = artistData.getString("contact_email");
                 String contactPhone = artistData.getString("phone");
                 String city = artistData.getString("city");
                 boolean isActive = artistData.getBoolean("is_active");
-                Artist new_record = new Artist(name, bio, birthYear, contactEmail, city);
-                new_record.setPhone(contactPhone);
-                new_record.setActive(isActive);
-                new_record.setId(id);
-                results.add(new_record);
+                Artist newArtist = new Artist(name, bio, birthYear, contactEmail, city);
+                newArtist.setDisciplines(disciplines);
+                newArtist.setPhone(contactPhone);
+                newArtist.setActive(isActive);
+                newArtist.setId(id);
+                results.add(newArtist);
             }
             return results;
         } catch (SQLException ex) {
@@ -93,6 +98,7 @@ public class JdbcArtistDao implements ArtistDao {
         } catch (SQLException sqlException) {
             System.out.println("Failed to insert artist : " + sqlException.getMessage());
         }
+        insertPractices(connection, artist);
     }
 
     @Override
@@ -117,11 +123,13 @@ public class JdbcArtistDao implements ArtistDao {
         } catch (SQLException sqlException) {
             System.out.println("Failed to update artist : " + sqlException.getMessage());
         }
+        insertPractices(connection, artist);
     }
 
     @Override
     public void delete(String artistName, Connection connection) {
         // DONE: Implement DELETE FROM Artists WHERE name = ?
+        deletePractices(connection, artistName);
         try {
             PreparedStatement statement = connection.prepareStatement(
                     "DELETE FROM Artists WHERE name = ?"
@@ -147,14 +155,16 @@ public class JdbcArtistDao implements ArtistDao {
                 String name = artistData.getString("name");
                 String bio = artistData.getString("bio");
                 int birthYear = artistData.getInt("birth_year");
+                List<Discipline> disciplines = findDisciplines(connection, id);
                 String contactEmail = artistData.getString("contact_email");
                 String contactPhone = artistData.getString("phone");
                 boolean isActive = artistData.getBoolean("is_active");
-                Artist new_record = new Artist(name, bio, birthYear, contactEmail, city);
-                new_record.setPhone(contactPhone);
-                new_record.setActive(isActive);
-                new_record.setId(id);
-                results.add(new_record);
+                Artist newArtist = new Artist(name, bio, birthYear, contactEmail, city);
+                newArtist.setDisciplines(disciplines);
+                newArtist.setPhone(contactPhone);
+                newArtist.setActive(isActive);
+                newArtist.setId(id);
+                results.add(newArtist);
             }
             return results;
         } catch (SQLException ex) {
@@ -162,4 +172,56 @@ public class JdbcArtistDao implements ArtistDao {
             return null;
         }
     }
+
+    public List<Discipline> findDisciplines(Connection connection, int artistID) {
+        try {
+            PreparedStatement disciplineStatement = connection.prepareStatement("SELECT * FROM Disciplines d JOIN Practices p ON d.discipline_id = p.discipline_id JOIN Artists a ON p.artist_id = a.artist_id WHERE a.artist_id = ?");
+            disciplineStatement.setInt(1, artistID);
+            ResultSet disciplineData = disciplineStatement.executeQuery();
+            List<Discipline> disciplines = new ArrayList<>();
+            while (disciplineData.next()) {
+                int disciplineId = disciplineData.getInt("discipline_id");
+                String disciplineName = disciplineData.getString("name");
+                Discipline newDiscipline = new Discipline(disciplineName);
+                newDiscipline.setDisciplineId(disciplineId);
+                disciplines.add(newDiscipline);
+            }
+            return disciplines;
+        } catch (SQLException sqlException) {
+            return new ArrayList<>();
+        }
+    }
+
+    public void insertPractices(Connection connection, Artist artist) {
+        try {
+            for (Discipline discipline : artist.getDisciplines()) {
+                PreparedStatement statement = connection.prepareStatement("INSERT INTO Practices (artist_id, discipline_id) VALUES (?, ?)");
+
+                statement.setInt(1, artist.getId());
+                statement.setInt(2, discipline.getDisciplineId());
+
+                statement.executeUpdate();
+            }
+        } catch (SQLException sqlException) {
+            System.out.println("Failed to insert practices : " + sqlException.getMessage());
+        }
+    }
+
+    public void deletePractices(Connection connection, String artistName) {
+        try {
+            PreparedStatement statement = connection.prepareStatement("SELECT artist_id FROM Artists WHERE name = ?");
+            ResultSet artistData = statement.executeQuery();
+            try {
+                PreparedStatement practiceStatement = connection.prepareStatement("DELETE FROM Practices WHERE artist_id = ?");
+                statement.setInt(1, artistData.getInt("artist_id"));
+
+                statement.executeUpdate();
+            } catch (SQLException sqlException) {
+                System.out.println("Failed to delete practices : " + sqlException.getMessage());
+            }
+        } catch (SQLException sqlException) {
+            System.out.println("Failed to find artist : " + sqlException.getMessage());
+        }
+    }
+
 }
