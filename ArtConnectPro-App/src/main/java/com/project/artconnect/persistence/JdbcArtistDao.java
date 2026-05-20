@@ -134,9 +134,9 @@ public class JdbcArtistDao implements ArtistDao {
 
             statement.executeUpdate();
 
-            deletePractices(connection, artist.getName());
+            deletePractices(connection, artist.getId());
             replacePractices(connection, artist);
-            deleteSocialMedias(connection, artist.getName());
+            deleteSocialMedias(connection, artist.getId());
             replaceSocialMedias(connection, artist);
         } catch (SQLException sqlException) {
             System.out.println("Failed to update artist : " + sqlException.getMessage());
@@ -146,17 +146,28 @@ public class JdbcArtistDao implements ArtistDao {
     @Override
     public void delete(String artistName, Connection connection) {
         // DONE: Implement DELETE FROM Artists WHERE name = ?
-        deletePractices(connection, artistName);
-        deleteSocialMedias(connection, artistName);
         try {
-            PreparedStatement statement = connection.prepareStatement(
-                    "DELETE FROM Artists WHERE name = ?"
-            );
-            statement.setString(1, artistName);
+            PreparedStatement idStatement = connection.prepareStatement("SELECT artist_id FROM Artists WHERE name = ?");
+            idStatement.setString(1, artistName);
+            ResultSet artistData = idStatement.executeQuery();
+            int artistId = artistData.getInt("artist_id");
 
-            statement.executeUpdate();
+            deletePractices(connection, artistId);
+            deleteSocialMedias(connection, artistId);
+
+            try {
+                PreparedStatement statement = connection.prepareStatement(
+                        "DELETE FROM Artists WHERE name = ?"
+                );
+                statement.setString(1, artistName);
+
+                statement.executeUpdate();
+            } catch (SQLException sqlException) {
+                System.out.println("Failed to delete artist : " + sqlException.getMessage());
+            }
+
         } catch (SQLException sqlException) {
-            System.out.println("Failed to delete artist : " + sqlException.getMessage());
+            System.out.println("Failed to find artist : " + sqlException.getMessage());
         }
     }
 
@@ -231,21 +242,15 @@ public class JdbcArtistDao implements ArtistDao {
         }
     }
 
-    public void deletePractices(Connection connection, String artistName) {
+    public void deletePractices(Connection connection, int artistId) {
         try {
-            PreparedStatement statement = connection.prepareStatement("SELECT artist_id FROM Artists WHERE name = ?");
-            statement.setString(1, artistName);
-            ResultSet artistData = statement.executeQuery();
-            try {
-                PreparedStatement practiceStatement = connection.prepareStatement("DELETE FROM Practices WHERE artist_id = ?");
-                practiceStatement.setInt(1, artistData.getInt("artist_id"));
+            PreparedStatement statement = connection.prepareStatement("DELETE FROM Practices WHERE artist_id = ?");
 
-                practiceStatement.executeUpdate();
-            } catch (SQLException sqlException) {
-                System.out.println("Failed to delete practices : " + sqlException.getMessage());
-            }
+            statement.setInt(1, artistId);
+
+            statement.executeUpdate();
         } catch (SQLException sqlException) {
-            System.out.println("Failed to find artist : " + sqlException.getMessage());
+            System.out.println("Failed to delete practices : " + sqlException.getMessage());
         }
     }
 
@@ -284,23 +289,18 @@ public class JdbcArtistDao implements ArtistDao {
         }
     }
 
-    public void deleteSocialMedias(Connection connection, String artistName) {
+    public void deleteSocialMedias(Connection connection, int artistId) {
         try {
-            PreparedStatement statement = connection.prepareStatement("SELECT artist_id FROM Artists WHERE name = ?");
-            statement.setString(1, artistName);
-            ResultSet artistData = statement.executeQuery();
-            try {
-                PreparedStatement socialMediaStatement = connection.prepareStatement("DELETE FROM Social_medias WHERE artist_id = ?");
+            PreparedStatement statement = connection.prepareStatement("DELETE FROM Social_medias WHERE artist_id = ?");
 
-                socialMediaStatement.setInt(1, artistData.getInt("artist_id"));
+            statement.setInt(1, artistId);
 
-                socialMediaStatement.executeUpdate();
-            } catch (SQLException sqlException) {
-                System.out.println("Failed to delete social medias : " + sqlException.getMessage());
-            }
+            statement.executeUpdate();
         } catch (SQLException sqlException) {
-            System.out.println("Failed to find artist : " + sqlException.getMessage());
+            System.out.println("Failed to delete social medias : " + sqlException.getMessage());
         }
     }
+
+
 
 }

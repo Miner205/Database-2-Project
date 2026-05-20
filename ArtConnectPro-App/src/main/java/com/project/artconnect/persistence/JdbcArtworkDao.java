@@ -156,9 +156,9 @@ public class JdbcArtworkDao implements ArtworkDao {
 
             statement.executeUpdate();
 
-            deleteDimension(connection, artwork.getTitle());
+            deleteDimension(connection, artwork.getArtworkId());
             replaceDimension(connection, artwork);
-            deleteTagged(connection, artwork.getTitle());
+            deleteTagged(connection, artwork.getArtworkId());
             replaceTagged(connection, artwork);
         } catch (SQLException sqlException) {
             System.out.println("Failed to update artwork : " + sqlException.getMessage());
@@ -167,18 +167,29 @@ public class JdbcArtworkDao implements ArtworkDao {
 
     @Override
     public void delete(Connection connection, String title) {
-        deleteDimension(connection, title);
-        deleteTagged(connection, title);
-        deleteExhibited(connection, title);
         try {
-            PreparedStatement statement = connection.prepareStatement(
-                    "DELETE FROM Artworks WHERE title = ?"
-            );
-            statement.setString(1, title);
+            PreparedStatement idStatement = connection.prepareStatement("SELECT artwork_id FROM Artworks WHERE title = ?");
+            idStatement.setString(1, title);
+            ResultSet artworkData = idStatement.executeQuery();
+            int artworkId = artworkData.getInt("artwork_id");
 
-            statement.executeUpdate();
+            deleteDimension(connection, artworkId);
+            deleteTagged(connection, artworkId);
+            deleteExhibited(connection, artworkId);
+
+            try {
+                PreparedStatement statement = connection.prepareStatement(
+                        "DELETE FROM Artworks WHERE title = ?"
+                );
+                statement.setString(1, title);
+
+                statement.executeUpdate();
+            } catch (SQLException sqlException) {
+                System.out.println("Failed to delete artwork : " + sqlException.getMessage());
+            }
+
         } catch (SQLException sqlException) {
-            System.out.println("Failed to delete artwork : " + sqlException.getMessage());
+            System.out.println("Failed to find artwork : " + sqlException.getMessage());
         }
     }
 
@@ -257,22 +268,15 @@ public class JdbcArtworkDao implements ArtworkDao {
         }
     }
 
-    public void deleteDimension(Connection connection, String title) {
+    public void deleteDimension(Connection connection, int artworkId) {
         try {
-            PreparedStatement statement = connection.prepareStatement("SELECT artwork_id FROM Artworks WHERE title = ?");
-            statement.setString(1, title);
-            ResultSet artworkData = statement.executeQuery();
-            try {
-                PreparedStatement dimensionStatement = connection.prepareStatement("DELETE FROM Dimensions WHERE artwork_id = ?");
+            PreparedStatement statement = connection.prepareStatement("DELETE FROM Dimensions WHERE artwork_id = ?");
 
-                dimensionStatement.setInt(1, artworkData.getInt("artwork_id"));
+            statement.setInt(1, artworkId);
 
-                dimensionStatement.executeUpdate();
-            } catch (SQLException sqlException) {
-                System.out.println("Failed to delete dimensions : " + sqlException.getMessage());
-            }
+            statement.executeUpdate();
         } catch (SQLException sqlException) {
-            System.out.println("Failed to find artwork : " + sqlException.getMessage());
+            System.out.println("Failed to delete dimensions : " + sqlException.getMessage());
         }
     }
 
@@ -311,40 +315,28 @@ public class JdbcArtworkDao implements ArtworkDao {
         }
     }
 
-    public void deleteTagged(Connection connection, String title) {
+    public void deleteTagged(Connection connection, int artworkId) {
         try {
-            PreparedStatement statement = connection.prepareStatement("SELECT artwork_id FROM Artworks WHERE title = ?");
-            statement.setString(1, title);
-            ResultSet artworkData = statement.executeQuery();
-            try {
-                PreparedStatement taggedStatement = connection.prepareStatement("DELETE FROM Tagged WHERE artwork_id = ?");
-                taggedStatement.setInt(1, artworkData.getInt("artwork_id"));
+            PreparedStatement statement = connection.prepareStatement("DELETE FROM Tagged WHERE artwork_id = ?");
 
-                taggedStatement.executeUpdate();
-            } catch (SQLException sqlException) {
-                System.out.println("Failed to delete tagged : " + sqlException.getMessage());
-            }
+            statement.setInt(1, artworkId);
+
+            statement.executeUpdate();
         } catch (SQLException sqlException) {
-            System.out.println("Failed to find artwork : " + sqlException.getMessage());
+            System.out.println("Failed to delete tagged : " + sqlException.getMessage());
         }
     }
 
-    public void deleteExhibited(Connection connection, String title) {
-        try {
-            PreparedStatement statement = connection.prepareStatement("SELECT artwork_id FROM Artworks WHERE title = ?");
-            statement.setString(1, title);
-            ResultSet artworkData = statement.executeQuery();
+    public void deleteExhibited(Connection connection, int artworkId) {
             try {
-                PreparedStatement taggedStatement = connection.prepareStatement("DELETE FROM Exhibited WHERE artwork_id = ?");
-                taggedStatement.setInt(1, artworkData.getInt("artwork_id"));
+                PreparedStatement statement = connection.prepareStatement("DELETE FROM Exhibited WHERE artwork_id = ?");
 
-                taggedStatement.executeUpdate();
+                statement.setInt(1, artworkId);
+
+                statement.executeUpdate();
             } catch (SQLException sqlException) {
                 System.out.println("Failed to delete exhibited : " + sqlException.getMessage());
             }
-        } catch (SQLException sqlException) {
-            System.out.println("Failed to find artwork : " + sqlException.getMessage());
-        }
     }
 
 }

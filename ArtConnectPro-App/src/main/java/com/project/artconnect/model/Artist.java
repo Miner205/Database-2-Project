@@ -104,8 +104,8 @@ public class Artist {
         return socialMedia;
     }
 
-    public void setSocialMedia(List<SocialMedia> socialMedia) {
-        this.socialMedia = socialMedia;
+    public void setSocialMedia(List<SocialMedia> socialMedias) {
+        this.socialMedia = socialMedias;
     }
 
     public boolean isActive() {

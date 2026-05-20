@@ -104,9 +104,9 @@ public class JdbcExhibitionDao implements ExhibitionDao {
 
             statement.executeUpdate();
 
-            deleteOpeningHours(connection, exhibition.getTitle());
+            deleteOpeningHours(connection, exhibition.getExhibitionId());
             replaceOpeningHours(connection, exhibition);
-            deleteExhibited(connection, exhibition.getTitle());
+            deleteExhibited(connection, exhibition.getExhibitionId());
             replaceExhibited(connection, exhibition);
         } catch (SQLException sqlException) {
             System.out.println("Failed to update exhibition : " + sqlException.getMessage());
@@ -118,17 +118,28 @@ public class JdbcExhibitionDao implements ExhibitionDao {
         // DONE: DELETE FROM Exhibitions WHERE title=?
         //TODO:
         // Caution: check if there are foreign key constraints
-        deleteOpeningHours(connection, title);
-        deleteExhibited(connection, title);
         try {
-            PreparedStatement statement = connection.prepareStatement(
-                    "DELETE FROM Exhibitions WHERE title = ?"
-            );
-            statement.setString(1, title);
+            PreparedStatement idStatement = connection.prepareStatement("SELECT exhibition_id FROM Exhibitions WHERE name = ?");
+            idStatement.setString(1, title);
+            ResultSet exhibitionData = idStatement.executeQuery();
+            int exhibitionId = exhibitionData.getInt("exhibition_id");
 
-            statement.executeUpdate();
+            deleteOpeningHours(connection, exhibitionId);
+            deleteExhibited(connection, exhibitionId);
+
+            try {
+                PreparedStatement statement = connection.prepareStatement(
+                        "DELETE FROM Exhibitions WHERE title = ?"
+                );
+                statement.setString(1, title);
+
+                statement.executeUpdate();
+            } catch (SQLException sqlException) {
+                System.out.println("Failed to delete exhibition : " + sqlException.getMessage());
+            }
+
         } catch (SQLException sqlException) {
-            System.out.println("Failed to delete exhibition : " + sqlException.getMessage());
+            System.out.println("Failed to find exhibition : " + sqlException.getMessage());
         }
     }
 
@@ -169,22 +180,15 @@ public class JdbcExhibitionDao implements ExhibitionDao {
         }
     }
 
-    public void deleteOpeningHours(Connection connection, String title) {
+    public void deleteOpeningHours(Connection connection, int exhibitionId) {
         try {
-            PreparedStatement statement = connection.prepareStatement("SELECT exhibition_id FROM Exhibition WHERE title = ?");
-            statement.setString(1, title);
-            ResultSet exhibitionData = statement.executeQuery();
-            try {
-                PreparedStatement openingHoursStatement = connection.prepareStatement("DELETE FROM Opening_hours WHERE exhibition_id = ?");
+            PreparedStatement statement = connection.prepareStatement("DELETE FROM Opening_hours WHERE exhibition_id = ?");
 
-                openingHoursStatement.setInt(1, exhibitionData.getInt("exhibition_id"));
+            statement.setInt(1, exhibitionId);
 
-                openingHoursStatement.executeUpdate();
-            } catch (SQLException sqlException) {
-                System.out.println("Failed to delete opening hours : " + sqlException.getMessage());
-            }
+            statement.executeUpdate();
         } catch (SQLException sqlException) {
-            System.out.println("Failed to find exhibition : " + sqlException.getMessage());
+            System.out.println("Failed to delete opening hours : " + sqlException.getMessage());
         }
     }
 
@@ -218,22 +222,16 @@ public class JdbcExhibitionDao implements ExhibitionDao {
         }
     }
 
-    public void deleteExhibited(Connection connection, String title) {
-        try {
-            PreparedStatement statement = connection.prepareStatement("SELECT exhibition_id FROM Exhibitions WHERE name = ?");
-            statement.setString(1, title);
-            ResultSet exhibitionData = statement.executeQuery();
+    public void deleteExhibited(Connection connection, int exhibitionId) {
             try {
-                PreparedStatement practiceStatement = connection.prepareStatement("DELETE FROM Exhibited WHERE exhibition_id = ?");
-                practiceStatement.setInt(1, exhibitionData.getInt("exhibition_id"));
+                PreparedStatement statement = connection.prepareStatement("DELETE FROM Exhibited WHERE exhibition_id = ?");
 
-                practiceStatement.executeUpdate();
+                statement.setInt(1, exhibitionId);
+
+                statement.executeUpdate();
             } catch (SQLException sqlException) {
                 System.out.println("Failed to delete exhibited : " + sqlException.getMessage());
             }
-        } catch (SQLException sqlException) {
-            System.out.println("Failed to find exhibition : " + sqlException.getMessage());
-        }
     }
 
 }
