@@ -3,35 +3,35 @@ package com.project.artconnect.model;
 import java.time.LocalDateTime;
 
 public class Booking {
-    private Workshop workshop;
-    private CommunityMember member;
+    private int workshopId;
+    private int memberId;
     private LocalDateTime bookingDate;
     private String paymentStatus; // PENDING, PAID, CANCELLED
 
     public Booking() {  // -> to not use ?
     }
 
-    public Booking(Workshop workshop, CommunityMember member) {
-        this.workshop = workshop;
-        this.member = member;
+    public Booking(int workshopId, int memberId) {
+        this.workshopId = workshopId;
+        this.memberId = memberId;
         this.bookingDate = LocalDateTime.now();
         this.paymentStatus = "PENDING";
     }
 
-    public Workshop getWorkshop() {
-        return workshop;
+    public int getWorkshopId() {
+        return workshopId;
     }
 
-    public void setWorkshop(Workshop workshop) {
-        this.workshop = workshop;
+    public void setWorkshopId(int workshopId) {
+        this.workshopId = workshopId;
     }
 
-    public CommunityMember getMember() {
-        return member;
+    public int getMemberId() {
+        return memberId;
     }
 
-    public void setMember(CommunityMember member) {
-        this.member = member;
+    public void setMemberId(int memberId) {
+        this.memberId = memberId;
     }
 
     public LocalDateTime getBookingDate() {
