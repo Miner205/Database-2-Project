@@ -55,7 +55,7 @@ public class InMemoryWorkshopService implements WorkshopService {
     public void bookWorkshop(Workshop workshop, CommunityMember member) {
         if (workshop == null || member == null)
             return;
-        Booking b = new Booking(workshop.getWorkshopId(), member.getCommunityMemberId());
+        Booking b = new Booking(workshop, member);
         member.addBooking(b);
     }
 
