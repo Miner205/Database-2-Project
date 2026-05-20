@@ -100,11 +100,11 @@ public class Artist {
         this.website = website;
     }
 
-    public List<SocialMedia> getSocialMedia() {
+    public List<SocialMedia> getSocialMedias() {
         return socialMedias;
     }
 
-    public void setSocialMedia(List<SocialMedia> socialMedias) {
+    public void setSocialMedias(List<SocialMedia> socialMedias) {
         this.socialMedias = socialMedias;
     }
 

@@ -78,4 +78,8 @@ public class InMemoryGalleryService implements GalleryService {
     public void deleteGallery(String name) {
         galleries.remove(name);
     }
+    @Override
+    public void deleteExhibition(String title) {
+        System.out.println("in memory delete exhibition not implemented");
+    }
 }

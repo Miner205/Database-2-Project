@@ -41,7 +41,7 @@ public class ExhibitionController {
 
     @FXML
     public void initialize() {
-        //addDeleteButtonToTable();
+        addDeleteButtonToTable();
 
         titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
         sdateColumn.setCellValueFactory(new PropertyValueFactory<>("startDate"));
@@ -84,14 +84,17 @@ public class ExhibitionController {
         exhibitionTable.setItems(FXCollections.observableArrayList(all));
     }
 
-    /*private void addDeleteButtonToTable() {
+    private void addDeleteButtonToTable() {
         deleteColumn.setCellFactory(param -> new TableCell<>() {
             private final Button deleteButton = new Button("Delete");
             {
                 deleteButton.setOnAction(event -> {
                     Exhibition exhibition = getTableView().getItems().get(getIndex());
-                    exhib.deleteArtwork(artwork.getTitle());
+                    galleryService.deleteExhibition(exhibition.getTitle());
                     refreshData();
+
+                    //how to refresh onglet gallery ?
+
                 });
             }
             @Override
@@ -104,5 +107,5 @@ public class ExhibitionController {
                 }
             }
         });
-    }*/
+    }
 }

@@ -116,7 +116,7 @@ public class JdbcExhibitionDao implements ExhibitionDao {
     @Override
     public void delete(Connection connection, String title) throws SQLException {
         // DONE: DELETE FROM Exhibitions WHERE title=?
-        //TODO:
+        //DONE:
         // Caution: check if there are foreign key constraints
         try {
             PreparedStatement idStatement = connection.prepareStatement("SELECT exhibition_id FROM Exhibitions WHERE title = ?");
