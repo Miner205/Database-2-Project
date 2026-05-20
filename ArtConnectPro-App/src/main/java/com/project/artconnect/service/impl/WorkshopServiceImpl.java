@@ -67,4 +67,13 @@ public class WorkshopServiceImpl implements WorkshopService {
         if (member == null) return new ArrayList<>();
         return member.getBookings();
     }
+
+    @Override
+    public void deleteWorkshop(String title) {
+        try (Connection connection = ConnectionManager.getConnection()) {
+            workshopDao.delete(connection, title);
+        } catch (SQLException sqlException) {
+            System.out.println("Failed to delete workshop : " + sqlException.getMessage());
+        }
+    }
 }

@@ -30,7 +30,7 @@ public class SocialMedia {
 
     @Override
     public String toString() {
-        return platform + " : " + accountHandle;
+        return platform + ": " + accountHandle;
     }
 
 }

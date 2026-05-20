@@ -71,4 +71,13 @@ public class GalleryServiceImpl implements GalleryService {
             return new ArrayList<>();
         }
     }
+
+    @Override
+    public void deleteGallery(String name) {
+        try (Connection connection = ConnectionManager.getConnection()) {
+            galleryDao.delete(connection, name);
+        } catch (SQLException sqlException) {
+            System.out.println("Failed to delete gallery : " + sqlException.getMessage());
+        }
+    }
 }

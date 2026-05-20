@@ -10,11 +10,15 @@
     </padding>
     <TableView fx:id="galleryTable" VBox.vgrow="ALWAYS">
         <columns>
+            <TableColumn fx:id="deleteColumn" text="Delete" prefWidth="60"/>
+
             <TableColumn fx:id="nameColumn" text="Name" prefWidth="150" />
             <TableColumn fx:id="addressColumn" text="Address" prefWidth="150" />
             <TableColumn fx:id="ratingColumn" text="Rating" prefWidth="100" />
             <TableColumn fx:id="ownerColumn" text="Owner Name" prefWidth="120" />
             <TableColumn fx:id="phoneColumn" text="Contact Phone" prefWidth="100" />
+            <TableColumn fx:id="websiteColumn" text="Website" prefWidth="100" />
+            <TableColumn fx:id="exhibitionsColumn" text="Artworks" prefWidth="300" />
         </columns>
     </TableView>
 </VBox>

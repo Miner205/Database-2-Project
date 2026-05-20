@@ -6,6 +6,10 @@ import com.project.artconnect.model.Artist;
 import com.project.artconnect.model.CommunityMember;
 import com.project.artconnect.service.WorkshopService;
 import com.project.artconnect.service.ArtistService;
+import com.project.artconnect.util.ConnectionManager;
+
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -64,5 +68,10 @@ public class InMemoryWorkshopService implements WorkshopService {
         if (member == null)
             return Collections.emptyList();
         return member.getBookings();
+    }
+
+    @Override
+    public void deleteWorkshop(String title) {
+        workshops.remove(title);
     }
 }

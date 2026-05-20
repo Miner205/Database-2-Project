@@ -6,10 +6,13 @@ import com.project.artconnect.util.ServiceProvider;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public class WorkshopController {
     @FXML
@@ -30,14 +33,21 @@ public class WorkshopController {
     private TableColumn<Workshop, String> levelColumn;
     @FXML
     private TableColumn<Workshop, String> nbParticipantsColumn;
+    @FXML
+    private TableColumn<Workshop, Void> deleteColumn;
 
     private final WorkshopService workshopService = ServiceProvider.getWorkshopService();
 
     @FXML
     public void initialize() {
+        addDeleteButtonToTable();
+
         titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
         priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
-        levelColumn.setCellValueFactory(new PropertyValueFactory<>("level"));
+        levelColumn.setCellValueFactory(cellData -> {
+            String level = cellData.getValue().getLevel();
+            return new SimpleStringProperty(Objects.requireNonNullElse(level, "no data"));
+        });
         locationColumn.setCellValueFactory(new PropertyValueFactory<>("location"));
 
         instructorColumn.setCellValueFactory(cellData -> new SimpleStringProperty(
@@ -71,6 +81,32 @@ public class WorkshopController {
             }
         });
 
+        refreshTable();
+    }
+
+    private void refreshTable() {
         workshopTable.setItems(FXCollections.observableArrayList(workshopService.getAllWorkshops()));
+    }
+
+    private void addDeleteButtonToTable() {
+        deleteColumn.setCellFactory(param -> new TableCell<>() {
+            private final Button deleteButton = new Button("Delete");
+            {
+                deleteButton.setOnAction(event -> {
+                    Workshop workshop = getTableView().getItems().get(getIndex());
+                    workshopService.deleteWorkshop(workshop.getTitle());
+                    refreshTable();
+                });
+            }
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setGraphic(null);
+                } else {
+                    setGraphic(deleteButton);
+                }
+            }
+        });
     }
 }

@@ -9,4 +9,5 @@ public interface CommunityService {
     List<CommunityMember> getAllMembers();
     Optional<CommunityMember> getMemberByName(String name);
     List<Review> getReviewsByMember(CommunityMember member);
+    public void deleteCommunityMember(String name);
 }

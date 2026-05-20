@@ -46,4 +46,13 @@ public class CommunityServiceImpl implements CommunityService {
         }
         return member.getReviews();
     }
+
+    @Override
+    public void deleteCommunityMember(String name) {
+        try (Connection connection = ConnectionManager.getConnection()) {
+            communityMemberDao.delete(connection, name);
+        } catch (SQLException sqlException) {
+            System.out.println("Failed to delete community member : " + sqlException.getMessage());
+        }
+    }
 }

@@ -5,6 +5,10 @@ import com.project.artconnect.model.Exhibition;
 import com.project.artconnect.model.Artwork;
 import com.project.artconnect.service.GalleryService;
 import com.project.artconnect.service.ArtworkService;
+import com.project.artconnect.util.ConnectionManager;
+
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -68,5 +72,10 @@ public class InMemoryGalleryService implements GalleryService {
         if (gallery == null)
             return Collections.emptyList();
         return gallery.getExhibitions();
+    }
+
+    @Override
+    public void deleteGallery(String name) {
+        galleries.remove(name);
     }
 }

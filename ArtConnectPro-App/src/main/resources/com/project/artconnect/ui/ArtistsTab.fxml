@@ -16,12 +16,17 @@
     </HBox>
     <TableView fx:id="artistTable" VBox.vgrow="ALWAYS">
         <columns>
-            <TableColumn fx:id="nameColumn" text="Name" prefWidth="200" />
+            <TableColumn fx:id="deleteColumn" text="Delete" prefWidth="60"/>
+
+            <TableColumn fx:id="nameColumn" text="Name" prefWidth="100" />
             <TableColumn fx:id="cityColumn" text="City" prefWidth="100" />
-            <TableColumn fx:id="emailColumn" text="Email" prefWidth="150" />
-            <TableColumn fx:id="phoneColumn" text="Phone" prefWidth="100" />
-            <TableColumn fx:id="yearColumn" text="Birth Year" prefWidth="100" />
+            <TableColumn fx:id="emailColumn" text="Email" prefWidth="100" />
+            <TableColumn fx:id="phoneColumn" text="Phone" prefWidth="90" />
+            <TableColumn fx:id="websiteColumn" text="Website" prefWidth="100" />
+            <TableColumn fx:id="yearColumn" text="Birth Year" prefWidth="70" />
             <TableColumn fx:id="activeColumn" text="is Active" prefWidth="90" />
+            <TableColumn fx:id="disciplinesColumn" text="Disciplines" prefWidth="200" />
+            <TableColumn fx:id="mediasColumn" text="Social Medias" prefWidth="200" />
         </columns>
     </TableView>
 </VBox>

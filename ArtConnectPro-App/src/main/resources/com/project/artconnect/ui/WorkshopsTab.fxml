@@ -10,6 +10,8 @@
     </padding>
     <TableView fx:id="workshopTable" VBox.vgrow="ALWAYS">
         <columns>
+            <TableColumn fx:id="deleteColumn" text="Delete" prefWidth="60"/>
+
             <TableColumn fx:id="titleColumn" text="Title" prefWidth="150" />
             <TableColumn fx:id="instructorColumn" text="Instructor" prefWidth="120" />
             <TableColumn fx:id="dateColumn" text="Date" prefWidth="150" />

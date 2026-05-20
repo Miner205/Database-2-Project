@@ -12,4 +12,5 @@ public interface WorkshopService {
     Optional<Workshop> getWorkshopByTitle(String title);
     void bookWorkshop(Workshop workshop, CommunityMember member);
     List<Booking> getBookingsByMember(CommunityMember member);
+    public void deleteWorkshop(String title);
 }

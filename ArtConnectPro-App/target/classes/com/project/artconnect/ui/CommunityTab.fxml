@@ -10,6 +10,8 @@
     </padding>
     <TableView fx:id="memberTable" VBox.vgrow="ALWAYS">
         <columns>
+            <TableColumn fx:id="deleteColumn" text="Delete" prefWidth="60"/>
+
             <TableColumn fx:id="nameColumn" text="Name" prefWidth="150" />
             <TableColumn fx:id="cityColumn" text="City" prefWidth="100" />
             <TableColumn fx:id="emailColumn" text="Email" prefWidth="200" />

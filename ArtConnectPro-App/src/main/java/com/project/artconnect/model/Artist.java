@@ -18,7 +18,7 @@ public class Artist {
     private String city;
     private String website;
     //TODO: test
-    private List<SocialMedia> socialMedia = new ArrayList<>();  // -> to transform it : create a separate class ??
+    private List<SocialMedia> socialMedias = new ArrayList<>();
     private boolean isActive;
     //TODO: artworks ???
     private List<Artwork> artworks = new ArrayList<>();
@@ -101,11 +101,11 @@ public class Artist {
     }
 
     public List<SocialMedia> getSocialMedia() {
-        return socialMedia;
+        return socialMedias;
     }
 
     public void setSocialMedia(List<SocialMedia> socialMedias) {
-        this.socialMedia = socialMedias;
+        this.socialMedias = socialMedias;
     }
 
     public boolean getIsActive() {
