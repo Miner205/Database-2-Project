@@ -76,7 +76,7 @@ public class ArtistController {
         });
 
         mediasColumn.setCellValueFactory(cellData -> {
-            List<SocialMedia> medias = cellData.getValue().getSocialMedia();
+            List<SocialMedia> medias = cellData.getValue().getSocialMedias();
             if (medias.isEmpty()) {
                 return new SimpleStringProperty("no social medias");
             } else {
@@ -106,7 +106,6 @@ public class ArtistController {
     private void handleReset() {
         searchField.clear();
         disciplineFilter.setValue(null);
-        disciplineFilter.setPromptText("Filter by Discipline");
         refreshTable();
     }
 

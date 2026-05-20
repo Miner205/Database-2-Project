@@ -18,7 +18,7 @@
             <TableColumn fx:id="ownerColumn" text="Owner Name" prefWidth="120" />
             <TableColumn fx:id="phoneColumn" text="Contact Phone" prefWidth="100" />
             <TableColumn fx:id="websiteColumn" text="Website" prefWidth="100" />
-            <TableColumn fx:id="exhibitionsColumn" text="Artworks" prefWidth="300" />
+            <TableColumn fx:id="exhibitionsColumn" text="Exhibitions" prefWidth="300" />
         </columns>
     </TableView>
 </VBox>

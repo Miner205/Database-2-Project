@@ -22,8 +22,7 @@ public class GalleryServiceImpl implements GalleryService {
 
     public GalleryServiceImpl() {
         this.galleryDao = new JdbcGalleryDao();
-        this.exhibitionDao = new JdbcExhibitionDao() {
-        };
+        this.exhibitionDao = new JdbcExhibitionDao();
     }
 
     @Override
@@ -78,6 +77,15 @@ public class GalleryServiceImpl implements GalleryService {
             galleryDao.delete(connection, name);
         } catch (SQLException sqlException) {
             System.out.println("Failed to delete gallery : " + sqlException.getMessage());
+        }
+    }
+
+    @Override
+    public void deleteExhibition(String title) {
+        try (Connection connection = ConnectionManager.getConnection()) {
+            exhibitionDao.delete(connection, title);
+        } catch (SQLException sqlException) {
+            System.out.println("Failed to delete exhibition : " + sqlException.getMessage());
         }
     }
 }

@@ -41,7 +41,7 @@ public class JdbcArtistDao implements ArtistDao {
                 newArtist.setDisciplines(disciplines);
                 newArtist.setPhone(contactPhone);
                 newArtist.setWebsite(website);
-                newArtist.setSocialMedia(socialMedias);
+                newArtist.setSocialMedias(socialMedias);
                 newArtist.setIsActive(isActive);
                 newArtist.setId(id);
                 return Optional.of(newArtist);
@@ -75,7 +75,7 @@ public class JdbcArtistDao implements ArtistDao {
                 newArtist.setDisciplines(disciplines);
                 newArtist.setPhone(contactPhone);
                 newArtist.setWebsite(website);
-                newArtist.setSocialMedia(socialMedias);
+                newArtist.setSocialMedias(socialMedias);
                 newArtist.setIsActive(isActive);
                 newArtist.setId(id);
                 results.add(newArtist);
@@ -199,7 +199,7 @@ public class JdbcArtistDao implements ArtistDao {
                 newArtist.setDisciplines(disciplines);
                 newArtist.setPhone(contactPhone);
                 newArtist.setWebsite(website);
-                newArtist.setSocialMedia(socialMedias);
+                newArtist.setSocialMedias(socialMedias);
                 newArtist.setIsActive(isActive);
                 newArtist.setId(id);
                 results.add(newArtist);
@@ -279,7 +279,7 @@ public class JdbcArtistDao implements ArtistDao {
 
     public void replaceSocialMedias(Connection connection, Artist artist) {
         try {
-            for (SocialMedia socialMedia : artist.getSocialMedia()) {
+            for (SocialMedia socialMedia : artist.getSocialMedias()) {
                 PreparedStatement statement = connection.prepareStatement("REPLACE INTO Social_medias (artist_id, platform, account_handle) VALUES (?, ?, ?)");
 
                 statement.setInt(1, artist.getId());
