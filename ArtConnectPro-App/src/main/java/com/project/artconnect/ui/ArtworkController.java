@@ -11,6 +11,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.TableCell;
+import javafx.scene.control.Button;
 
 import java.util.List;
 
@@ -21,6 +23,8 @@ public class ArtworkController {
     private TableColumn<Artwork, String> titleColumn;
     @FXML
     private TableColumn<Artwork, String> typeColumn;
+    @FXML
+    private TableColumn<Artwork, String> mediumColumn;
     @FXML
     private TableColumn<Artwork, Double> priceColumn;
     @FXML
@@ -33,13 +37,18 @@ public class ArtworkController {
     private TableColumn<Artwork, String> dimensionsColumn;
     @FXML
     private TableColumn<Artwork, String> tagsColumn;
+    @FXML
+    private TableColumn<Artwork, Void> deleteColumn;
 
     private final ArtworkService artworkService = ServiceProvider.getArtworkService();
 
     @FXML
     public void initialize() {
+        addDeleteButtonToTable();
+
         titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
         typeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
+        mediumColumn.setCellValueFactory(new PropertyValueFactory<>("medium"));
         priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
         statusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
 
@@ -72,6 +81,33 @@ public class ArtworkController {
 
         yearColumn.setCellValueFactory(new PropertyValueFactory<>("creationYear"));
 
+        refreshTable();
+    }
+
+    private void refreshTable() {
         artworkTable.setItems(FXCollections.observableArrayList(artworkService.getAllArtworks()));
     }
+
+    private void addDeleteButtonToTable() {
+        deleteColumn.setCellFactory(param -> new TableCell<>() {
+            private final Button deleteButton = new Button("Delete");
+            {
+                deleteButton.setOnAction(event -> {
+                    Artwork artwork = getTableView().getItems().get(getIndex());
+                    artworkService.deleteArtwork(artwork.getTitle());
+                    refreshTable();
+                });
+            }
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setGraphic(null);
+                } else {
+                    setGraphic(deleteButton);
+                }
+            }
+        });
+    }
+
 }

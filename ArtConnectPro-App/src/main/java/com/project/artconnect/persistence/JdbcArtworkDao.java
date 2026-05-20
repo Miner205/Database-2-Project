@@ -171,21 +171,23 @@ public class JdbcArtworkDao implements ArtworkDao {
             PreparedStatement idStatement = connection.prepareStatement("SELECT artwork_id FROM Artworks WHERE title = ?");
             idStatement.setString(1, title);
             ResultSet artworkData = idStatement.executeQuery();
-            int artworkId = artworkData.getInt("artwork_id");
+            if (artworkData.next()) {
+                int artworkId = artworkData.getInt("artwork_id");
 
-            deleteDimension(connection, artworkId);
-            deleteTagged(connection, artworkId);
-            deleteExhibited(connection, artworkId);
+                deleteDimension(connection, artworkId);
+                deleteTagged(connection, artworkId);
+                deleteExhibited(connection, artworkId);
+    
+                try {
+                    PreparedStatement statement = connection.prepareStatement(
+                            "DELETE FROM Artworks WHERE title = ?"
+                    );
+                    statement.setString(1, title);
 
-            try {
-                PreparedStatement statement = connection.prepareStatement(
-                        "DELETE FROM Artworks WHERE title = ?"
-                );
-                statement.setString(1, title);
-
-                statement.executeUpdate();
-            } catch (SQLException sqlException) {
-                System.out.println("Failed to delete artwork : " + sqlException.getMessage());
+                    statement.executeUpdate();
+                } catch (SQLException sqlException) {
+                    System.out.println("Failed to delete artwork : " + sqlException.getMessage());
+                }
             }
 
         } catch (SQLException sqlException) {

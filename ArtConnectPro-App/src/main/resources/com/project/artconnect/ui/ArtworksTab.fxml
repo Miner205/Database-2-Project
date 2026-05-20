@@ -10,10 +10,13 @@
     </padding>
     <TableView fx:id="artworkTable" VBox.vgrow="ALWAYS">
         <columns>
+            <TableColumn fx:id="deleteColumn" text="Delete" prefWidth="60"/>
+
             <TableColumn fx:id="titleColumn" text="Title" prefWidth="150" />
-            <TableColumn fx:id="artistColumn" text="Artist" prefWidth="150" />
-            <TableColumn fx:id="typeColumn" text="Type" prefWidth="100" />
-            <TableColumn fx:id="priceColumn" text="Price" prefWidth="100" />
+            <TableColumn fx:id="artistColumn" text="Artist" prefWidth="120" />
+            <TableColumn fx:id="typeColumn" text="Type" prefWidth="110" />
+            <TableColumn fx:id="mediumColumn" text="Medium" prefWidth="100" />
+            <TableColumn fx:id="priceColumn" text="Price" prefWidth="90" />
             <TableColumn fx:id="statusColumn" text="Status" prefWidth="100" />
             <TableColumn fx:id="yearColumn" text="Creation Year" prefWidth="100" />
             <TableColumn fx:id="dimensionsColumn" text="Dimensions" prefWidth="150" />
