@@ -8,7 +8,15 @@ import java.util.Optional;
 
 public interface WorkshopDao {
     Optional<Workshop> findById(Connection connection, int id);
+
     List<Workshop> findAll(Connection connection);
+
     public int getNbMembersInWorkshop(Connection connection, int workshopId);
+
+    void save(Connection connection, Workshop workshop);
+
+    void update(Connection connection, Workshop workshop);
+
+    void delete(Connection connection, String title);
 
 }

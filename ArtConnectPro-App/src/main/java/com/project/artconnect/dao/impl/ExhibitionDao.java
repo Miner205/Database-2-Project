@@ -14,4 +14,5 @@ public interface ExhibitionDao {
     void update(Connection connection, Exhibition exhibition) throws SQLException ;
 
     void delete(Connection connection, String title) throws SQLException ;
+
 }

@@ -4,10 +4,7 @@ import com.project.artconnect.dao.impl.WorkshopDao;
 import com.project.artconnect.model.Artist;
 import com.project.artconnect.model.Workshop;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -90,6 +87,88 @@ public class JdbcWorkshopDao implements WorkshopDao {
         } catch (SQLException sqlException) {
             System.out.println("Failed to get nb of members in workshop : " + sqlException.getMessage());
             return -1;
+        }
+    }
+
+    @Override
+    public void save(Connection connection, Workshop workshop) {
+        try {
+            PreparedStatement statement = connection.prepareStatement("INSERT INTO Workshops (workshop_id, title, workshop_date, duration_minutes, max_participant, price, location, description, level, instructor) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+
+            statement.setInt(1, workshop.getWorkshopId());
+            statement.setString(2, workshop.getTitle());
+            statement.setTime(3, Time.valueOf(workshop.getDate().toLocalTime()));
+            statement.setInt(4, workshop.getDurationMinutes());
+            statement.setInt(5, workshop.getMaxParticipants());
+            statement.setDouble(6, workshop.getPrice());
+            statement.setString(7, workshop.getLocation());
+            statement.setString(8, workshop.getDescription());
+            statement.setString(9, workshop.getLevel());
+            statement.setInt(10, workshop.getInstructor().getId());
+
+            statement.executeUpdate();
+        } catch (SQLException sqlException) {
+            System.out.println("Failed to insert workshop : " + sqlException.getMessage());
+        }
+    }
+
+    @Override
+    public void update(Connection connection, Workshop workshop) {
+        try {
+            PreparedStatement statement = connection.prepareStatement("UPDATE Workshops SET title = ?, workshop_date = ?, duration_minutes = ?, max_participant = ?, price = ?, location = ?, description = ?, level = ?, instructor = ? WHERE workshop_id = ?");
+
+            statement.setString(1, workshop.getTitle());
+            statement.setTime(2, Time.valueOf(workshop.getDate().toLocalTime()));
+            statement.setInt(3, workshop.getDurationMinutes());
+            statement.setInt(4, workshop.getMaxParticipants());
+            statement.setDouble(5, workshop.getPrice());
+            statement.setString(6, workshop.getLocation());
+            statement.setString(7, workshop.getDescription());
+            statement.setString(8, workshop.getLevel());
+            statement.setInt(9, workshop.getInstructor().getId());
+            statement.setInt(10, workshop.getWorkshopId());
+
+            statement.executeUpdate();
+        } catch (SQLException sqlException) {
+            System.out.println("Failed to update workshop : " + sqlException.getMessage());
+        }
+    }
+
+    @Override
+    public void delete(Connection connection, String title) {
+        try {
+            PreparedStatement idStatement = connection.prepareStatement("SELECT workshop_id FROM Workshop WHERE title = ?");
+            idStatement.setString(1, title);
+            ResultSet workshopData = idStatement.executeQuery();
+            if (workshopData.next()) {
+                int worshopId = workshopData.getInt("workshop_id");
+
+                deleteBooking(connection, worshopId);
+
+                try {
+                    PreparedStatement statement = connection.prepareStatement("DELETE FROM Workshop WHERE title = ?");
+                    statement.setString(1, title);
+
+                    statement.executeUpdate();
+                } catch (SQLException sqlException) {
+                    System.out.println("Failed to delete workshop : " + sqlException.getMessage());
+                }
+            }
+
+        } catch (SQLException sqlException) {
+            System.out.println("Failed to find workshop : " + sqlException.getMessage());
+        }
+    }
+
+    public void deleteBooking(Connection connection, int workshopId) {
+        try {
+            PreparedStatement statement = connection.prepareStatement("DELETE FROM Booking WHERE workshop_id = ?");
+
+            statement.setInt(1, workshopId);
+
+            statement.executeUpdate();
+        } catch (SQLException sqlException) {
+            System.out.println("Failed to delete workshopId : " + sqlException.getMessage());
         }
     }
 
