@@ -3,6 +3,7 @@ package com.project.artconnect.persistence;
 import com.project.artconnect.dao.impl.ArtistDao;
 import com.project.artconnect.model.Artist;
 import com.project.artconnect.model.Discipline;
+import com.project.artconnect.model.SocialMedia;
 
 import java.sql.SQLException;
 import java.sql.*;
@@ -32,10 +33,15 @@ public class JdbcArtistDao implements ArtistDao {
                 String contactEmail = artistData.getString("contact_email");
                 String contactPhone = artistData.getString("phone");
                 String city = artistData.getString("city");
+                String website = artistData.getString("website");
+                List<SocialMedia> socialMedias = findSocialMedias(connection, id);
                 boolean isActive = artistData.getBoolean("is_active");
+
                 Artist newArtist = new Artist(name, bio, birthYear, contactEmail, city);
                 newArtist.setDisciplines(disciplines);
                 newArtist.setPhone(contactPhone);
+                newArtist.setWebsite(website);
+                newArtist.setSocialMedia(socialMedias);
                 newArtist.setActive(isActive);
                 newArtist.setId(id);
                 return Optional.of(newArtist);
@@ -61,10 +67,15 @@ public class JdbcArtistDao implements ArtistDao {
                 String contactEmail = artistData.getString("contact_email");
                 String contactPhone = artistData.getString("phone");
                 String city = artistData.getString("city");
+                String website = artistData.getString("website");
+                List<SocialMedia> socialMedias = findSocialMedias(connection, id);
                 boolean isActive = artistData.getBoolean("is_active");
+
                 Artist newArtist = new Artist(name, bio, birthYear, contactEmail, city);
                 newArtist.setDisciplines(disciplines);
                 newArtist.setPhone(contactPhone);
+                newArtist.setWebsite(website);
+                newArtist.setSocialMedia(socialMedias);
                 newArtist.setActive(isActive);
                 newArtist.setId(id);
                 results.add(newArtist);
@@ -95,10 +106,12 @@ public class JdbcArtistDao implements ArtistDao {
             statement.setBoolean(9, artist.isActive());
 
             statement.executeUpdate();
+
+            replacePractices(connection, artist);
+            replaceSocialMedias(connection, artist);
         } catch (SQLException sqlException) {
             System.out.println("Failed to insert artist : " + sqlException.getMessage());
         }
-        insertPractices(connection, artist);
     }
 
     @Override
@@ -120,16 +133,21 @@ public class JdbcArtistDao implements ArtistDao {
             statement.setInt(9, artist.getId());
 
             statement.executeUpdate();
+
+            deletePractices(connection, artist.getName());
+            replacePractices(connection, artist);
+            deleteSocialMedias(connection, artist.getName());
+            replaceSocialMedias(connection, artist);
         } catch (SQLException sqlException) {
             System.out.println("Failed to update artist : " + sqlException.getMessage());
         }
-        insertPractices(connection, artist);
     }
 
     @Override
     public void delete(String artistName, Connection connection) {
         // DONE: Implement DELETE FROM Artists WHERE name = ?
         deletePractices(connection, artistName);
+        deleteSocialMedias(connection, artistName);
         try {
             PreparedStatement statement = connection.prepareStatement(
                     "DELETE FROM Artists WHERE name = ?"
@@ -158,10 +176,15 @@ public class JdbcArtistDao implements ArtistDao {
                 List<Discipline> disciplines = findDisciplines(connection, id);
                 String contactEmail = artistData.getString("contact_email");
                 String contactPhone = artistData.getString("phone");
+                String website = artistData.getString("website");
+                List<SocialMedia> socialMedias = findSocialMedias(connection, id);
                 boolean isActive = artistData.getBoolean("is_active");
+
                 Artist newArtist = new Artist(name, bio, birthYear, contactEmail, city);
                 newArtist.setDisciplines(disciplines);
                 newArtist.setPhone(contactPhone);
+                newArtist.setWebsite(website);
+                newArtist.setSocialMedia(socialMedias);
                 newArtist.setActive(isActive);
                 newArtist.setId(id);
                 results.add(newArtist);
@@ -173,15 +196,16 @@ public class JdbcArtistDao implements ArtistDao {
         }
     }
 
-    public List<Discipline> findDisciplines(Connection connection, int artistID) {
+    public List<Discipline> findDisciplines(Connection connection, int artistId) {
         try {
-            PreparedStatement disciplineStatement = connection.prepareStatement("SELECT * FROM Disciplines d JOIN Practices p ON d.discipline_id = p.discipline_id JOIN Artists a ON p.artist_id = a.artist_id WHERE a.artist_id = ?");
-            disciplineStatement.setInt(1, artistID);
-            ResultSet disciplineData = disciplineStatement.executeQuery();
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM Disciplines d JOIN Practices p ON d.discipline_id = p.discipline_id JOIN Artists a ON p.artist_id = a.artist_id WHERE a.artist_id = ?");
+            statement.setInt(1, artistId);
+            ResultSet disciplineData = statement.executeQuery();
             List<Discipline> disciplines = new ArrayList<>();
             while (disciplineData.next()) {
                 int disciplineId = disciplineData.getInt("discipline_id");
                 String disciplineName = disciplineData.getString("name");
+
                 Discipline newDiscipline = new Discipline(disciplineName);
                 newDiscipline.setDisciplineId(disciplineId);
                 disciplines.add(newDiscipline);
@@ -192,10 +216,10 @@ public class JdbcArtistDao implements ArtistDao {
         }
     }
 
-    public void insertPractices(Connection connection, Artist artist) {
+    public void replacePractices(Connection connection, Artist artist) {
         try {
             for (Discipline discipline : artist.getDisciplines()) {
-                PreparedStatement statement = connection.prepareStatement("INSERT INTO Practices (artist_id, discipline_id) VALUES (?, ?)");
+                PreparedStatement statement = connection.prepareStatement("REPLACE INTO Practices (artist_id, discipline_id) VALUES (?, ?)");
 
                 statement.setInt(1, artist.getId());
                 statement.setInt(2, discipline.getDisciplineId());
@@ -203,21 +227,76 @@ public class JdbcArtistDao implements ArtistDao {
                 statement.executeUpdate();
             }
         } catch (SQLException sqlException) {
-            System.out.println("Failed to insert practices : " + sqlException.getMessage());
+            System.out.println("Failed to replace practices : " + sqlException.getMessage());
         }
     }
 
     public void deletePractices(Connection connection, String artistName) {
         try {
             PreparedStatement statement = connection.prepareStatement("SELECT artist_id FROM Artists WHERE name = ?");
+            statement.setString(1, artistName);
             ResultSet artistData = statement.executeQuery();
             try {
                 PreparedStatement practiceStatement = connection.prepareStatement("DELETE FROM Practices WHERE artist_id = ?");
-                statement.setInt(1, artistData.getInt("artist_id"));
+                practiceStatement.setInt(1, artistData.getInt("artist_id"));
 
-                statement.executeUpdate();
+                practiceStatement.executeUpdate();
             } catch (SQLException sqlException) {
                 System.out.println("Failed to delete practices : " + sqlException.getMessage());
+            }
+        } catch (SQLException sqlException) {
+            System.out.println("Failed to find artist : " + sqlException.getMessage());
+        }
+    }
+
+    public List<SocialMedia> findSocialMedias(Connection connection, int artistId) {
+        try {
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM Social_medias sm JOIN Artists a ON sm.artist_id = a.artist_id WHERE a.artist_id = ?");
+            statement.setInt(1, artistId);
+            ResultSet socialMediaData = statement.executeQuery();
+            List<SocialMedia> socialMedias = new ArrayList<>();
+            while (socialMediaData.next()) {
+                String platform = socialMediaData.getString("platform");
+                String accountHandle = socialMediaData.getString("account_handle");
+
+                SocialMedia newSocialMedia = new SocialMedia(platform, accountHandle);
+                socialMedias.add(newSocialMedia);
+            }
+            return socialMedias;
+        } catch (SQLException sqlException) {
+            return new ArrayList<>();
+        }
+    }
+
+    public void replaceSocialMedias(Connection connection, Artist artist) {
+        try {
+            for (SocialMedia socialMedia : artist.getSocialMedia()) {
+                PreparedStatement statement = connection.prepareStatement("REPLACE INTO Social_medias (artist_id, platform, account_handle) VALUES (?, ?, ?)");
+
+                statement.setInt(1, artist.getId());
+                statement.setString(2, socialMedia.getPlatform());
+                statement.setString(3, socialMedia.getAccountHandle());
+
+                statement.executeUpdate();
+            }
+        } catch (SQLException sqlException) {
+            System.out.println("Failed to replace social medias : " + sqlException.getMessage());
+        }
+    }
+
+    public void deleteSocialMedias(Connection connection, String artistName) {
+        try {
+            PreparedStatement statement = connection.prepareStatement("SELECT artist_id FROM Artists WHERE name = ?");
+            statement.setString(1, artistName);
+            ResultSet artistData = statement.executeQuery();
+            try {
+                PreparedStatement socialMediaStatement = connection.prepareStatement("DELETE FROM Social_medias WHERE artist_id = ?");
+
+                socialMediaStatement.setInt(1, artistData.getInt("artist_id"));
+
+                socialMediaStatement.executeUpdate();
+            } catch (SQLException sqlException) {
+                System.out.println("Failed to delete social medias : " + sqlException.getMessage());
             }
         } catch (SQLException sqlException) {
             System.out.println("Failed to find artist : " + sqlException.getMessage());

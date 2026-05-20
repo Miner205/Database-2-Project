@@ -3,21 +3,14 @@ package com.project.artconnect.model;
 import java.time.LocalTime;
 
 public class OpeningHours {
-
     private String day;
-
     private LocalTime openingTime;
-
     private LocalTime closingTime;
 
     public OpeningHours() {
     }
 
-    public OpeningHours(
-            String day,
-            LocalTime openingTime,
-            LocalTime closingTime
-    ) {
+    public OpeningHours(String day, LocalTime openingTime, LocalTime closingTime) {
         this.day = day;
         this.openingTime = openingTime;
         this.closingTime = closingTime;

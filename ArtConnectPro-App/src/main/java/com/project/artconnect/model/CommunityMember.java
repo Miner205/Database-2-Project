@@ -10,7 +10,7 @@ public class CommunityMember {
     private Integer birthYear;
     private String phone;
     private String city;
-    //TODO: discipline ???
+    //TODO: test
     private List<Discipline> favoriteDisciplines = new ArrayList<>();
     private String membershipType = "free"; // free, premium
     //TODO: bookings ???

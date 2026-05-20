@@ -12,11 +12,13 @@ public class Artwork {
     private Integer creationYear;
     private String type; // painting, sculpture, etc.
     private String medium; // oil, watercolor, etc.
+    //TODO: test
     private Dimension dimensions;
     private String description;
     private double price;
     private Status status; // FOR_SALE, SOLD, EXHIBITED
     private Artist artist;
+    //TODO: test
     private List<ArtworkTag> tags = new ArrayList<>();
 
     public enum Status {

@@ -13,7 +13,9 @@ public class Exhibition {
     private Gallery gallery;
     private String curatorName;
     private String theme;
+    //TODO: test
     private List<OpeningHours> openingHours = new ArrayList<>();
+    //TODO: test
     private List<Artwork> artworks = new ArrayList<>();
 
     public Exhibition() {

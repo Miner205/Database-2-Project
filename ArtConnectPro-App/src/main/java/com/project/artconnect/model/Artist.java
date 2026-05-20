@@ -11,13 +11,16 @@ public class Artist {
     private String name;
     private String bio;
     private Integer birthYear;
+    //TODO: test
     private List<Discipline> disciplines = new ArrayList<>();
     private String contactEmail;
     private String phone;
     private String city;
     private String website;
+    //TODO: test
     private List<SocialMedia> socialMedia = new ArrayList<>();  // -> to transform it : create a separate class ??
     private boolean isActive;
+    //TODO: artworks ???
     private List<Artwork> artworks = new ArrayList<>();
 
     public Artist() {

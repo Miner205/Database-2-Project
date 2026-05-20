@@ -1,11 +1,8 @@
 package com.project.artconnect.model;
 
 public class Dimension {
-
     private double length;
-
     private double width;
-
     private double depth;
 
     public Dimension() {
