@@ -10,4 +10,11 @@ public interface GalleryDao {
     Optional<Gallery> findById(Connection connection, int id);
 
     List<Gallery> findAll(Connection connection);
+
+    void save(Connection connection, Gallery gallery);
+
+    void update(Connection connection, Gallery gallery);
+
+    void delete(Connection connection, String name);
+
 }

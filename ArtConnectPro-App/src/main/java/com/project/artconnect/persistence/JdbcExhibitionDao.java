@@ -225,15 +225,15 @@ public class JdbcExhibitionDao implements ExhibitionDao {
     }
 
     public void deleteExhibited(Connection connection, int exhibitionId) {
-            try {
-                PreparedStatement statement = connection.prepareStatement("DELETE FROM Exhibited WHERE exhibition_id = ?");
+        try {
+            PreparedStatement statement = connection.prepareStatement("DELETE FROM Exhibited WHERE exhibition_id = ?");
 
-                statement.setInt(1, exhibitionId);
+            statement.setInt(1, exhibitionId);
 
-                statement.executeUpdate();
-            } catch (SQLException sqlException) {
-                System.out.println("Failed to delete exhibited : " + sqlException.getMessage());
-            }
+            statement.executeUpdate();
+        } catch (SQLException sqlException) {
+            System.out.println("Failed to delete exhibited : " + sqlException.getMessage());
+        }
     }
 
 }

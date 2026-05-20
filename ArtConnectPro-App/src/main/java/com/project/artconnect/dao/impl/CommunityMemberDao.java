@@ -1,6 +1,5 @@
 package com.project.artconnect.dao.impl;
 
-import com.project.artconnect.model.Artwork;
 import com.project.artconnect.model.CommunityMember;
 
 import java.sql.Connection;

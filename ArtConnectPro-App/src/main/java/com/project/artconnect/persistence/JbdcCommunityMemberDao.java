@@ -150,9 +150,7 @@ public class JbdcCommunityMemberDao implements CommunityMemberDao {
                 deleteReviews(connection, communityMemberId);
 
                 try {
-                    PreparedStatement statement = connection.prepareStatement(
-                            "DELETE FROM Community_members WHERE name = ?"
-                    );
+                    PreparedStatement statement = connection.prepareStatement("DELETE FROM Community_members WHERE name = ?");
                     statement.setString(1, name);
 
                     statement.executeUpdate();
@@ -164,7 +162,6 @@ public class JbdcCommunityMemberDao implements CommunityMemberDao {
         } catch (SQLException sqlException) {
             System.out.println("Failed to find community member : " + sqlException.getMessage());
         }
-
     }
 
     public List<Discipline> findDisciplines(Connection connection, int communityMemberId) {

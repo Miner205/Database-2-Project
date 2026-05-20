@@ -66,4 +66,82 @@ public class JdbcGalleryDao implements GalleryDao {
         }
     }
 
+    @Override
+    public void save(Connection connection, Gallery gallery) {
+        try {
+            PreparedStatement statement = connection.prepareStatement("INSERT INTO Galleries (gallery_id, name, address, owner_name, contact_phone, rating, website) VALUES (?, ?, ?, ?, ?, ?, ?)");
+
+            statement.setInt(1, gallery.getGalleryId());
+            statement.setString(2, gallery.getName());
+            statement.setString(3, gallery.getAddress());
+            statement.setString(4, gallery.getOwnerName());
+            statement.setString(5, gallery.getContactPhone());
+            statement.setDouble(6, gallery.getRating());
+            statement.setString(7, gallery.getWebsite());
+
+            statement.executeUpdate();
+        } catch (SQLException sqlException) {
+            System.out.println("Failed to insert gallery : " + sqlException.getMessage());
+        }
+    }
+
+    @Override
+    public void update(Connection connection, Gallery gallery) {
+        try {
+            PreparedStatement statement = connection.prepareStatement("UPDATE Galleries SET name = ?, address = ?, owner_name = ?, contact_phone = ?, rating = ?, website = ? WHERE gallery_id = ?");
+
+            statement.setString(1, gallery.getName());
+            statement.setString(2, gallery.getAddress());
+            statement.setString(3, gallery.getOwnerName());
+            statement.setString(4, gallery.getContactPhone());
+            statement.setDouble(5, gallery.getRating());
+            statement.setString(6, gallery.getWebsite());
+            statement.setInt(7, gallery.getGalleryId());
+
+            statement.executeUpdate();
+        } catch (SQLException sqlException) {
+            System.out.println("Failed to update gallery : " + sqlException.getMessage());
+        }
+    }
+
+    @Override
+    public void delete(Connection connection, String name) {
+        try {
+            PreparedStatement idStatement = connection.prepareStatement("SELECT gallery_id FROM Galleries WHERE name = ?");
+            idStatement.setString(1, name);
+            ResultSet galleryData = idStatement.executeQuery();
+            if (galleryData.next()) {
+                int galleryId = galleryData.getInt("gallery_id");
+
+                deleteExhibitions(connection, galleryId);
+
+                try {
+                    PreparedStatement statement = connection.prepareStatement("DELETE FROM Galleries WHERE name = ?");
+                    statement.setString(1, name);
+
+                    statement.executeUpdate();
+                } catch (SQLException sqlException) {
+                    System.out.println("Failed to delete gallery : " + sqlException.getMessage());
+                }
+            }
+
+        } catch (SQLException sqlException) {
+            System.out.println("Failed to find gallery : " + sqlException.getMessage());
+        }
+    }
+
+    public void deleteExhibitions(Connection connection, int galleryId) {
+        try {
+            PreparedStatement statement = connection.prepareStatement("SELECT title FROM Exhibition WHERE gallery_id = ?");
+            statement.setInt(1, galleryId);
+            ResultSet exhibitionData = statement.executeQuery();
+            JdbcExhibitionDao jdbcExhibitionDao = new JdbcExhibitionDao();
+            while (exhibitionData.next()) {
+                jdbcExhibitionDao.delete(connection, exhibitionData.getString("title"));
+            }
+        } catch (SQLException sqlException) {
+            System.out.println("Failed to find exhibition : " + sqlException.getMessage());
+        }
+    }
+
 }
