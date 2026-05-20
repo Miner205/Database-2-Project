@@ -2,6 +2,7 @@ package com.project.artconnect.persistence;
 
 import com.project.artconnect.dao.impl.ArtistDao;
 import com.project.artconnect.model.Artist;
+import com.project.artconnect.model.Artwork;
 import com.project.artconnect.model.Discipline;
 import com.project.artconnect.model.SocialMedia;
 
@@ -150,20 +151,24 @@ public class JdbcArtistDao implements ArtistDao {
             PreparedStatement idStatement = connection.prepareStatement("SELECT artist_id FROM Artists WHERE name = ?");
             idStatement.setString(1, artistName);
             ResultSet artistData = idStatement.executeQuery();
-            int artistId = artistData.getInt("artist_id");
+            if (artistData.next()) {
+                int artistId = artistData.getInt("artist_id");
 
-            deletePractices(connection, artistId);
-            deleteSocialMedias(connection, artistId);
+                deletePractices(connection, artistId);
+                deleteSocialMedias(connection, artistId);
+                deleteArtworks(connection, artistName);
+                deleteWorkshop(connection, artistId);
 
-            try {
-                PreparedStatement statement = connection.prepareStatement(
-                        "DELETE FROM Artists WHERE name = ?"
-                );
-                statement.setString(1, artistName);
+                try {
+                    PreparedStatement statement = connection.prepareStatement(
+                            "DELETE FROM Artists WHERE name = ?"
+                    );
+                    statement.setString(1, artistName);
 
-                statement.executeUpdate();
-            } catch (SQLException sqlException) {
-                System.out.println("Failed to delete artist : " + sqlException.getMessage());
+                    statement.executeUpdate();
+                } catch (SQLException sqlException) {
+                    System.out.println("Failed to delete artist : " + sqlException.getMessage());
+                }
             }
 
         } catch (SQLException sqlException) {
@@ -301,6 +306,27 @@ public class JdbcArtistDao implements ArtistDao {
         }
     }
 
+    public void deleteArtworks(Connection connection, String artistName) {
+        JdbcArtworkDao jdbcArtworkDao = new JdbcArtworkDao();
 
+        List<Artwork> artworks = jdbcArtworkDao.findByArtistName(connection, artistName);
+        for (Artwork artwork : artworks) {
+            jdbcArtworkDao.delete(connection, artwork.getTitle());
+        }
+    }
+
+    public void deleteWorkshop(Connection connection, int artistId) {
+        try {
+            PreparedStatement statement = connection.prepareStatement("SELECT title FROM Workshops WHERE instructor = ?");
+            statement.setInt(1, artistId);
+            ResultSet workshopData = statement.executeQuery();
+            JdbcWorkshopDao jdbcWorkshopDao = new JdbcWorkshopDao();
+            while (workshopData.next()) {
+                jdbcWorkshopDao.delete(connection, workshopData.getString("title"));
+            }
+        } catch (SQLException sqlException) {
+            System.out.println("Failed to find workshop : " + sqlException.getMessage());
+        }
+    }
 
 }

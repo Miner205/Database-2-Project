@@ -137,7 +137,7 @@ public class JdbcWorkshopDao implements WorkshopDao {
     @Override
     public void delete(Connection connection, String title) {
         try {
-            PreparedStatement idStatement = connection.prepareStatement("SELECT workshop_id FROM Workshop WHERE title = ?");
+            PreparedStatement idStatement = connection.prepareStatement("SELECT workshop_id FROM Workshops WHERE title = ?");
             idStatement.setString(1, title);
             ResultSet workshopData = idStatement.executeQuery();
             if (workshopData.next()) {
@@ -146,7 +146,7 @@ public class JdbcWorkshopDao implements WorkshopDao {
                 deleteBooking(connection, worshopId);
 
                 try {
-                    PreparedStatement statement = connection.prepareStatement("DELETE FROM Workshop WHERE title = ?");
+                    PreparedStatement statement = connection.prepareStatement("DELETE FROM Workshops WHERE title = ?");
                     statement.setString(1, title);
 
                     statement.executeUpdate();
@@ -162,7 +162,7 @@ public class JdbcWorkshopDao implements WorkshopDao {
 
     public void deleteBooking(Connection connection, int workshopId) {
         try {
-            PreparedStatement statement = connection.prepareStatement("DELETE FROM Booking WHERE workshop_id = ?");
+            PreparedStatement statement = connection.prepareStatement("DELETE FROM Bookings WHERE workshop_id = ?");
 
             statement.setInt(1, workshopId);
 
