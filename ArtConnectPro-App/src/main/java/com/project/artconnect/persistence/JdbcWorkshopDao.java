@@ -22,7 +22,7 @@ public class JdbcWorkshopDao implements WorkshopDao {
             ResultSet workshopData = statement.executeQuery();
             if (workshopData.next()) {
                 String title = workshopData.getString("title");
-                LocalDateTime workshopDate = workshopData.getTimestamp("workshop_date").toLocalDateTime();
+                LocalDateTime workshopDate = workshopData.getTimestamp("workshop_date") != null ? workshopData.getTimestamp("workshop_date").toLocalDateTime() : null;
                 int durationMinutes = workshopData.getInt("duration_minutes");
                 int maxParticipant = workshopData.getInt("max_participant");
                 double price = workshopData.getDouble("price");
@@ -54,7 +54,7 @@ public class JdbcWorkshopDao implements WorkshopDao {
             while (workshopData.next()) {
                 int workshopId = workshopData.getInt("workshop_id");
                 String title = workshopData.getString("title");
-                LocalDateTime workshopDate = workshopData.getTimestamp("workshop_date").toLocalDateTime();
+                LocalDateTime workshopDate = workshopData.getTimestamp("workshop_date") != null ? workshopData.getTimestamp("workshop_date").toLocalDateTime() : null;
                 int durationMinutes = workshopData.getInt("duration_minutes");
                 int maxParticipant = workshopData.getInt("max_participant");
                 double price = workshopData.getDouble("price");
@@ -74,6 +74,22 @@ public class JdbcWorkshopDao implements WorkshopDao {
             return workshops;
         } catch (SQLException sqlException) {
             return new ArrayList<>();
+        }
+    }
+
+    @Override
+    public int getNbMembersInWorkshop(Connection connection, int workshopId) {
+        try {
+            PreparedStatement statement = connection.prepareStatement("{CALL get_nb_members_in_workshop(?)}");
+            statement.setInt(1, workshopId);
+            ResultSet result = statement.executeQuery();
+            if (result.next()) {
+                return result.getInt("nb_members_registered");
+            }
+            return 0;
+        } catch (SQLException sqlException) {
+            System.out.println("Failed to get nb of members in workshop : " + sqlException.getMessage());
+            return -1;
         }
     }
 

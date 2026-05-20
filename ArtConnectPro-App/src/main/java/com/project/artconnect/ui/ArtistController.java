@@ -24,6 +24,10 @@ public class ArtistController {
     private TableColumn<Artist, String> emailColumn;
     @FXML
     private TableColumn<Artist, Integer> yearColumn;
+    @FXML
+    private TableColumn<Artist, String> phoneColumn;
+    @FXML
+    private TableColumn<Artist, Boolean> activeColumn;
 
     private final ArtistService artistService = ServiceProvider.getArtistService();
 
@@ -33,6 +37,8 @@ public class ArtistController {
         cityColumn.setCellValueFactory(new PropertyValueFactory<>("city"));
         emailColumn.setCellValueFactory(new PropertyValueFactory<>("contactEmail"));
         yearColumn.setCellValueFactory(new PropertyValueFactory<>("birthYear"));
+        phoneColumn.setCellValueFactory(new PropertyValueFactory<>("phone"));
+        activeColumn.setCellValueFactory(new PropertyValueFactory<>("isActive"));
 
         disciplineFilter.setItems(FXCollections.observableArrayList(artistService.getAllDisciplines()));
         refreshTable();

@@ -7,8 +7,6 @@ import java.util.Optional;
 
 public interface GalleryService {
     List<Gallery> getAllGalleries();
-
     Optional<Gallery> getGalleryByName(String name);
-
     List<Exhibition> getExhibitionsByGallery(Gallery gallery);
 }

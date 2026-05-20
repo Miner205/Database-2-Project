@@ -40,6 +40,12 @@ public class Dimension {
 
     @Override
     public String toString() {
+        if (this.length == 0 && this.width== 0 && this.depth == 0) {
+            return "digital or no data";
+        }
+        if (this.depth == 0) {
+            return length + " x " + width;
+        }
         return length + " x " + width + " x " + depth;
     }
 

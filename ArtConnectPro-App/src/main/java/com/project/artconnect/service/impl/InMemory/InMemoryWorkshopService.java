@@ -47,6 +47,11 @@ public class InMemoryWorkshopService implements WorkshopService {
     }
 
     @Override
+    public int nbMembersInWorkshop(int workshopId) {
+        return 0;
+    }
+
+    @Override
     public void bookWorkshop(Workshop workshop, CommunityMember member) {
         if (workshop == null || member == null)
             return;

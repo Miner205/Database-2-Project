@@ -328,8 +328,8 @@ INSERT INTO Opening_hours (exhibition_id, day, opening_time, closing_time) VALUE
 -- WORKSHOPS
 -- =========================
 INSERT INTO Workshops (workshop_id, title, workshop_date, duration_minutes, max_participant, price, location, description, level, instructor) VALUES
-(1, 'Intro to Painting', '2024-06-10', 120, 10, 50.00, 'Paris Studio', 'Learn basics of painting.', 'beginner', 1),
-(2, '3D Art Masterclass', '2024-07-05', 180, 8, 100.00, 'Lyon Lab', 'Advanced digital sculpting.', 'advanced', 2);
+(1, 'Intro to Painting', '2024-06-10 09:10:00', 120, 10, 50.00, 'Paris Studio', 'Learn basics of painting.', 'beginner', 1),
+(2, '3D Art Masterclass', '2024-07-05 10:30:00', 180, 8, 100.00, 'Lyon Lab', 'Advanced digital sculpting.', 'advanced', 2);
 
 -- =========================
 -- BOOKINGS (many-to-many)

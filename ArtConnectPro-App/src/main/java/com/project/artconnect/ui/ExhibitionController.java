@@ -20,22 +20,34 @@ public class ExhibitionController {
     @FXML
     private TableColumn<Exhibition, String> titleColumn;
     @FXML
-    private TableColumn<Exhibition, LocalDate> dateColumn;
+    private TableColumn<Exhibition, LocalDate> sdateColumn;
+    @FXML
+    private TableColumn<Exhibition, String> edateColumn;
     @FXML
     private TableColumn<Exhibition, String> themeColumn;
     @FXML
     private TableColumn<Exhibition, String> galleryColumn;
+    @FXML
+    private TableColumn<Exhibition, String> curatorColumn;
 
     private final GalleryService galleryService = ServiceProvider.getGalleryService();
 
     @FXML
     public void initialize() {
         titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
-        dateColumn.setCellValueFactory(new PropertyValueFactory<>("startDate"));
+        sdateColumn.setCellValueFactory(new PropertyValueFactory<>("startDate"));
+        edateColumn.setCellValueFactory(cellData -> {
+            LocalDate endDate = cellData.getValue().getEndDate();
+            if (endDate == null) {
+                return new SimpleStringProperty("Permanent exhibition");
+            } else {
+                return new SimpleStringProperty(endDate.toString());
+            }
+        });
         themeColumn.setCellValueFactory(new PropertyValueFactory<>("theme"));
-
         galleryColumn.setCellValueFactory(cellData -> new SimpleStringProperty(
                 cellData.getValue().getGallery() != null ? cellData.getValue().getGallery().getName() : "Unknown"));
+        curatorColumn.setCellValueFactory(new PropertyValueFactory<>("curatorName"));
 
         refreshData();
     }

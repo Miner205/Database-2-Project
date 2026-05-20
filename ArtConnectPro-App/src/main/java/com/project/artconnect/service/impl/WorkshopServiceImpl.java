@@ -46,6 +46,16 @@ public class WorkshopServiceImpl implements WorkshopService {
     }
 
     @Override
+    public int nbMembersInWorkshop(int workshopId) {
+        try (Connection connection = ConnectionManager.getConnection()) {
+            return workshopDao.getNbMembersInWorkshop(connection, workshopId);
+        } catch (SQLException sqlException) {
+            System.out.println("Failed to get nb of members in workshop : " + sqlException.getMessage());
+            return -1;
+        }
+    }
+
+    @Override
     public void bookWorkshop(Workshop workshop, CommunityMember member) {
         if (workshop == null || member == null) return;
         Booking booking = new Booking(workshop, member);

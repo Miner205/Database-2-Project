@@ -17,9 +17,11 @@
     <TableView fx:id="artistTable" VBox.vgrow="ALWAYS">
         <columns>
             <TableColumn fx:id="nameColumn" text="Name" prefWidth="200" />
-            <TableColumn fx:id="cityColumn" text="City" prefWidth="150" />
-            <TableColumn fx:id="emailColumn" text="Email" prefWidth="200" />
+            <TableColumn fx:id="cityColumn" text="City" prefWidth="100" />
+            <TableColumn fx:id="emailColumn" text="Email" prefWidth="150" />
+            <TableColumn fx:id="phoneColumn" text="Phone" prefWidth="100" />
             <TableColumn fx:id="yearColumn" text="Birth Year" prefWidth="100" />
+            <TableColumn fx:id="activeColumn" text="is Active" prefWidth="90" />
         </columns>
     </TableView>
 </VBox>

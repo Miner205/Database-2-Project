@@ -7,14 +7,9 @@ import java.util.Optional;
 
 public interface ArtworkService {
     List<Artwork> getAllArtworks();
-
     Optional<Artwork> getArtworkByTitle(String title);
-
     List<Artwork> getArtworksByArtist(Artist artist);
-
     void createArtwork(Artwork artwork);
-
     void updateArtwork(Artwork artwork);
-
     void deleteArtwork(String title);
 }

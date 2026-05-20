@@ -10,10 +10,12 @@
     </padding>
     <TableView fx:id="exhibitionTable" VBox.vgrow="ALWAYS">
         <columns>
-            <TableColumn fx:id="titleColumn" text="Title" prefWidth="200" />
+            <TableColumn fx:id="titleColumn" text="Title" prefWidth="150" />
             <TableColumn fx:id="galleryColumn" text="Gallery" prefWidth="150" />
-            <TableColumn fx:id="dateColumn" text="Start Date" prefWidth="120" />
-            <TableColumn fx:id="themeColumn" text="Theme" prefWidth="180" />
+            <TableColumn fx:id="sdateColumn" text="Start Date" prefWidth="130" />
+            <TableColumn fx:id="edateColumn" text="End Date" prefWidth="130" />
+            <TableColumn fx:id="themeColumn" text="Theme" prefWidth="100" />
+            <TableColumn fx:id="curatorColumn" text="Curator Name" prefWidth="120" />
         </columns>
     </TableView>
 </VBox>

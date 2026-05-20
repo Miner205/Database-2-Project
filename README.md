@@ -20,3 +20,4 @@ https://github.com/Miner205/Database-2-Project
 - Step 3 : Database Implementation and Advanced Features
 - Step 4 : Integrating the Database into the ArtConnect Java Application
 - 
+

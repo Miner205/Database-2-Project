@@ -15,7 +15,7 @@ import java.util.logging.Logger;
 
 /**
  * JDBC implementation for ArtistDao.
- * TODO: Students must implement this using JDBC and SQL.
+ * DONE: Students must implement this using JDBC and SQL.
  */
 public class JdbcArtistDao implements ArtistDao {
 
@@ -42,7 +42,7 @@ public class JdbcArtistDao implements ArtistDao {
                 newArtist.setPhone(contactPhone);
                 newArtist.setWebsite(website);
                 newArtist.setSocialMedia(socialMedias);
-                newArtist.setActive(isActive);
+                newArtist.setIsActive(isActive);
                 newArtist.setId(id);
                 return Optional.of(newArtist);
             }
@@ -76,7 +76,7 @@ public class JdbcArtistDao implements ArtistDao {
                 newArtist.setPhone(contactPhone);
                 newArtist.setWebsite(website);
                 newArtist.setSocialMedia(socialMedias);
-                newArtist.setActive(isActive);
+                newArtist.setIsActive(isActive);
                 newArtist.setId(id);
                 results.add(newArtist);
             }
@@ -103,7 +103,7 @@ public class JdbcArtistDao implements ArtistDao {
             statement.setString(6, artist.getPhone());
             statement.setString(7, artist.getCity());
             statement.setString(8, artist.getWebsite());
-            statement.setBoolean(9, artist.isActive());
+            statement.setBoolean(9, artist.getIsActive());
 
             statement.executeUpdate();
 
@@ -129,7 +129,7 @@ public class JdbcArtistDao implements ArtistDao {
             statement.setString(5, artist.getPhone());
             statement.setString(6, artist.getCity());
             statement.setString(7, artist.getWebsite());
-            statement.setBoolean(8, artist.isActive());
+            statement.setBoolean(8, artist.getIsActive());
             statement.setInt(9, artist.getId());
 
             statement.executeUpdate();
@@ -196,7 +196,7 @@ public class JdbcArtistDao implements ArtistDao {
                 newArtist.setPhone(contactPhone);
                 newArtist.setWebsite(website);
                 newArtist.setSocialMedia(socialMedias);
-                newArtist.setActive(isActive);
+                newArtist.setIsActive(isActive);
                 newArtist.setId(id);
                 results.add(newArtist);
             }

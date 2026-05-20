@@ -10,9 +10,12 @@
     </padding>
     <TableView fx:id="memberTable" VBox.vgrow="ALWAYS">
         <columns>
-            <TableColumn fx:id="nameColumn" text="Name" prefWidth="250" />
-            <TableColumn fx:id="emailColumn" text="Email" prefWidth="250" />
-            <TableColumn fx:id="cityColumn" text="City" prefWidth="150" />
+            <TableColumn fx:id="nameColumn" text="Name" prefWidth="150" />
+            <TableColumn fx:id="cityColumn" text="City" prefWidth="100" />
+            <TableColumn fx:id="emailColumn" text="Email" prefWidth="200" />
+            <TableColumn fx:id="phoneColumn" text="Phone" prefWidth="100" />
+            <TableColumn fx:id="yearColumn" text="Birth Year" prefWidth="100" />
+            <TableColumn fx:id="membershipTypeColumn" text="Membership Type" prefWidth="110" />
         </columns>
     </TableView>
 </VBox>
