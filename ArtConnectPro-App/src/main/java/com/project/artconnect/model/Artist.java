@@ -104,7 +104,7 @@ public class Artist {
         return socialMedia;
     }
 
-    public void setSocialMedia(List<SocialMedia> artworks) {
+    public void setSocialMedia(List<SocialMedia> socialMedia) {
         this.socialMedia = socialMedia;
     }
 

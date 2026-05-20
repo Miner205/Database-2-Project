@@ -118,7 +118,6 @@ public class JdbcArtworkDao implements ArtworkDao {
                 case FOR_SALE -> statusStr = "FOR_SALE";
                 case SOLD -> statusStr = "SOLD";
                 case EXHIBITED -> statusStr = "EXHIBITED";
-                default -> null;
             };
             statement.setString(8, statusStr);
             statement.setInt(9, artwork.getArtist().getId());
@@ -150,7 +149,6 @@ public class JdbcArtworkDao implements ArtworkDao {
                 case FOR_SALE -> statusStr = "FOR_SALE";
                 case SOLD -> statusStr = "SOLD";
                 case EXHIBITED -> statusStr = "EXHIBITED";
-                default -> null;
             };
             statement.setString(7, statusStr);
             statement.setInt(8, artwork.getArtist().getId());
