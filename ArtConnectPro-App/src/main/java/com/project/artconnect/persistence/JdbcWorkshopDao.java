@@ -118,7 +118,7 @@ public class JdbcWorkshopDao implements WorkshopDao {
             PreparedStatement statement = connection.prepareStatement("UPDATE Workshops SET title = ?, workshop_date = ?, duration_minutes = ?, max_participant = ?, price = ?, location = ?, description = ?, level = ?, instructor = ? WHERE workshop_id = ?");
 
             statement.setString(1, workshop.getTitle());
-            statement.setTime(2, Time.valueOf(workshop.getDate().toLocalTime()));
+            statement.setTimestamp(2, Timestamp.valueOf(workshop.getDate()));
             statement.setInt(3, workshop.getDurationMinutes());
             statement.setInt(4, workshop.getMaxParticipants());
             statement.setDouble(5, workshop.getPrice());
