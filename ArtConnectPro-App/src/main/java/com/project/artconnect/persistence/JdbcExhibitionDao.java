@@ -24,23 +24,23 @@ public class JdbcExhibitionDao implements ExhibitionDao {
         // DONE: query the Exhibitions table and return all Exhibitions
         try {
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM Exhibitions");
-            ResultSet exhibitionsData = statement.executeQuery();
+            ResultSet exhibitionData = statement.executeQuery();
             List<Exhibition> exhibitions = new ArrayList<>();
-            while (exhibitionsData.next()) {
-                int exhibitionId = exhibitionsData.getInt("exhibition_id");
-                String title = exhibitionsData.getString("title");
-                LocalDate startDate = exhibitionsData.getDate("start_date").toLocalDate();
-                Date sqlEndDate = exhibitionsData.getDate("end_date");
+            while (exhibitionData.next()) {
+                int exhibitionId = exhibitionData.getInt("exhibition_id");
+                String title = exhibitionData.getString("title");
+                LocalDate startDate = exhibitionData.getDate("start_date").toLocalDate();
+                Date sqlEndDate = exhibitionData.getDate("end_date");
                 LocalDate endDate;
                 if (sqlEndDate != null) {
                     endDate = sqlEndDate.toLocalDate();
                 } else {
                     endDate = null;
                 }
-                String description = exhibitionsData.getString("description");
-                Gallery gallery = new JdbcGalleryDao().findById(connection, exhibitionsData.getInt("gallery_id")).orElse(null);
-                String curatorName = exhibitionsData.getString("curator_name");
-                String theme = exhibitionsData.getString("theme");
+                String description = exhibitionData.getString("description");
+                Gallery gallery = new JdbcGalleryDao().findById(connection, exhibitionData.getInt("gallery_id")).orElse(null);
+                String curatorName = exhibitionData.getString("curator_name");
+                String theme = exhibitionData.getString("theme");
                 List<OpeningHours> openingHours = findOpeningHours(connection, exhibitionId);
                 List<Artwork> artworks = findArtworks(connection, exhibitionId);
 
@@ -64,7 +64,7 @@ public class JdbcExhibitionDao implements ExhibitionDao {
         // DONE: INSERT INTO Exhibitions (exhibition_id, title, start_date, ...) VALUES
         try {
             PreparedStatement statement = connection.prepareStatement(
-                    "INSERT INTO Exhibitions (exhibition_id, title, start_date, end_date, description, gallery_id, curator_name, theme) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
+                    "REPLACE INTO Exhibitions (exhibition_id, title, start_date, end_date, description, gallery_id, curator_name, theme) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
             );
 
             statement.setInt(1, exhibition.getExhibitionId());

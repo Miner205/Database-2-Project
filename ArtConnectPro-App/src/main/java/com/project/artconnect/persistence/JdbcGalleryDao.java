@@ -1,12 +1,13 @@
 package com.project.artconnect.persistence;
 
 import com.project.artconnect.dao.impl.GalleryDao;
+import com.project.artconnect.model.Artwork;
+import com.project.artconnect.model.Exhibition;
 import com.project.artconnect.model.Gallery;
+import com.project.artconnect.model.OpeningHours;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -26,11 +27,16 @@ public class JdbcGalleryDao implements GalleryDao {
                 String ownerName = galleryData.getString("owner_name");
                 String contactPhone = galleryData.getString("contact_phone");
                 String website = galleryData.getString("website");
+                List<Exhibition> exhibitions = findExhibitions(connection, id);
+
                 Gallery newGallery = new Gallery(name, address, rating);
                 newGallery.setGalleryId(id);
                 newGallery.setOwnerName(ownerName);
                 newGallery.setContactPhone(contactPhone);
                 newGallery.setWebsite(website);
+                for (Exhibition exhibition : exhibitions) {
+                    newGallery.addExhibition(exhibition);
+                }
                 return Optional.of(newGallery);
             }
             return Optional.empty();
@@ -53,11 +59,16 @@ public class JdbcGalleryDao implements GalleryDao {
                 String contactPhone = galleryData.getString("contact_phone");
                 double rating = galleryData.getDouble("rating");
                 String website = galleryData.getString("website");
+                List<Exhibition> exhibitions = findExhibitions(connection, galleryId);
+
                 Gallery newGallery = new Gallery(name, address, rating);
                 newGallery.setGalleryId(galleryId);
                 newGallery.setOwnerName(ownerName);
                 newGallery.setContactPhone(contactPhone);
                 newGallery.setWebsite(website);
+                for (Exhibition exhibition : exhibitions) {
+                    newGallery.addExhibition(exhibition);
+                }
                 galleries.add(newGallery);
             }
             return galleries;
@@ -127,6 +138,45 @@ public class JdbcGalleryDao implements GalleryDao {
 
         } catch (SQLException sqlException) {
             System.out.println("Failed to find gallery : " + sqlException.getMessage());
+        }
+    }
+
+    public List<Exhibition> findExhibitions(Connection connection, int galleryId) {
+        try {
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM Exhibitions e JOIN Gallery g ON e.gallery_id = g.gallery_id WHERE g.gallery_id = ?");
+            statement.setInt(1, galleryId);
+            ResultSet exhibitionData = statement.executeQuery();
+            List<Exhibition> exhibitions = new ArrayList<>();
+            JdbcExhibitionDao jdbcExhibitionDao = new JdbcExhibitionDao();
+            while (exhibitionData.next()) {
+                int exhibitionId = exhibitionData.getInt("exhibition_id");
+                String title = exhibitionData.getString("title");
+                LocalDate startDate = exhibitionData.getDate("start_date").toLocalDate();
+                Date sqlEndDate = exhibitionData.getDate("end_date");
+                LocalDate endDate;
+                if (sqlEndDate != null) {
+                    endDate = sqlEndDate.toLocalDate();
+                } else {
+                    endDate = null;
+                }
+                String description = exhibitionData.getString("description");
+                String curatorName = exhibitionData.getString("curator_name");
+                String theme = exhibitionData.getString("theme");
+                List<OpeningHours> openingHours = jdbcExhibitionDao.findOpeningHours(connection, exhibitionId);
+                List<Artwork> artworks = jdbcExhibitionDao.findArtworks(connection, exhibitionId);
+
+                Exhibition newExhibition = new Exhibition(title, startDate, endDate, null);
+                newExhibition.setExhibitionId(exhibitionId);
+                newExhibition.setDescription(description);
+                newExhibition.setCuratorName(curatorName);
+                newExhibition.setTheme(theme);
+                newExhibition.setOpeningHours(openingHours);
+                newExhibition.setArtworks(artworks);
+                exhibitions.add(newExhibition);
+            }
+            return exhibitions;
+        } catch (SQLException sqlException) {
+            return new ArrayList<>();
         }
     }
 

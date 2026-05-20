@@ -103,7 +103,7 @@ public class JdbcArtworkDao implements ArtworkDao {
     public void save(Connection connection, Artwork artwork) {
         try {
             PreparedStatement statement = connection.prepareStatement(
-                    "INSERT INTO Artworks (artwork_id, title, creation_year, type, medium, description, price, status, artist_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"
+                    "REPLACE INTO Artworks (artwork_id, title, creation_year, type, medium, description, price, status, artist_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"
             );
 
             statement.setInt(1, artwork.getArtworkId());

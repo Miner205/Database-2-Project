@@ -1,9 +1,7 @@
 package com.project.artconnect.persistence;
 
 import com.project.artconnect.dao.impl.ArtistDao;
-import com.project.artconnect.model.Artist;
-import com.project.artconnect.model.Discipline;
-import com.project.artconnect.model.SocialMedia;
+import com.project.artconnect.model.*;
 
 import java.sql.SQLException;
 import java.sql.*;
@@ -36,14 +34,18 @@ public class JdbcArtistDao implements ArtistDao {
                 String website = artistData.getString("website");
                 List<SocialMedia> socialMedias = findSocialMedias(connection, id);
                 boolean isActive = artistData.getBoolean("is_active");
+                List<Artwork> artworks = findArtworks(connection, id);
 
                 Artist newArtist = new Artist(name, bio, birthYear, contactEmail, city);
+                newArtist.setId(id);
                 newArtist.setDisciplines(disciplines);
                 newArtist.setPhone(contactPhone);
                 newArtist.setWebsite(website);
                 newArtist.setSocialMedia(socialMedias);
                 newArtist.setIsActive(isActive);
-                newArtist.setId(id);
+                for (Artwork artwork : artworks) {
+                    newArtist.addArtwork(artwork);
+                }
                 return Optional.of(newArtist);
             }
             return Optional.empty();
@@ -70,6 +72,7 @@ public class JdbcArtistDao implements ArtistDao {
                 String website = artistData.getString("website");
                 List<SocialMedia> socialMedias = findSocialMedias(connection, id);
                 boolean isActive = artistData.getBoolean("is_active");
+                List<Artwork> artworks = findArtworks(connection, id);
 
                 Artist newArtist = new Artist(name, bio, birthYear, contactEmail, city);
                 newArtist.setDisciplines(disciplines);
@@ -78,6 +81,9 @@ public class JdbcArtistDao implements ArtistDao {
                 newArtist.setSocialMedia(socialMedias);
                 newArtist.setIsActive(isActive);
                 newArtist.setId(id);
+                for (Artwork artwork : artworks) {
+                    newArtist.addArtwork(artwork);
+                }
                 results.add(newArtist);
             }
             return results;
@@ -194,6 +200,7 @@ public class JdbcArtistDao implements ArtistDao {
                 String website = artistData.getString("website");
                 List<SocialMedia> socialMedias = findSocialMedias(connection, id);
                 boolean isActive = artistData.getBoolean("is_active");
+                List<Artwork> artworks = findArtworks(connection, id);
 
                 Artist newArtist = new Artist(name, bio, birthYear, contactEmail, city);
                 newArtist.setDisciplines(disciplines);
@@ -202,6 +209,9 @@ public class JdbcArtistDao implements ArtistDao {
                 newArtist.setSocialMedia(socialMedias);
                 newArtist.setIsActive(isActive);
                 newArtist.setId(id);
+                for (Artwork artwork : artworks) {
+                    newArtist.addArtwork(artwork);
+                }
                 results.add(newArtist);
             }
             return results;
@@ -302,6 +312,46 @@ public class JdbcArtistDao implements ArtistDao {
             statement.executeUpdate();
         } catch (SQLException sqlException) {
             System.out.println("Failed to delete social medias : " + sqlException.getMessage());
+        }
+    }
+
+    public List<Artwork> findArtworks(Connection connection, int artistId) {
+        try {
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM Artworks art JOIN Artists a ON art.artist_id = a.artist_id WHERE a.artist_id = ?");
+            statement.setInt(1, artistId);
+            ResultSet artworkData = statement.executeQuery();
+            List<Artwork> artworks = new ArrayList<>();
+            JdbcArtworkDao jdbcArtworkDao = new JdbcArtworkDao();
+            while (artworkData.next()) {
+                int artworkId = artworkData.getInt("artwork_id");
+                String title = artworkData.getString("title");
+                int creationYear = artworkData.getInt("creation_year");
+                String type = artworkData.getString("type");
+                String medium = artworkData.getString("medium");
+                Dimension dimension = jdbcArtworkDao.findDimension(connection, artistId).orElse(null);
+                String description = artworkData.getString("description");
+                double price = artworkData.getDouble("price");
+                String statusStr = artworkData.getString("status");
+                List<ArtworkTag> artworkTags = jdbcArtworkDao.findArtworkTags(connection, artistId);
+
+                Artwork newArtwork = new Artwork(title, creationYear, type, price, null);
+                newArtwork.setArtworkId(artworkId);
+                newArtwork.setMedium(medium);
+                newArtwork.setDimensions(dimension);
+                newArtwork.setDescription(description);
+                Artwork.Status status = switch (statusStr) {
+                    case "FOR_SALE" -> Artwork.Status.FOR_SALE;
+                    case "SOLD" -> Artwork.Status.SOLD;
+                    case "EXHIBITED" -> Artwork.Status.EXHIBITED;
+                    default -> null;
+                };
+                newArtwork.setStatus(status);
+                newArtwork.setTags(artworkTags);
+                artworks.add(newArtwork);
+            }
+            return artworks;
+        } catch (SQLException sqlException) {
+            return new ArrayList<>();
         }
     }
 
