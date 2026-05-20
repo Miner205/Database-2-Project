@@ -177,6 +177,7 @@ public class JdbcArtworkDao implements ArtworkDao {
                 deleteDimension(connection, artworkId);
                 deleteTagged(connection, artworkId);
                 deleteExhibited(connection, artworkId);
+                deleteReviews(connection, artworkId);
     
                 try {
                     PreparedStatement statement = connection.prepareStatement(

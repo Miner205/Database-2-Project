@@ -132,7 +132,7 @@ public class JdbcGalleryDao implements GalleryDao {
 
     public void deleteExhibitions(Connection connection, int galleryId) {
         try {
-            PreparedStatement statement = connection.prepareStatement("SELECT title FROM Exhibition WHERE gallery_id = ?");
+            PreparedStatement statement = connection.prepareStatement("SELECT title FROM Exhibitions WHERE gallery_id = ?");
             statement.setInt(1, galleryId);
             ResultSet exhibitionData = statement.executeQuery();
             JdbcExhibitionDao jdbcExhibitionDao = new JdbcExhibitionDao();

@@ -2,7 +2,6 @@ package com.project.artconnect.persistence;
 
 import com.project.artconnect.dao.impl.ArtistDao;
 import com.project.artconnect.model.Artist;
-import com.project.artconnect.model.Artwork;
 import com.project.artconnect.model.Discipline;
 import com.project.artconnect.model.SocialMedia;
 
@@ -156,7 +155,7 @@ public class JdbcArtistDao implements ArtistDao {
 
                 deletePractices(connection, artistId);
                 deleteSocialMedias(connection, artistId);
-                deleteArtworks(connection, artistName);
+                deleteArtworks(connection, artistId);
                 deleteWorkshop(connection, artistId);
 
                 try {
@@ -306,12 +305,17 @@ public class JdbcArtistDao implements ArtistDao {
         }
     }
 
-    public void deleteArtworks(Connection connection, String artistName) {
-        JdbcArtworkDao jdbcArtworkDao = new JdbcArtworkDao();
-
-        List<Artwork> artworks = jdbcArtworkDao.findByArtistName(connection, artistName);
-        for (Artwork artwork : artworks) {
-            jdbcArtworkDao.delete(connection, artwork.getTitle());
+    public void deleteArtworks(Connection connection, int artistId) {
+        try {
+            PreparedStatement statement = connection.prepareStatement("SELECT title FROM Artworks WHERE artist_id = ?");
+            statement.setInt(1, artistId);
+            ResultSet artworkData = statement.executeQuery();
+            JdbcArtworkDao jdbcArtworkDao = new JdbcArtworkDao();
+            while (artworkData.next()) {
+                jdbcArtworkDao.delete(connection, artworkData.getString("title"));
+            }
+        } catch (SQLException sqlException) {
+            System.out.println("Failed to find artwork : " + sqlException.getMessage());
         }
     }
 

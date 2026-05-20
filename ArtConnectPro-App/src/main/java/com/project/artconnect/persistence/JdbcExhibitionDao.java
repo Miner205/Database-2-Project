@@ -119,7 +119,7 @@ public class JdbcExhibitionDao implements ExhibitionDao {
         //TODO:
         // Caution: check if there are foreign key constraints
         try {
-            PreparedStatement idStatement = connection.prepareStatement("SELECT exhibition_id FROM Exhibitions WHERE name = ?");
+            PreparedStatement idStatement = connection.prepareStatement("SELECT exhibition_id FROM Exhibitions WHERE title = ?");
             idStatement.setString(1, title);
             ResultSet exhibitionData = idStatement.executeQuery();
             if (exhibitionData.next()) {
