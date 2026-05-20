@@ -13,9 +13,9 @@ public class CommunityMember {
     //TODO: test
     private List<Discipline> favoriteDisciplines = new ArrayList<>();
     private String membershipType = "free"; // free, premium
-    //TODO: bookings ???
+    //TODO: test
     private List<Booking> bookings = new ArrayList<>();
-    //TODO: reviews ???
+    //TODO: test
     private List<Review> reviews = new ArrayList<>();
 
     public CommunityMember() {
@@ -110,6 +110,13 @@ public class CommunityMember {
         this.bookings.add(booking);
         if (booking.getMember() != this) {
             booking.setMember(this);
+        }
+    }
+
+    public void addReview(Review review) {
+        this.reviews.add(review);
+        if (review.getReviewer() != this) {
+            review.setReviewer(this);
         }
     }
 

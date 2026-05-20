@@ -1,5 +1,6 @@
 package com.project.artconnect.dao.impl;
 
+import com.project.artconnect.model.Artwork;
 import com.project.artconnect.model.CommunityMember;
 
 import java.sql.Connection;
@@ -10,5 +11,11 @@ public interface CommunityMemberDao {
     Optional<CommunityMember> findById(Connection connection, int id);
 
     List<CommunityMember> findAll(Connection connection);
+
+    void save(Connection connection, CommunityMember communityMember);
+
+    void update(Connection connection, CommunityMember communityMember);
+
+    void delete(Connection connection, String name);
 
 }

@@ -34,7 +34,7 @@ public class InMemoryCommunityService implements CommunityService {
     private void addReview(CommunityMember member, Artwork artwork, int rating, String comment) {
         if (member == null || artwork == null)
             return;
-        Review r = new Review(member, artwork, rating, comment);
+        Review r = new Review(artwork, member, rating, comment);
         member.getReviews().add(r);
     }
 

@@ -122,20 +122,22 @@ public class JdbcExhibitionDao implements ExhibitionDao {
             PreparedStatement idStatement = connection.prepareStatement("SELECT exhibition_id FROM Exhibitions WHERE name = ?");
             idStatement.setString(1, title);
             ResultSet exhibitionData = idStatement.executeQuery();
-            int exhibitionId = exhibitionData.getInt("exhibition_id");
+            if (exhibitionData.next()) {
+                int exhibitionId = exhibitionData.getInt("exhibition_id");
 
-            deleteOpeningHours(connection, exhibitionId);
-            deleteExhibited(connection, exhibitionId);
+                deleteOpeningHours(connection, exhibitionId);
+                deleteExhibited(connection, exhibitionId);
 
-            try {
-                PreparedStatement statement = connection.prepareStatement(
-                        "DELETE FROM Exhibitions WHERE title = ?"
-                );
-                statement.setString(1, title);
+                try {
+                    PreparedStatement statement = connection.prepareStatement(
+                            "DELETE FROM Exhibitions WHERE title = ?"
+                    );
+                    statement.setString(1, title);
 
-                statement.executeUpdate();
-            } catch (SQLException sqlException) {
-                System.out.println("Failed to delete exhibition : " + sqlException.getMessage());
+                    statement.executeUpdate();
+                } catch (SQLException sqlException) {
+                    System.out.println("Failed to delete exhibition : " + sqlException.getMessage());
+                }
             }
 
         } catch (SQLException sqlException) {
