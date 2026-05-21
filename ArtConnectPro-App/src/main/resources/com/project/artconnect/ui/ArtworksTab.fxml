@@ -20,7 +20,7 @@
             <TableColumn fx:id="statusColumn" text="Status" prefWidth="100" />
             <TableColumn fx:id="yearColumn" text="Creation Year" prefWidth="100" />
             <TableColumn fx:id="dimensionsColumn" text="Dimensions" prefWidth="150" />
-            <TableColumn fx:id="tagsColumn" text="Tags" prefWidth="200" />
+            <TableColumn fx:id="tagsColumn" text="Tags" prefWidth="150" />
         </columns>
     </TableView>
 </VBox>

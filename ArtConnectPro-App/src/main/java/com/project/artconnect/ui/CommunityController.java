@@ -1,7 +1,9 @@
 package com.project.artconnect.ui;
 
+import com.project.artconnect.model.Booking;
 import com.project.artconnect.model.CommunityMember;
 import com.project.artconnect.model.Discipline;
+import com.project.artconnect.model.Review;
 import com.project.artconnect.service.CommunityService;
 import com.project.artconnect.util.ServiceProvider;
 import javafx.beans.property.SimpleStringProperty;
@@ -33,6 +35,10 @@ public class CommunityController {
     @FXML
     private TableColumn<CommunityMember, String> favDisciplinesColumn;
     @FXML
+    private TableColumn<CommunityMember, String> bookingsColumn;
+    @FXML
+    private TableColumn<CommunityMember, String> reviewsColumn;
+    @FXML
     private TableColumn<CommunityMember, Void> deleteColumn;
 
     private final CommunityService communityService = ServiceProvider.getCommunityService();
@@ -60,6 +66,30 @@ public class CommunityController {
                 }
                 String s = sb.substring(0, sb.length() - 2);
                 return new SimpleStringProperty(s);
+            }
+        });
+
+        bookingsColumn.setCellValueFactory(cellData -> {
+            List<Booking> bookings = cellData.getValue().getBookings();
+            if (bookings.isEmpty()) {
+                return new SimpleStringProperty("no bookings");
+            } else {
+                StringBuilder sb = new StringBuilder();
+                for (Booking booking: bookings) {
+                    sb.append(booking.getWorkshop().toString());
+                    sb.append(", ");
+                }
+                String s = sb.substring(0, sb.length() - 2);
+                return new SimpleStringProperty(s);
+            }
+        });
+
+        reviewsColumn.setCellValueFactory(cellData -> {
+            List<Review> reviews = cellData.getValue().getReviews();
+            if (reviews.isEmpty()) {
+                return new SimpleStringProperty("no reviews");
+            } else {
+                return new SimpleStringProperty(reviews.size() + " review" + (reviews.size() == 1 ? "" : "s"));
             }
         });
 
