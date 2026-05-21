@@ -12,6 +12,24 @@ https://github.com/Miner205/Database-2-Project
 # Project specification :
 - cf report/ppt
 
+
++ cf Project demonstration video
+
+
+# To Run the App :
+- create and populate the ArtConnect database in your MySQL ("Optional" - Recommended)
+- put your MySQL credentials in DatabaseConfig.java
+- run Launcher.java
+
+# Order of sql files to Execute in MySQL - to create and populate the ArtConnect database :
+- ArtConnect creation script
+- ArtConnect insertion script
+- ArtConnect transactional scenario ("Optional" - Recommended)
+- ArtConnect view script, Triggers Procedures and Indexes, ArtConnect access rights script (Optional)
+- (in folder: SLQ test files) more insertions (Optional - Recommended)
+- (in folder: SLQ test files) random tests (Optional)
+
+
 # ToDo :
 
 # Steps done :
@@ -19,12 +37,13 @@ https://github.com/Miner205/Database-2-Project
 - Step 2 : Conceptual and Logical Modeling of the ArtConnect Database
 - Step 3 : Database Implementation and Advanced Features
 - Step 4 : Integrating the Database into the ArtConnect Java Application
-- Step 5: Finalization and Presentation
+- Step 5 : Finalization and Presentation
 
-# Challenge (main) =
+
+# Challenge faced (main) =
 - refresh certains autres onglet quand on delete dans un onglet (par quand on delete un artwork, il faut refresh l'onglet exhibitions pour que la liste des artworks/exhibition s'update). -> solved en modifiant mainController etc
 
-# Futur improves propositon =
+# Future improves suggestions =
 - rajouter un onglet dédier pour les reviews.
 - quand on delete un exhibition, changer le status des artworks (et + use/auto ces status).
 - faire en sorte que quand booking(communitymember//workshop) = CANCELED ça face quelque chose.
