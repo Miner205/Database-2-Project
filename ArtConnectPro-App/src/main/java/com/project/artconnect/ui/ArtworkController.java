@@ -42,6 +42,9 @@ public class ArtworkController {
 
     private final ArtworkService artworkService = ServiceProvider.getArtworkService();
 
+    private ArtistController artistController;
+    private ExhibitionController exhibitionController;
+
     @FXML
     public void initialize() {
         addDeleteButtonToTable();
@@ -84,7 +87,15 @@ public class ArtworkController {
         refreshTable();
     }
 
-    private void refreshTable() {
+    public void setArtistController(ArtistController artistController) {
+        this.artistController = artistController;
+    }
+
+    public void setExhibitionController(ExhibitionController exhibitionController) {
+        this.exhibitionController = exhibitionController;
+    }
+
+    public void refreshTable() {
         artworkTable.setItems(FXCollections.observableArrayList(artworkService.getAllArtworks()));
     }
 
@@ -96,6 +107,8 @@ public class ArtworkController {
                     Artwork artwork = getTableView().getItems().get(getIndex());
                     artworkService.deleteArtwork(artwork.getTitle());
                     refreshTable();
+                    artistController.refreshTable();
+                    exhibitionController.refreshData();
                 });
             }
             @Override

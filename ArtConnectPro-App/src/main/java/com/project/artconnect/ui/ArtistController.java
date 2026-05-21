@@ -44,6 +44,11 @@ public class ArtistController {
 
     private final ArtistService artistService = ServiceProvider.getArtistService();
 
+    private DiscoverController discoverController;
+    private ArtworkController artworkController;
+    private ExhibitionController exhibitionController;
+    private WorkshopController workshopController;
+
     @FXML
     public void initialize() {
         addDeleteButtonToTable();
@@ -94,6 +99,22 @@ public class ArtistController {
         refreshTable();
     }
 
+    public void setDiscoverController(DiscoverController discoverController) {
+        this.discoverController = discoverController;
+    }
+
+    public void setArtworkController(ArtworkController artworkController) {
+        this.artworkController = artworkController;
+    }
+
+    public void setExhibitionController(ExhibitionController exhibitionController) {
+        this.exhibitionController = exhibitionController;
+    }
+
+    public void setWorkshopController(WorkshopController workshopController) {
+        this.workshopController = workshopController;
+    }
+
     @FXML
     private void handleSearch() {
         String query = searchField.getText();
@@ -109,7 +130,7 @@ public class ArtistController {
         refreshTable();
     }
 
-    private void refreshTable() {
+    public void refreshTable() {
         artistTable.setItems(FXCollections.observableArrayList(artistService.getAllArtists()));
     }
 
@@ -121,6 +142,10 @@ public class ArtistController {
                     Artist artist = getTableView().getItems().get(getIndex());
                     artistService.deleteArtist(artist.getName());
                     refreshTable();
+                    discoverController.refreshCards();
+                    artworkController.refreshTable();
+                    exhibitionController.refreshData();
+                    workshopController.refreshTable();
                 });
             }
             @Override

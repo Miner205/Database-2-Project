@@ -15,27 +15,6 @@
     </MenuBar>
     
     <TabPane fx:id="mainTabPane" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
-        <Tab text="Discover">
-            <fx:include source="DiscoverTab.fxml"/>
-        </Tab>
-        <Tab text="Artists">
-            <fx:include source="ArtistsTab.fxml"/>
-        </Tab>
-        <Tab text="Artworks">
-            <fx:include source="ArtworksTab.fxml"/>
-        </Tab>
-        <Tab text="Galleries">
-            <fx:include source="GalleriesTab.fxml"/>
-        </Tab>
-        <Tab text="Exhibitions">
-            <fx:include source="ExhibitionsTab.fxml"/>
-        </Tab>
-        <Tab text="Workshops">
-            <fx:include source="WorkshopsTab.fxml"/>
-        </Tab>
-        <Tab text="Community">
-            <fx:include source="CommunityTab.fxml"/>
-        </Tab>
     </TabPane>
     
     <HBox alignment="CENTER_RIGHT" prefHeight="30.0" style="-fx-background-color: #f0f0f0;">

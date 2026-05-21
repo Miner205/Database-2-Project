@@ -38,6 +38,8 @@ public class WorkshopController {
 
     private final WorkshopService workshopService = ServiceProvider.getWorkshopService();
 
+    private DiscoverController discoverController;
+
     @FXML
     public void initialize() {
         addDeleteButtonToTable();
@@ -84,7 +86,11 @@ public class WorkshopController {
         refreshTable();
     }
 
-    private void refreshTable() {
+    public void setDiscoverController(DiscoverController discoverController) {
+        this.discoverController = discoverController;
+    }
+
+    public void refreshTable() {
         workshopTable.setItems(FXCollections.observableArrayList(workshopService.getAllWorkshops()));
     }
 
@@ -96,6 +102,7 @@ public class WorkshopController {
                     Workshop workshop = getTableView().getItems().get(getIndex());
                     workshopService.deleteWorkshop(workshop.getTitle());
                     refreshTable();
+                    discoverController.refreshCards();
                 });
             }
             @Override

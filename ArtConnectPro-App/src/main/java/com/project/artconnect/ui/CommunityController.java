@@ -66,7 +66,7 @@ public class CommunityController {
         refreshTable();
     }
 
-    private void refreshTable() {
+    public void refreshTable() {
         memberTable.setItems(FXCollections.observableArrayList(communityService.getAllMembers()));
     }
 

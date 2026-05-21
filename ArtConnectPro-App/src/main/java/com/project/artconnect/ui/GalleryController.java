@@ -38,6 +38,9 @@ public class GalleryController {
 
     private final GalleryService galleryService = ServiceProvider.getGalleryService();
 
+    private DiscoverController discoverController;
+    private ExhibitionController exhibitionController;
+
     @FXML
     public void initialize() {
         addDeleteButtonToTable();
@@ -78,7 +81,15 @@ public class GalleryController {
         refreshTable();
     }
 
-    private void refreshTable() {
+    public void setDiscoverController(DiscoverController discoverController) {
+        this.discoverController = discoverController;
+    }
+
+    public void setExhibitionController(ExhibitionController exhibitionController) {
+        this.exhibitionController = exhibitionController;
+    }
+
+    public void refreshTable() {
         galleryTable.setItems(FXCollections.observableArrayList(galleryService.getAllGalleries()));
     }
 
@@ -90,6 +101,8 @@ public class GalleryController {
                     Gallery gallery = getTableView().getItems().get(getIndex());
                     galleryService.deleteGallery(gallery.getName());
                     refreshTable();
+                    discoverController.refreshCards();
+                    exhibitionController.refreshData();
                 });
             }
             @Override
