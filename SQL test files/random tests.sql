@@ -7,7 +7,12 @@ Select * From Artworks a Join Dimensions d on a.artwork_id = d.artwork_id;
 
 Select * From Reviews;
 
+Select * From Artists;
 
+Select * From Community_members;
+
+DELETE FROM Reviews
+WHERE community_member_id = 60;
 
 -- =========================================================
 -- UPDATE REQUESTS (1-2 per main table)

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox spacing="10.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project.artconnect.ui.CommunityController">
+    <padding>
+        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+    </padding>
+    <TableView fx:id="memberTable" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn fx:id="deleteColumn" text="Delete" prefWidth="60"/>
+
+            <TableColumn fx:id="nameColumn" text="Name" prefWidth="110" />
+            <TableColumn fx:id="cityColumn" text="City" prefWidth="90" />
+            <TableColumn fx:id="emailColumn" text="Email" prefWidth="150" />
+            <TableColumn fx:id="phoneColumn" text="Phone" prefWidth="90" />
+            <TableColumn fx:id="yearColumn" text="Birth Year" prefWidth="90" />
+            <TableColumn fx:id="favDisciplinesColumn" text="Favorite Disciplines" prefWidth="140" />
+            <TableColumn fx:id="membershipTypeColumn" text="Membership Type" prefWidth="90" />
+            <TableColumn fx:id="bookingsColumn" text="Workshops Booked" prefWidth="210" />
+            <TableColumn fx:id="reviewsColumn" text="Nb of Reviews" prefWidth="90" />
+        </columns>
+    </TableView>
+</VBox>
