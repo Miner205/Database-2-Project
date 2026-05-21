@@ -264,7 +264,7 @@ public class JbdcCommunityMemberDao implements CommunityMemberDao {
 
     public List<Review> findReviews(Connection connection, int communityMemberId) {
         try {
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM Reviews r JOIN Community_members cm ON b.community_member_id = cm.community_member_id WHERE cm.community_member_id = ?");
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM Reviews r JOIN Community_members cm ON r.community_member_id = cm.community_member_id WHERE cm.community_member_id = ?");
             statement.setInt(1, communityMemberId);
             ResultSet reviewData = statement.executeQuery();
             List<Review> reviews = new ArrayList<>();

@@ -19,8 +19,8 @@
             <TableColumn fx:id="yearColumn" text="Birth Year" prefWidth="90" />
             <TableColumn fx:id="favDisciplinesColumn" text="Favorite Disciplines" prefWidth="140" />
             <TableColumn fx:id="membershipTypeColumn" text="Membership Type" prefWidth="90" />
-            <TableColumn fx:id="bookingsColumn" text="Workshops Booked" prefWidth="200" />
-            <TableColumn fx:id="reviewsColumn" text="Nb of Reviews" prefWidth="70" />
+            <TableColumn fx:id="bookingsColumn" text="Workshops Booked" prefWidth="210" />
+            <TableColumn fx:id="reviewsColumn" text="Nb of Reviews" prefWidth="90" />
         </columns>
     </TableView>
 </VBox>

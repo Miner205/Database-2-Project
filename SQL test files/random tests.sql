@@ -5,6 +5,7 @@ USE ArtConnect;
 
 Select * From Artworks a Join Dimensions d on a.artwork_id = d.artwork_id;
 
+Select * From Reviews;
 
 
 
