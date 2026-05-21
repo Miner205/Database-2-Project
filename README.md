@@ -26,7 +26,7 @@ https://github.com/Miner205/Database-2-Project
 
 # Futur improves propositon =
 - rajouter un onglet dédier pour les reviews.
-- quand on delete un exhibition, changer le statut des artworks (et + use/auto ces statuts).
+- quand on delete un exhibition, changer le status des artworks (et + use/auto ces status).
 - faire en sorte que quand booking(communitymember//workshop) = CANCELED ça face quelque chose.
 - menu pour add/update les différentes tables/onglets.
 - etc.
