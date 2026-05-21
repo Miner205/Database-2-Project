@@ -3,15 +3,13 @@ package com.project.artconnect.ui;
 import com.project.artconnect.model.Artwork;
 import com.project.artconnect.model.Exhibition;
 import com.project.artconnect.model.Gallery;
+import com.project.artconnect.model.OpeningHours;
 import com.project.artconnect.service.GalleryService;
 import com.project.artconnect.util.ServiceProvider;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -34,6 +32,8 @@ public class ExhibitionController {
     private TableColumn<Exhibition, String> curatorColumn;
     @FXML
     private TableColumn<Exhibition, String> artworksColumn;
+    @FXML
+    private TableColumn<Exhibition, String> openingHoursColumn;
     @FXML
     private TableColumn<Exhibition, Void> deleteColumn;
 
@@ -73,6 +73,21 @@ public class ExhibitionController {
             }
         });
 
+        openingHoursColumn.setCellValueFactory(cellData -> {
+            List<OpeningHours> hours = cellData.getValue().getOpeningHours();
+            if (hours.isEmpty()) {
+                return new SimpleStringProperty("no data");
+            } else {
+                StringBuilder sb = new StringBuilder();
+                for (OpeningHours h: hours) {
+                    sb.append(h.toString());
+                    sb.append(", ");
+                }
+                String s = sb.substring(0, sb.length() - 2);
+                return new SimpleStringProperty(s);
+            }
+        });
+
         refreshData();
     }
 
@@ -92,9 +107,6 @@ public class ExhibitionController {
                     Exhibition exhibition = getTableView().getItems().get(getIndex());
                     galleryService.deleteExhibition(exhibition.getTitle());
                     refreshData();
-
-                    //how to refresh onglet gallery ?
-
                 });
             }
             @Override

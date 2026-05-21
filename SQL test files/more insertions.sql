@@ -149,9 +149,9 @@ INSERT INTO Dimensions (artwork_id, length, width, depth) VALUES
 INSERT INTO Workshops (workshop_id, title, workshop_date, duration_minutes, max_participant, price, location, description, level, instructor) VALUES
 (51,'Intro to Digital Painting','2026-06-15 14:00:00',180,15,90.00,'Paris Studio','Learn digital painting basics','beginner',51),
 (52,'Modern Sculpture','2026-06-20 10:00:00',240,10,120.00,'Lyon Center','Metal sculpture workshop','intermediate',52),
-(53,'Street Art Session','2026-07-01 15:00:00',150,20,70.00,'Marseille Wall','Urban art techniques','beginner',53),
-(54,'Photography Basics','2026-07-10 09:00:00',180,12,80.00,'Nice Studio','Portrait photography','beginner',54),
-(55,'Watercolor Masterclass','2026-07-15 13:00:00',200,8,110.00,'Bordeaux Art Room','Advanced watercolor methods','advanced',55),
+(53,'Street Art Session','2026-05-21 10:00:00',150,20,70.00,'Marseille Wall','Urban art techniques','beginner',53),
+(54,'Photography Basics','2026-05-21 01:00:00',180,12,80.00,'Nice Studio','Portrait photography','beginner',54),
+(55,'Watercolor Masterclass','2024-07-15 13:00:00',200,8,110.00,'Bordeaux Art Room','Advanced watercolor methods','advanced',55),
 (56,'Concept Art Thinking','2026-08-01 16:00:00',210,14,95.00,'Toulouse Hub','Conceptual creativity','intermediate',56),
 (57,'Ceramic Creations','2026-08-08 11:00:00',240,10,130.00,'Lille Workshop','Clay techniques','advanced',57),
 (58,'Illustration for Comics','2026-08-15 10:00:00',180,18,75.00,'Paris Lab','Comic illustration','beginner',58),
@@ -163,13 +163,13 @@ INSERT INTO Workshops (workshop_id, title, workshop_date, duration_minutes, max_
 -- =========================================================
 
 INSERT INTO Exhibitions (exhibition_id, title, start_date, end_date, description, curator_name, theme, gallery_id) VALUES
-(53,'Urban Colors','2026-07-01','2026-08-01','Street art showcase','Anna White','Urban Life',53),
-(54,'Captured Moments','2026-07-15','2026-08-20','Photography exhibition','Laura Green','Portraits',53),
+(53,'Urban Colors','2025-07-01','2026-08-01','Street art showcase','Anna White','Urban Life',53),
+(54,'Captured Moments','2023-07-15','2023-08-20','Photography exhibition','Laura Green','Portraits',53),
 (55,'Water and Light','2026-08-01','2026-09-01','Watercolor works','Paul Simon','Nature',55),
 (56,'Ideas Beyond','2026-08-10','2026-09-10','Conceptual artworks','Julie Brown','Philosophy',55),
 (57,'Clay Expressions','2026-09-01','2026-10-01','Ceramic exhibition','Chris Martin','Tradition',55),
 (58,'Drawn Worlds','2026-09-05','2026-10-10','Illustration showcase','Eva Black','Fantasy',58),
-(60,'Silent Gold','2026-10-15','2026-11-20','Abstract paintings','Sophie White','Minimalism',60);
+(60,'Silent Gold','2025-10-15','2026-11-20','Abstract paintings','Sophie White','Minimalism',60);
 
 -- =========================================================
 -- TAGGED

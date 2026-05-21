@@ -1,8 +1,10 @@
 package com.project.artconnect.ui;
 
 import com.project.artconnect.model.CommunityMember;
+import com.project.artconnect.model.Discipline;
 import com.project.artconnect.service.CommunityService;
 import com.project.artconnect.util.ServiceProvider;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -10,6 +12,8 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+
+import java.util.List;
 
 public class CommunityController {
     @FXML
@@ -27,6 +31,8 @@ public class CommunityController {
     @FXML
     private TableColumn<CommunityMember, String> membershipTypeColumn;
     @FXML
+    private TableColumn<CommunityMember, String> favDisciplinesColumn;
+    @FXML
     private TableColumn<CommunityMember, Void> deleteColumn;
 
     private final CommunityService communityService = ServiceProvider.getCommunityService();
@@ -41,6 +47,21 @@ public class CommunityController {
         yearColumn.setCellValueFactory(new PropertyValueFactory<>("birthYear"));
         phoneColumn.setCellValueFactory(new PropertyValueFactory<>("phone"));
         membershipTypeColumn.setCellValueFactory(new PropertyValueFactory<>("membershipType"));
+
+        favDisciplinesColumn.setCellValueFactory(cellData -> {
+            List<Discipline> favDisciplines = cellData.getValue().getFavoriteDisciplines();
+            if (favDisciplines.isEmpty()) {
+                return new SimpleStringProperty("no favorite disciplines");
+            } else {
+                StringBuilder sb = new StringBuilder();
+                for (Discipline favDiscipline: favDisciplines) {
+                    sb.append(favDiscipline.toString());
+                    sb.append(", ");
+                }
+                String s = sb.substring(0, sb.length() - 2);
+                return new SimpleStringProperty(s);
+            }
+        });
 
         refreshTable();
     }

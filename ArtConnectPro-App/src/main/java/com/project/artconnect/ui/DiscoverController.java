@@ -10,6 +10,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.geometry.Insets;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,16 +25,20 @@ public class DiscoverController {
 
     @FXML
     public void initialize() {
+        refreshCards();
+    }
+
+    public void refreshCards() {
+        discoverPane.getChildren().clear();
         // Collect some exhibitions from galleries
         List<Exhibition> featuredExhibitions = new ArrayList<>();
         for (Gallery g : galleryService.getAllGalleries()) {
             featuredExhibitions.addAll(g.getExhibitions());
-            if (featuredExhibitions.size() >= 3)
-                break;
+            /*if (featuredExhibitions.size() >= 3)
+                break;*/
         }
-
-        featuredExhibitions.stream().limit(3).forEach(this::addExhibitionCard);
-        workshopService.getAllWorkshops().stream().limit(3).forEach(this::addWorkshopCard);
+        featuredExhibitions.forEach(this::addExhibitionCard); // .stream().limit(3)
+        workshopService.getAllWorkshops().forEach(this::addWorkshopCard); // .stream().limit(3)
     }
 
     private void addExhibitionCard(Exhibition e) {
@@ -41,7 +48,7 @@ public class DiscoverController {
                 "-fx-background-color: #e3f2fd; -fx-border-color: #2196f3; -fx-border-radius: 5; -fx-background-radius: 5;");
         card.setPrefWidth(250);
         card.getChildren().addAll(
-                new Label("FEATURED EXHIBITION"),
+                new Label(getExhibitionLabel(e)),
                 new Label(e.getTitle()) {
                     {
                         setStyle("-fx-font-weight: bold;");
@@ -59,7 +66,7 @@ public class DiscoverController {
                 "-fx-background-color: #f1f8e9; -fx-border-color: #4caf50; -fx-border-radius: 5; -fx-background-radius: 5;");
         card.setPrefWidth(250);
         card.getChildren().addAll(
-                new Label("UPCOMING WORKSHOP"),
+                new Label(getWorkshopLabel(w)),
                 new Label(w.getTitle()) {
                     {
                         setStyle("-fx-font-weight: bold;");
@@ -68,5 +75,29 @@ public class DiscoverController {
                 new Label("Instructor: " + (w.getInstructor() != null ? w.getInstructor().getName() : "Unknown")),
                 new Label("Price: $" + w.getPrice()));
         discoverPane.getChildren().add(card);
+    }
+
+    private String getExhibitionLabel(Exhibition e) {
+        LocalDate now = LocalDate.now();
+        if (e.getStartDate().isAfter(now)) {
+            return "UPCOMING EXHIBITION";
+        } else if (e.getEndDate() == null || !e.getEndDate().isBefore(now)) {
+            return "CURRENT EXHIBITION";
+        } else {
+            return "PAST EXHIBITION";
+        }
+    }
+
+    private String getWorkshopLabel(Workshop w) {
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime start = w.getDate();
+        LocalDateTime end = start.plusMinutes(w.getDurationMinutes());
+        if (start.isAfter(now)) {
+            return "UPCOMING WORKSHOP";
+        } else if (!start.isAfter(now) && end.isAfter(now)) {
+            return "CURRENT WORKSHOP";
+        } else {
+            return "PAST WORKSHOP";
+        }
     }
 }
