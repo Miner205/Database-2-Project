@@ -60,6 +60,8 @@ public class MainController {
 
         workshopController.setDiscoverController(discoverController);
 
+        communityController.setWorkshopController(workshopController);
+
         Tab discoverTab = new Tab("Discover", discoverTabContent);
         Tab artistTab = new Tab("Artists", artistTabContent);
         Tab artworkTab = new Tab("Artworks", artworkTabContent);

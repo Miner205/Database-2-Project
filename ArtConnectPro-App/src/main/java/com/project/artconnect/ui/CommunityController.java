@@ -43,6 +43,8 @@ public class CommunityController {
 
     private final CommunityService communityService = ServiceProvider.getCommunityService();
 
+    private WorkshopController workshopController;
+
     @FXML
     public void initialize() {
         addDeleteButtonToTable();
@@ -96,6 +98,10 @@ public class CommunityController {
         refreshTable();
     }
 
+    public void setWorkshopController(WorkshopController workshopController) {
+        this.workshopController = workshopController;
+    }
+
     public void refreshTable() {
         memberTable.setItems(FXCollections.observableArrayList(communityService.getAllMembers()));
     }
@@ -108,6 +114,7 @@ public class CommunityController {
                     CommunityMember member = getTableView().getItems().get(getIndex());
                     communityService.deleteCommunityMember(member.getName());
                     refreshTable();
+                    workshopController.refreshTable();
                 });
             }
             @Override
